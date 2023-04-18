@@ -82,19 +82,11 @@ nav .toda-lista {
   justify-content: space-between;
 }
 
-nav ul li ul {
-  padding: 0;
-}
-
-.lista-categoria {
+nav ul li ul, .lista-categoria {
   padding: 0;
 }
 
 .lista-categoria,
 .admin {
   margin-left: 5px;
-}
-
-.livraria_link {
-  font-size: 45px;
 }
