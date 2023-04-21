@@ -15,33 +15,27 @@ export default {
     </div>
     <section class="valores">
       <div class="card-valores">
-        <box-icon color="#fff" name="line-chart-down"></box-icon>
+        <box-icon class="icon" size="2.5em" color="#fff" name="line-chart-down"></box-icon>
         <div>
           <h2>00</h2>
-          <h3>vendas</h3>
+          <h3>Volume de vendas</h3>
         </div>
       </div>
       <div class="card-valores">
-        <box-icon color="#fff" name="line-chart-down"></box-icon>
+        <box-icon class="icon" size="2.5em" color="#fff" name="line-chart-down"></box-icon>
         <div>
           <h2>00</h2>
-          <h3>vendas</h3>
+          <h3>Ticket médio</h3>
         </div>
       </div>
       <div class="card-valores">
-        <box-icon color="#fff" name="line-chart-down"></box-icon>
+        <box-icon class="icon" size="2.5em" color="#fff" name="line-chart-down"></box-icon>
         <div>
           <h2>00</h2>
-          <h3>vendas</h3>
+          <h3>Margem de lucro</h3>
         </div>
       </div>
-      <div class="card-valores">
-        <box-icon color="#fff" name="line-chart-down"></box-icon>
-        <div>
-          <h2>00</h2>
-          <h3>vendas</h3>
-        </div>
-      </div>
+
     </section>
   </main>
   <AsideComp />
