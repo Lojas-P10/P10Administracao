@@ -8,14 +8,14 @@ export default {}
       <div class="infos">
         <div class="nome-user">
             <h3>Eduardo da Silva</h3>
-            <h3>@edudasilva</h3>
+            <h4>@edudasilva</h4>
         </div>
         <box-icon size="1em" color="#fff" class="icon" name="bell"></box-icon>
       </div>
     </div>
     <div class="contatos">
       <div>
-        <h2>Contatos</h2>
+        <h2>Equipe</h2>
         <box-icon size="2em" name="chevron-right"></box-icon>
       </div>
       <div class="perfil-contatos">
@@ -32,14 +32,9 @@ export default {}
         </div>
         <box-icon size="2em" type="solid" name="phone"></box-icon>
       </div>
-      <div class="perfil-contatos">
-        <img src="src/assets/img/edudasilva.jpeg" alt="" />
-        <div>
-          <h3>@isahumanas</h3>
-        </div>
-        <box-icon size="2em" type="solid" name="phone"></box-icon>
-      </div>
     </div>
-    <div></div>
+    <div>
+
+    </div>
   </aside>
 </template>
