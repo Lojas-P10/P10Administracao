@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
 body {
   height: 100vh;
 }
@@ -12,17 +13,131 @@ body {
   font-family: 'Mukta', sans-serif;
 }
 
+#app {
+  display: flex;
+  padding: 15px;
+}
+
 nav {
   position: fixed;
   top: 0;
   bottom: 0;
-  height: 100vh;
+  margin: 15px;
+  height: 95vh;
+  border-radius: 15px;
   left: 0;
   background: #000;
   width: 90px;
   overflow: hidden;
   transition: width 0.2s linear;
   box-shadow: 0px 20px 35px rgba(0, 0, 0, 0.1);
+}
+
+main {
+  height: 95vh;
+  width: 75%;
+  margin-right: 27px;
+  margin-left: 9%;
+}
+
+main .pesquisa {
+  width: 100%;
+  padding: 10px 0px 20px 0px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+main .pesquisa div {
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+  padding: 7px 10px;
+  background-color: #ebebeb;
+}
+
+main .pesquisa div input {
+  color: #000;
+  margin: 0px 5px;
+  padding: 0 10px;
+  border-left: 2px solid #0c0c0c;
+  background-color: #ebebeb;
+}
+
+main .valores {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+main .valores .card-valores {
+  display: flex;
+  background-color: black;
+  color: white;
+  border-radius: 20px;
+  /* margin: 5px; */
+  padding-left: 25px;
+  width: 24%;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+aside .icon {
+  border-radius: 10px;
+  background-color: #000;
+  padding: 8px;
+}
+
+aside {
+  height: 95vh;
+  background-color: #ebebeb;
+  width: 25%;
+  border-radius: 15px;
+  padding: 20px;
+}
+aside .contatos h2 {
+  font-weight: bolder;
+}
+aside .contatos div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+aside .perfil {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+aside .perfil img{
+  width: 48%;
+  border-radius: 50%;
+}
+
+aside .perfil .infos {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+aside .perfil .infos .nome-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 10px;
+}
+aside .perfil-contatos {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+aside .perfil-contatos {
+  border-bottom: 2px solid #888888;
+  
+  margin: 10px 0;
+  padding: 10px 0;
+}
+aside .perfil-contatos img {
+  width: 17%;
+  border-radius: 50%;
 }
 
 nav:hover {
@@ -37,10 +152,12 @@ nav ul li .logo {
   color: #ffffff;
   align-items: center;
 }
+
 nav ul .categoria:hover {
   background-color: #0c0c0c;
 
 }
+
 nav ul li span {
   margin-left: 35px;
   color: white;
@@ -77,12 +194,13 @@ nav ul li a {
 nav .toda-lista {
   display: flex;
   padding: 8px;
-  height: 100vh;
+  height: 95vh;
   flex-direction: column;
   justify-content: space-between;
 }
 
-nav ul li ul, .lista-categoria {
+nav ul li ul,
+.lista-categoria {
   padding: 0;
 }
 
