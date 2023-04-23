@@ -63,13 +63,13 @@ main .pesquisa div input {
   background-color: #ebebeb;
 }
 
-main .valores {
+main .vendas {
   display: flex;
   width: 100%;
   justify-content: space-between;
 }
 
-main .valores .card-valores {
+main .vendas .card-vendas {
   display: flex;
   background-color: black;
   color: white;
@@ -78,11 +78,29 @@ main .valores .card-valores {
   align-items: center;
   justify-content: flex-start;
 }
-main .valores .card-valores div h2 {
+main .vendas .card-vendas div h2 {
   margin-bottom: -15px;
 }
-main .valores .card-valores .icon {
+main .vendas .card-vendas .icon {
   margin: 30px;
+}
+main .estoque {
+  display: flex;
+}
+main .estoque .card-estoque {
+  background-color: black;
+  width: 16%;
+  height: 37vh;
+  margin: 10px 10px 0 0;
+  display: flex;
+  line-height: 26px;
+  padding: 8px;
+  border-radius: 16px;
+  color: white;
+  flex-direction: column;
+}
+main .estoque .card-estoque h1{
+  font-size: 2em;
 }
 aside .icon {
   border-radius: 10px;

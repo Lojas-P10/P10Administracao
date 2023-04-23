@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "boxicons": "^2.1.4",
+    "chart.js": "^4.2.1",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
