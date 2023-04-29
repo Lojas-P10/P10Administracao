@@ -15,14 +15,14 @@ body {
 
 #app {
   display: flex;
-  padding: 15px;
+  width: 100%;
+  padding: 14px;
+  justify-content: space-evenly;
 }
 
 nav {
-  position: fixed;
   top: 0;
   bottom: 0;
-  margin: 15px;
   height: 95vh;
   border-radius: 15px;
   left: 0;
@@ -35,9 +35,8 @@ nav {
 
 main {
   height: 95vh;
-  width: 75%;
-  margin-right: 27px;
-  margin-left: 9%;
+  margin: 0 10px;
+  width: 65%;
 }
 
 main .pesquisa {
@@ -78,8 +77,19 @@ main .vendas .card-vendas {
   align-items: center;
   justify-content: flex-start;
 }
-main .vendas .card-vendas div h2 {
-  margin-bottom: -15px;
+main .vendas .card-vendas div {
+  line-height: 27px;
+
+}
+main .scroll-snap-container.horizontal  {
+  height: 50vh;
+  width: 50%;
+}
+main .recentes .livros .capa-livro {
+  width: 36%;
+  background-color: black;
+  height: 38vh;
+  border-radius: 19px;
 }
 main .vendas .card-vendas .icon {
   margin: 30px;
@@ -90,16 +100,19 @@ main .estoque {
 main .estoque .card-estoque {
   background-color: black;
   width: 16%;
-  height: 37vh;
+  height: 18vh;
   margin: 10px 10px 0 0;
   display: flex;
   line-height: 26px;
   padding: 8px;
   border-radius: 16px;
+  text-align: center;
   color: white;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-main .estoque .card-estoque h1{
+main h1{
   font-size: 2em;
 }
 aside .icon {
@@ -168,7 +181,7 @@ aside .perfil-contatos img {
 }
 
 nav:hover {
-  width: 280px;
+  width: 300px;
   transition: all 0.5s ease;
 }
 

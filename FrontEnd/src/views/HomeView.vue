@@ -1,8 +1,9 @@
 <script>
-import 'boxicons'
 import AsideComp from '../components/AsideComp.vue'
+import VueScrollSnap from "vue-scroll-snap"
+import 'boxicons'
 export default {
-  components: { AsideComp }
+  components: { AsideComp, VueScrollSnap }
 }
 </script>
 
@@ -18,37 +19,53 @@ export default {
       <div class="card-vendas">
         <box-icon class="icon" size="2.5em" color="#fff" name="line-chart-down"></box-icon>
         <div>
-          <h2>00</h2>
-          <h3>Volume de vendas</h3>
+          <h1>44</h1>
+          <h2>Volume de vendas</h2>
         </div>
       </div>
       <div class="card-vendas">
         <box-icon class="icon" size="2.5em" color="#fff" name="line-chart-down"></box-icon>
         <div>
-          <h2>00</h2>
-          <h3>Ticket médio</h3>
+          <h1>89</h1>
+          <h2>Ticket médio</h2>
         </div>
       </div>
       <div class="card-vendas">
         <box-icon class="icon" size="2.5em" color="#fff" name="line-chart-down"></box-icon>
         <div>
-          <h2>00</h2>
-          <h3>Margem de lucro</h3>
+          <h1>51%</h1>
+          <h2>Margem de lucro</h2>
         </div>
       </div>
     </section>
     <section class="estoque">
       <div class="card-estoque">
-        <h2>Unidades vendidas</h2>
         <h1>25</h1>
+        <h2>Unidades vendidas</h2>
       </div>
       <div class="card-estoque">
-        <h2>Estoque mínimo</h2>
         <h1>38</h1>
+        <h2>Estoque mínimo</h2>
       </div>
       <div class="card-estoque">
-        <h2>Produtos em estoque</h2>
         <h1>71</h1>
+        <h2>Produtos em estoque</h2>
+      </div>
+    </section>
+    <section class="recentes">
+      <h1>Recém adicionados</h1>
+      <div class="livros">
+        <vue-scroll-snap :horizontal="true">
+          <div class="capa-livro"></div>
+          <div class="capa-livro"></div>
+          <div class="capa-livro"></div>
+          <div class="capa-livro"></div>
+          <div class="capa-livro"></div>
+          <div class="capa-livro"></div>
+          <div class="capa-livro"></div>
+          <div class="capa-livro"></div>
+          <div class="capa-livro"></div>    
+        </vue-scroll-snap>
       </div>
     </section>
   </main>
