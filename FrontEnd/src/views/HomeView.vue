@@ -1,6 +1,6 @@
 <script>
 import AsideComp from '../components/AsideComp.vue'
-import VueScrollSnap from "vue-scroll-snap"
+import VueScrollSnap from 'vue-scroll-snap'
 import 'boxicons'
 export default {
   components: { AsideComp, VueScrollSnap }
@@ -17,23 +17,20 @@ export default {
     </div>
     <section class="vendas">
       <div class="card-vendas">
-        <box-icon class="icon" size="2.5em" color="#fff" name="line-chart-down"></box-icon>
+        <h1>44</h1>
         <div>
-          <h1>44</h1>
           <h2>Volume de vendas</h2>
         </div>
       </div>
       <div class="card-vendas">
-        <box-icon class="icon" size="2.5em" color="#fff" name="line-chart-down"></box-icon>
+        <h1>89</h1>
         <div>
-          <h1>89</h1>
           <h2>Ticket médio</h2>
         </div>
       </div>
       <div class="card-vendas">
-        <box-icon class="icon" size="2.5em" color="#fff" name="line-chart-down"></box-icon>
+        <h1>51%</h1>
         <div>
-          <h1>51%</h1>
           <h2>Margem de lucro</h2>
         </div>
       </div>
@@ -64,10 +61,11 @@ export default {
           <div class="capa-livro"></div>
           <div class="capa-livro"></div>
           <div class="capa-livro"></div>
-          <div class="capa-livro"></div>    
+          <div class="capa-livro"></div>
         </vue-scroll-snap>
       </div>
     </section>
   </main>
-  <AsideComp />
-</template>
+<!--   <AsideComp />
+ -->
+ </template>

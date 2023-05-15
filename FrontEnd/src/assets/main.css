@@ -29,14 +29,15 @@ nav {
   background: #000;
   width: 90px;
   overflow: hidden;
-  transition: width 0.2s linear;
+  transition: width 1s ease;
+
   box-shadow: 0px 20px 35px rgba(0, 0, 0, 0.1);
 }
 
 main {
   height: 95vh;
   margin: 0 10px;
-  width: 65%;
+  width: 90%;
 }
 
 main .pesquisa {
@@ -81,17 +82,18 @@ main .vendas .card-vendas div {
   line-height: 27px;
 
 }
-main .scroll-snap-container.horizontal  {
-  height: 50vh;
-  width: 50%;
+main .scroll-snap-container  {
+
 }
 main .recentes .livros .capa-livro {
-  width: 36%;
+  min-width: 200px;
+  min-height: 100px;
+  margin-right: 20px;
   background-color: black;
   height: 38vh;
   border-radius: 19px;
 }
-main .vendas .card-vendas .icon {
+main .vendas .card-vendas h1 {
   margin: 30px;
 }
 main .estoque {
@@ -99,7 +101,7 @@ main .estoque {
 }
 main .estoque .card-estoque {
   background-color: black;
-  width: 16%;
+  width: 20%;
   height: 18vh;
   margin: 10px 10px 0 0;
   display: flex;
@@ -182,7 +184,7 @@ aside .perfil-contatos img {
 
 nav:hover {
   width: 300px;
-  transition: all 0.5s ease;
+  transition: all 2s ease;
 }
 
 nav ul li .logo {
