@@ -16,3 +16,9 @@ body {
 body {
   padding: 10px;
 }
+#app {
+  display: flex;
+}
+main {
+  width: 75%;
+}
