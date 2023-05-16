@@ -6,7 +6,7 @@ export default {}
   <nav>
     <div class="perfil-usuario">
       <img src="/src/assets/img/edudasilva.jpeg" alt="Foto do usuário" />
-      <h2>Eduardo da Silva</h2>
+      <h2>TESTE</h2>
       <h3>@edudasilva</h3>
     </div>
     <div class="links">
