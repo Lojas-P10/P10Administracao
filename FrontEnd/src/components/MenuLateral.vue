@@ -51,10 +51,13 @@ export default {}
 </template>
 <style scoped>
 nav {
-  height: 97%;
+  height: 97vh;
   width: 20%;
   margin-right: 7px;
+  display: flex;
   background-color: #f3f3f3;
+  flex-direction: column;
+  justify-content: space-between;
 }
 nav img {
   width: 100px;
@@ -74,7 +77,7 @@ nav .perfil-usuario {
 }
 nav .links {
   padding: 20px 20px 35px 20px;
-    border-bottom: 5px solid white;
+  border-bottom: 5px solid white;
 }
 nav ul li {
   list-style: none;
@@ -99,7 +102,7 @@ nav .links .alerta {
   display: flex;
   border-radius: 5px;
   flex-direction: column;
-  
+
   justify-content: center;
   align-items: center;
 }

@@ -4,37 +4,30 @@ export default {}
 <template>
   <aside>
     <div class="perfil">
+      <box-icon name="chat"></box-icon>
+      <box-icon name="bell"></box-icon>
       <img src="src/assets/img/edudasilva.jpeg" alt="" />
-      <div class="infos">
-        <div class="nome-user">
-            <h3>Eduardo da Silva</h3>
-            <h4>@edudasilva</h4>
-        </div>
-        <box-icon size="1em" color="#fff" class="icon" name="bell"></box-icon>
-      </div>
     </div>
-    <div class="contatos">
-      <div>
-        <h2>Equipe</h2>
-        <box-icon size="2em" name="chevron-right"></box-icon>
-      </div>
-      <div class="perfil-contatos">
-        <img src="src/assets/img/edudasilva.jpeg" alt="" />
-        <div>
-          <h3>@isahumanas</h3>
-        </div>
-        <box-icon size="2em" type="solid" name="phone"></box-icon>
-      </div>
-      <div class="perfil-contatos">
-        <img src="src/assets/img/edudasilva.jpeg" alt="" />
-        <div>
-          <h3>@isahumanas</h3>
-        </div>
-        <box-icon size="2em" type="solid" name="phone"></box-icon>
-      </div>
-    </div>
-    <div>
 
-    </div>
+    <div></div>
   </aside>
 </template>
+
+<style scoped>
+aside {
+  width: 20%;
+  margin-left: 10px;
+}
+aside .perfil {
+  display: flex;
+  align-items: center;
+  background-color: #f3f3f3;
+  justify-content: flex-end;
+  padding: 10px;
+}
+aside .perfil img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+</style>

@@ -1,29 +1,52 @@
-<script setup></script>
+<script setup>
+import AsideComp from '/src/components/AsideComp.vue'
+</script>
 
 <template>
   <main>
     <div class="pesquisa">
-        <img src="src/assets/img/logo.png" alt="">
-        <input type="text">
+      <img src="src/assets/img/logo.png" alt="" />
+      <div class="input-pesquisa">
+        <input type="text" />
+        <button>
+          <box-icon color="#fff" name="search"></box-icon>
+        </button>
+      </div>
     </div>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem deserunt, assumenda
-      recusandae unde dicta aliquid tenetur laborum maxime quam. Excepturi nobis eius maxime
-      exercitationem enim et quo veritatis facere porro.
-    </p>
   </main>
+  <AsideComp />
 </template>
 <style scoped>
 main .pesquisa {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 main .pesquisa img {
-    width: 35px;
-    height: 35px;
+  width: 35px;
+  height: 35px;
 }
 main .pesquisa input {
-    border: 2px solid;
-    
+  outline: 2px solid;
+  width: 100%;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  padding: 5px 10px;
+}
+main .pesquisa .input-pesquisa {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+main .pesquisa .input-pesquisa button {
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  border: 2px solid;
+
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
 }
 </style>
