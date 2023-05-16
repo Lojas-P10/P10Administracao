@@ -4,46 +4,111 @@ export default {}
 </script>
 <template>
   <nav>
-    <ul class="toda-lista">
-      <li>
-        <RouterLink to="/" class="logo">
-          <img src="src/assets/img/logo.png" />
-          <span>Livraria do Dudu</span>
-        </RouterLink>
-      </li>
-      <li class="lista-categorias">
-        <ul>
-          <li class="categoria">
-            <RouterLink to="/livros" class="livros">
-              <box-icon name="book" size="2em" color="#ffffff"></box-icon>
-              <span>Livros</span>
-            </RouterLink>
-          </li>
-          <li class="categoria">
-            <RouterLink to="/autores" class="autores">
-              <box-icon size="2em" color="#ffffff" name="pencil"></box-icon>
-              <span>Autores</span>
-            </RouterLink>
-          </li>
-          <li class="categoria">
-            <RouterLink to="/categorias" class="categorias">
-              <box-icon name="book-bookmark" size="2em" color="#ffffff"></box-icon>
-              <span>Categorias</span>
-            </RouterLink>
-          </li>
-          <li class="categoria">
-            <RouterLink to="/editoras" class="editoras">
-              <box-icon name="building-house" size="2em" color="#ffffff"></box-icon>
-              <span>Editoras</span>
-            </RouterLink>
-          </li>
-        </ul>
-      </li>
-      <li class="admin">
-        <box-icon name="log-out" color="#ffffff" size="2em"></box-icon>
-        <span>log-out</span>
-      </li>
-    </ul>
+    <div class="perfil-usuario">
+      <img src="/src/assets/img/edudasilva.jpeg" alt="Foto do usuário" />
+      <h2>Eduardo da Silva</h2>
+      <h3>@edudasilva</h3>
+    </div>
+    <div class="links">
+      <ul>
+        <li>
+          <box-icon name="layout"></box-icon>
+          <a href="#"> DASHBOARD </a>
+        </li>
+        <li>
+          <box-icon name="book"></box-icon>
+          <a href=""> LIVROS </a>
+        </li>
+        <li>
+          <box-icon name="category"></box-icon>
+          <a href=""> CATEGORIAS </a>
+        </li>
+        <li>
+          <box-icon name="user-pin"></box-icon>
+          <a href=""> AUTORES </a>
+        </li>
+        <li>
+          <box-icon name="building-house"></box-icon>
+          <a href=""> EDITORAS </a>
+        </li>
+      </ul>
+      <div class="alerta">
+        <h4>O QUE RAIOS COLOCA AQUI</h4>
+        <p>ninguem sabe</p>
+        <button>novas</button>
+      </div>
+    </div>
+    <div class="log-set">
+      <ul>
+        <li>
+          <box-icon name="cog"></box-icon>
+          <a href="">CONFIGURAÇÕES</a>
+        </li>
+        <li><box-icon name="log-out"></box-icon> <a href="">SAIR</a></li>
+      </ul>
+    </div>
   </nav>
 </template>
-<style></style>
+<style scoped>
+nav {
+  position: fixed;
+  height: 97%;
+  width: 20%;
+  background-color: #f3f3f3;
+}
+nav img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+nav .perfil-usuario {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  line-height: 20px;
+  border-bottom: 5px solid white;
+  padding: 20px;
+}
+nav .links {
+  padding: 20px 20px 35px 20px;
+    border-bottom: 5px solid white;
+}
+nav ul li {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+nav ul li a {
+  color: rgb(20, 20, 20);
+  margin-left: 10px;
+  font-weight: 500;
+}
+
+nav ul li a:hover {
+  color: rgb(20, 20, 20);
+  font-weight: 600;
+}
+nav .links .alerta {
+  background-color: black;
+  color: white;
+  padding: 10px;
+  display: flex;
+  border-radius: 5px;
+  flex-direction: column;
+  
+  justify-content: center;
+  align-items: center;
+}
+nav .links .alerta button {
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+nav .log-set {
+  padding: 10px;
+}
+</style>
