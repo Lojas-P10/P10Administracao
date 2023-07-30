@@ -10,8 +10,8 @@ Equipe:
 
 Links do projeto:
 
--  [Documentação](https://github.com/MarceloHarbs/P10-Documentcao)
+-  [Documentação](https://github.com/MarceloHarbs/P10Documentacao)
 -  [FrontEnd](https://github.com/horodeski/P10FrontEnd)
--  [BackEnd](github.com/marcoandre/pi-backend)
+-  [BackEnd](https://github.com/eugreg/P10Backend)
 -  [Mobile](https://github.com/horodeski/P10Mobile)   
 -  [Administração](https://github.com/horodeski/P10Administracao)
