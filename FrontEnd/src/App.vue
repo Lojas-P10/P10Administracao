@@ -1,12 +1,13 @@
-<script>
+<script setup>
+import {RouterView} from "vue-router";
 import MenuLateral from "./components/MenuLateral.vue";
-export default {
-  components: {
-    MenuLateral
-  },
-};
+import NavTop from "./components/NavTop.vue";
+
 </script>
 <template>
   <MenuLateral />
-  <RouterView />
+  <main>
+    <NavTop />
+    <RouterView />
+  </main>
 </template>

@@ -1,6 +1,7 @@
 <script>
 import 'boxicons'
-export default {}
+import { RouterLink } from 'vue-router'
+export default { components: { RouterLink } }
 </script>
 <template>
   <nav>
@@ -13,29 +14,32 @@ export default {}
       <ul>
         <li>
           <box-icon name="layout"></box-icon>
-          <a href="#"> DASHBOARD </a>
+          <RouterLink to="/">
+             DASHBOARD 
+          </RouterLink>
         </li>
         <li>
           <box-icon name="book"></box-icon>
-          <a href=""> LIVROS </a>
+          <RouterLink to="/produtos">
+             PRODUTOS
+          </RouterLink>
         </li>
         <li>
           <box-icon name="category"></box-icon>
-          <a href=""> CATEGORIAS </a>
+          <RouterLink to="/categorias">
+             CATEGORIAS 
+          </RouterLink>
         </li>
         <li>
           <box-icon name="user-pin"></box-icon>
-          <a href=""> AUTORES </a>
-        </li>
-        <li>
-          <box-icon name="building-house"></box-icon>
-          <a href=""> EDITORAS </a>
+          <RouterLink to="/fornecedores">
+             FORNECEDORES
+          </RouterLink>
         </li>
       </ul>
       <div class="alerta">
-        <h4>O QUE RAIOS COLOCA AQUI</h4>
-        <p>ninguem sabe</p>
-        <button>novas</button>
+        <h4>Produtos em falta!</h4>
+        <button></button>
       </div>
     </div>
     <div class="log-set">
@@ -50,6 +54,9 @@ export default {}
   </nav>
 </template>
 <style scoped>
+h3 {
+  color: #00bf63;
+}
 nav {
   height: 97vh;
   width: 20%;
@@ -96,7 +103,7 @@ nav ul li a:hover {
   font-weight: 600;
 }
 nav .links .alerta {
-  background-color: black;
+  background-color: #00bf63;
   color: white;
   padding: 10px;
   display: flex;
