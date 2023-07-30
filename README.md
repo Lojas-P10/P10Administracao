@@ -14,4 +14,4 @@ Links do projeto:
 -  [FrontEnd](https://github.com/horodeski/P10FrontEnd)
 -  [BackEnd](github.com/marcoandre/pi-backend)
 -  [Mobile](https://github.com/horodeski/P10Mobile)   
-
+-  [Administração](https://github.com/horodeski/P10Administracao)
