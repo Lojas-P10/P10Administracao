@@ -8,16 +8,18 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>Fornecedor</th>
-          <th>CNPJ</th>
-          <th>Endereço</th>
-          <th>Telefone</th>
-          <th>Email</th>
+          <th>Produto</th>
+          <th>Descrição</th>
+          <th>Categoria</th>
+          <th>Tag</th>
+          <th>Quantidade</th>
+          <th>Preço</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <tr>
+          <td>aq</td>
           <td>aq</td>
           <td>aq</td>
           <td>aq</td>
