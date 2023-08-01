@@ -19,7 +19,7 @@ export default { components: { RouterLink } }
           </RouterLink>
         </li>
         <li>
-          <box-icon name="book"></box-icon>
+          <box-icon name="package"></box-icon>
           <RouterLink to="/produtos">
              PRODUTOS
           </RouterLink>
@@ -34,6 +34,24 @@ export default { components: { RouterLink } }
           <box-icon name="user-pin"></box-icon>
           <RouterLink to="/fornecedores">
              FORNECEDORES
+          </RouterLink>
+        </li>
+        <li>
+          <box-icon name="purchase-tag"></box-icon>
+          <RouterLink to="/promocoes">
+             PROMOÇÕES
+          </RouterLink>
+        </li>
+        <li> <!--Arrumar Rotas-->
+          <box-icon name="truck" type="solid"></box-icon>
+          <RouterLink to="/entregas">
+             Descontos
+          </RouterLink>
+        </li>
+        <li>
+          <box-icon name="truck" type="solid"></box-icon>
+          <RouterLink to="/entregas">
+             ENTREGAS
           </RouterLink>
         </li>
       </ul>
@@ -62,7 +80,7 @@ nav {
   width: 20%;
   margin-right: 7px;
   display: flex;
-  background-color: #f3f3f3;
+  background-color: #eee;
   flex-direction: column;
   justify-content: space-between;
 }
