@@ -1,5 +1,10 @@
+<script setup>
+</script>
+
 <template>
-      <table>
+  <div>
+    <button>Adicionar produto</button>
+    <table>
       <thead>
         <tr>
           <th>ID</th>
@@ -27,28 +32,28 @@
         </tr>
       </tbody>
     </table>
-    <!--         <div class="senao" v-else>
+  </div>
+  <!--         <div class="senao" v-else>
           <span class="aviso">Não existem editoras cadastradas</span>
           <i class="bx bx-error"></i>
         </div> -->
 </template>
 
-<script>
-export default {
-
-}
-</script>
-
 <style scoped>
+div {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
 table {
   width: -webkit-fill-available;
-    margin: 20px;
-    border-radius: 0px;
-    border: 2px solid #00bf63;
-    border-collapse: collapse;
+  border-radius: 0px;
+  border-collapse: collapse;
+  margin-top: 10px;
 }
 thead {
-  background-color: #dedede;
+  background-color: #eee;
 }
 tbody {
   background-color: #f3f3f3;
@@ -61,18 +66,18 @@ th {
   font-weight: bold;
   padding: 10px;
 }
-td button {
-  margin-left: 5px;
-  background-color: #00bf63;
+button {
+  background: #00bf63;
   color: white;
   padding: 5px;
-  width: 50px;
+  border: 2px solid #018042;
   border-radius: 5px;
+  transition: background 0.2s;
+  width: 200px;
 }
-td button:hover {
+button:hover {
   cursor: pointer;
-  background-color: #ffffff;
-  border: 2px solid #00bf63;
-  color: #00bf63;
+  background: #ffffff;
+  color: #018042;
 }
 </style>
