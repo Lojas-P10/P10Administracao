@@ -3,6 +3,8 @@ import HomeView from "@/views/HomeView.vue";
 import CategoriasView from "@/views/CategoriasView.vue";
 import ProdutosView from "@/views/ProdutosView.vue";
 import FornecedoresView from "@/views/FornecedoresView.vue";
+import EntregasView from "@/views/EntregasView.vue";
+import PromocoesView from "@/views/PromocoesView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +28,16 @@ const router = createRouter({
       path: "/fornecedores",
       name: "fornecedores",
       component: FornecedoresView,
+    },
+    {
+      path: "/entregas",
+      name: "entregas",
+      component: EntregasView,
+    },
+    {
+      path: "/promocoes",
+      name: "promocoes",
+      component: PromocoesView,
     },
   ],
 });
