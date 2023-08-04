@@ -1,9 +1,11 @@
 <script setup>
+import FiltroComp from '../components/FiltroComp.vue';
+
 </script>
 
 <template>
   <div>
-    <button>Adicionar produto</button>
+    <FiltroComp />
     <table>
       <thead>
         <tr>
@@ -14,20 +16,21 @@
           <th>Tag</th>
           <th>Quantidade</th>
           <th>Preço</th>
-          <th></th>
+          <th>    <button class="add">Adicionar produto</button></th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>aq</td>
-          <td>aq</td>
+          <td><a href="#">produto bacana</a></td>
           <td>aq</td>
           <td>aq</td>
           <td>aq</td>
           <td>aq</td>
           <td>aq</td>
           <td>
-            <button @click="editar()">editar</button>
+            <button ><box-icon name='edit'></box-icon></button>
+            <button><box-icon name='trash' ></box-icon></button>
           </td>
         </tr>
       </tbody>
@@ -61,12 +64,21 @@ tbody {
 table tr td {
   padding: 10px;
   text-align: center;
+
+}
+td button {
+  	text-align: center;
+	width: 50px;
+	padding: 5px 0;
+  margin-right: 10px;
+	border-radius: 10px;
+
 }
 th {
   font-weight: bold;
   padding: 10px;
 }
-button {
+.add {
   background: #00bf63;
   color: white;
   padding: 5px;
@@ -75,7 +87,7 @@ button {
   transition: background 0.2s;
   width: 200px;
 }
-button:hover {
+.add:hover {
   cursor: pointer;
   background: #ffffff;
   color: #018042;

@@ -43,9 +43,9 @@ export default { components: { RouterLink } }
           </RouterLink>
         </li>
         <li> <!--Arrumar Rotas-->
-          <box-icon name="truck" type="solid"></box-icon>
+          <box-icon name="discount" type="solid"></box-icon>
           <RouterLink to="/entregas">
-             Descontos
+             DESCONTOS
           </RouterLink>
         </li>
         <li>
