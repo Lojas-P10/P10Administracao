@@ -2,73 +2,70 @@
 
 </script>
 <template>
-    <form class="filter">
-        <div class="dropdown">
-            <select class="dropdown-select">
-                <option value="">Price range</option>
-                <option value="1">Option #1</option>
-                <option value="2">Option #2</option>
-                <option value="3">Option #3</option>
-            </select>
-        </div>
-        <div class="dropdown">
-            <select class="dropdown-select">
-                <option value="">Collection</option>
-                <option value="1">Option #1</option>
-                <option value="2">Option #2</option>
-                <option value="3">Option #3</option>
-            </select>
-        </div>
-        <div class="dropdown">
-            <select class="dropdown-select">
-                <option value="">Couleur</option>
-                <option value="1">Option #1</option>
-                <option value="2">Option #2</option>
-                <option value="3">Option #3</option>
-            </select>
-        </div>
-        <div class="dropdown">
-            <select class="dropdown-select">
-                <option value="">Forme</option>
-                <option value="1">Option #1</option>
-                <option value="2">Option #2</option>
-                <option value="3">Option #3</option>
-            </select>
-        </div>
-        <div class="dropdown">
-            <select class="dropdown-select">
-                <option value="">Matière</option>
-                <option value="1">Option #1</option>
-                <option value="2">Option #2</option>
-                <option value="3">Option #3</option>
-            </select>
-        </div>
-        <div class="sub-main">
-            <button class="button-two"><span>Filtrer</span></button>
-        </div>
+  <form class="filter">
+    <div class="dropdown">
+      <input type="" />
+    </div>
+    <div class="dropdown">
+      <select class="dropdown-select">
+        <option value="">Collection</option>
+        <option value="1">Option #1</option>
+        <option value="2">Option #2</option>
+        <option value="3">Option #3</option>
+      </select>
+    </div>
+    <div class="dropdown">
+      <select class="dropdown-select">
+        <option value="">Couleur</option>
+        <option value="1">Option #1</option>
+        <option value="2">Option #2</option>
+        <option value="3">Option #3</option>
+      </select>
+    </div>
+    <div class="dropdown">
+      <select class="dropdown-select">
+        <option value="">Forme</option>
+        <option value="1">Option #1</option>
+        <option value="2">Option #2</option>
+        <option value="3">Option #3</option>
+      </select>
+    </div>
+    <div class="dropdown">
+      <select class="dropdown-select">
+        <option value="">Matière</option>
+        <option value="1">Option #1</option>
+        <option value="2">Option #2</option>
+        <option value="3">Option #3</option>
+      </select>
+    </div>
+    <div class="sub-main">
+      <button class="button-two"><span>Buscar</span></button>
+    </div>
 
-    </form>
+  </form>
 </template>
 
 
 <style scoped>
 .filter {
-  margin: 80px auto;
-  text-align: center;
+  display: flex;
+  align-items: center;
 }
+
 .dropdown {
   display: inline-block;
   position: relative;
   overflow: hidden;
   height: 28px;
-  width: 150px;
+  width: 100%;
   background: #f2f2f2;
   border: 1px solid;
   border-color: white #f7f7f7 whitesmoke;
   border-radius: 3px;
 }
 
-.dropdown:before, .dropdown:after {
+.dropdown:before,
+.dropdown:after {
   content: '';
   position: absolute;
   z-index: 2;
@@ -94,7 +91,7 @@
 
 .dropdown-select {
   position: relative;
-  width: 130%;
+  width: 100%;
   margin: 0;
   padding: 6px 8px 6px 10px;
   height: 28px;
@@ -102,8 +99,10 @@
   font-size: 12px;
   color: #62717a;
   text-shadow: 0 1px white;
-  background: #f2f2f2; /* Fallback for IE 8 */
-  background: rgba(0, 0, 0, 0) !important; /* "transparent" doesn't work with Opera */
+  background: #f2f2f2;
+  /* Fallback for IE 8 */
+  background: rgba(0, 0, 0, 0) !important;
+  /* "transparent" doesn't work with Opera */
   border: 0;
   border-radius: 0;
   -webkit-appearance: none;
@@ -118,7 +117,7 @@
   outline-offset: -2px;
 }
 
-.dropdown-select > option {
+.dropdown-select>option {
   margin: 3px;
   padding: 6px 8px;
   text-shadow: none;
@@ -126,33 +125,32 @@
   border-radius: 3px;
   cursor: pointer;
 }
-.sub-main{
-  width: 30%;
-  margin:22px;
-  display: inline-block;
-}
 
-.button-two{
+.sub-main {}
+
+.button-two {
   text-align: center;
   cursor: pointer;
   font-size: 14px;
   margin: 0 0 0 20px;
-   color: white;
+  color: white;
 }
+
 .button-two {
   border-radius: 2px;
-  background-color:#d35400;
+  background-color: #00bf63;
   border: none;
   padding: 5px;
-  width: 25%;
   transition: all 0.5s;
 }
+
 .button-two span {
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
+
 .button-two span:after {
   content: '»';
   position: absolute;
@@ -161,11 +159,12 @@
   right: -20px;
   transition: 0.5s;
 }
+
 .button-two:hover span {
   padding-right: 25px;
 }
+
 .button-two:hover span:after {
   opacity: 1;
   right: 0;
-}
-</style>
+}</style>

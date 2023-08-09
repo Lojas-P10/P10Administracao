@@ -4,7 +4,9 @@ export default {}
 
 <template>
   <header>
-    <img src="src/assets/img/1.png" alt="" />
+    <RouterLink to="/">
+      <img src="src/assets/img/1.png" alt="" />
+    </RouterLink>
     <div>
       <input type="text" />
       <button>

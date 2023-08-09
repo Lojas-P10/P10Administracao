@@ -13,44 +13,38 @@ export default { components: { RouterLink } }
     <div class="links">
       <ul>
         <li>
-          <box-icon name="layout"></box-icon>
-          <RouterLink to="/">
-             DASHBOARD 
-          </RouterLink>
-        </li>
-        <li>
-          <box-icon name="package"></box-icon>
           <RouterLink to="/produtos">
+          <box-icon name="package"></box-icon>
              PRODUTOS
           </RouterLink>
         </li>
         <li>
-          <box-icon name="category"></box-icon>
           <RouterLink to="/categorias">
+          <box-icon name="category"></box-icon>
              CATEGORIAS 
           </RouterLink>
         </li>
         <li>
-          <box-icon name="user-pin"></box-icon>
           <RouterLink to="/fornecedores">
+            <box-icon name="user-pin"></box-icon>
              FORNECEDORES
           </RouterLink>
         </li>
         <li>
-          <box-icon name="purchase-tag"></box-icon>
           <RouterLink to="/promocoes">
+            <box-icon name="purchase-tag"></box-icon>
              PROMOÇÕES
           </RouterLink>
         </li>
         <li> <!--Arrumar Rotas-->
-          <box-icon name="discount" type="solid"></box-icon>
           <RouterLink to="/entregas">
+            <box-icon name="discount" type="solid"></box-icon>
              DESCONTOS
           </RouterLink>
         </li>
         <li>
-          <box-icon name="truck" type="solid"></box-icon>
           <RouterLink to="/entregas">
+            <box-icon name="truck" type="solid"></box-icon>
              ENTREGAS
           </RouterLink>
         </li>
@@ -106,12 +100,13 @@ nav .links {
 }
 nav ul li {
   list-style: none;
-  display: flex;
-  align-items: center;
   margin: 10px 0;
 }
 nav ul li a {
   color: rgb(20, 20, 20);
+  align-items: center;
+  display: flex;
+  gap: 10px;
   margin-left: 10px;
   font-weight: 500;
 }
@@ -127,7 +122,6 @@ nav .links .alerta {
   display: flex;
   border-radius: 5px;
   flex-direction: column;
-
   justify-content: center;
   align-items: center;
 }
