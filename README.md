@@ -1,17 +1,35 @@
-# Projeto Integrador - P10 
-Projeto Integrador do Curso Técnico em Informática para Internet Integrado ao Ensino Médio do IFC - Campus Araquari.
+# livraria
 
-Professores: [Eduardo da Silva](https://github.com/eduardo-da-silva), [Marco André Mendes](https://github.com/marrcandre) e [Alann Perini](https://github.com/AlannKPerini).
+This template should help get you started developing with Vue 3 in Vite.
 
-Equipe:
-- [Marcelo Henrique Harbs](https://github.com/MarceloHarbs)
-- [Geovana Sophia Horodeski](https://github.com/horodeski)
-- [Gregory Valmir Ribeiro](https://github.com/eugreg)
+## Recommended IDE Setup
 
-Links do projeto:
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
--  [Documentação](https://github.com/MarceloHarbs/P10Documentacao)
--  [FrontEnd](https://github.com/horodeski/P10FrontEnd)
--  [BackEnd](https://github.com/eugreg/P10Backend)
--  [Mobile](https://github.com/horodeski/P10Mobile)   
--  [Administração](https://github.com/horodeski/P10Administracao)
+## Customize configuration
+
+See [Vite Configuration Reference](https://vitejs.dev/config/).
+
+## Project Setup
+
+```sh
+npm install
+```
+
+### Compile and Hot-Reload for Development
+
+```sh
+npm run dev
+```
+
+### Compile and Minify for Production
+
+```sh
+npm run build
+```
+
+### Lint with [ESLint](https://eslint.org/)
+
+```sh
+npm run lint
+```
