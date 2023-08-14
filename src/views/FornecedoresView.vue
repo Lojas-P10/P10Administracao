@@ -1,31 +1,38 @@
 <script setup>
+import FornecedoresApi from "@/api/fornecedores";
+import {ref, onMounted} from 'vue';
+
+const fornecedoresApi = new FornecedoresApi();
+const fornecedores = ref([]);
+
+onMounted(async() => {
+  fornecedores.value = await fornecedoresApi.buscarTodosOsFornecedores()
+})
 </script>
 
 <template>
   <div>
-    <button>Adicionar produto</button>
     <table>
       <thead>
         <tr>
           <th>ID</th>
-          <th>Fornecedor</th>
-          <th>CNPJ</th>
+          <th>Nome</th>
           <th>Endereço</th>
           <th>Telefone</th>
           <th>Email</th>
-          <th></th>
+          <th><button class="add">Adicionar produto</button></th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>aq</td>
-          <td>aq</td>
-          <td>aq</td>
-          <td>aq</td>
-          <td>aq</td>
-          <td>aq</td>
+        <tr v-for="fornecedor in fornecedores" :key="fornecedor.id">
+          <td>{{ fornecedor.id }}</td>
+          <td>{{ fornecedor.nome }}</td>
+          <td>{{ fornecedor.endereco }}</td>
+          <td>{{ fornecedor.telefone }}</td>
+          <td>{{ fornecedor.email }}</td>
           <td>
-            <button @click="editar()">editar</button>
+            <button><box-icon name='edit'></box-icon></button>
+            <button><box-icon name='trash'></box-icon></button>
           </td>
         </tr>
       </tbody>
@@ -44,38 +51,29 @@ div {
   flex-direction: column;
   justify-content: flex-end;
 }
+
 table {
   width: -webkit-fill-available;
   border-radius: 0px;
   border-collapse: collapse;
   margin-top: 10px;
 }
+
 thead {
   background-color: #eee;
 }
+
 tbody {
   background-color: #f3f3f3;
 }
+
 table tr td {
   padding: 10px;
   text-align: center;
 }
+
 th {
   font-weight: bold;
   padding: 10px;
-}
-button {
-  background: #00bf63;
-  color: white;
-  padding: 5px;
-  border: 2px solid #018042;
-  border-radius: 5px;
-  transition: background 0.2s;
-  width: 200px;
-}
-button:hover {
-  cursor: pointer;
-  background: #ffffff;
-  color: #018042;
 }
 </style>
