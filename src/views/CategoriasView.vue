@@ -1,8 +1,8 @@
 <script setup>
 import CategoriasApi from "@/api/categorias";
 import {ref, onMounted} from 'vue';
-const categoriasApi = new CategoriasApi();
 
+const categoriasApi = new CategoriasApi();
 const categorias = ref([]);
 
 onMounted(async() => {
@@ -12,13 +12,12 @@ onMounted(async() => {
 
 <template>
   <div>
-    <button>Adicionar produto</button>
     <table>
       <thead>
         <tr>
           <th>ID</th>
           <th>Descrição</th>
-          <th></th>
+          <th>    <button class="add">Adicionar produto</button></th>
         </tr>
       </thead>
       <tbody>
@@ -26,7 +25,8 @@ onMounted(async() => {
           <td>{{categoria.id}}</td>
           <td>{{ categoria.descricao }}</td>
           <td>
-            <button @click="editar()">editar</button>
+            <button ><box-icon name='edit'></box-icon></button>
+            <button><box-icon name='trash' ></box-icon></button>
           </td>
         </tr>
       </tbody>
@@ -64,19 +64,5 @@ table tr td {
 th {
   font-weight: bold;
   padding: 10px;
-}
-button {
-  background: #00bf63;
-  color: white;
-  padding: 5px;
-  border: 2px solid #018042;
-  border-radius: 5px;
-  transition: background 0.2s;
-  width: 200px;
-}
-button:hover {
-  cursor: pointer;
-  background: #ffffff;
-  color: #018042;
 }
 </style>
