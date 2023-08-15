@@ -5,6 +5,7 @@ import ProdutosView from "@/views/ProdutosView.vue";
 import FornecedoresView from "@/views/FornecedoresView.vue";
 import EntregasView from "@/views/EntregasView.vue";
 import PromocoesView from "@/views/PromocoesView.vue";
+import SazonaisView from "@/views/SazonaisView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: "/promocoes",
       name: "promocoes",
       component: PromocoesView,
+    },
+    {
+      path: "/sazonais",
+      name: "sazonais",
+      component: SazonaisView,
     },
   ],
 });

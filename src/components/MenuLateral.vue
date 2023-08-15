@@ -36,7 +36,13 @@ export default { components: { RouterLink } }
              PROMOÇÕES
           </RouterLink>
         </li>
-        <li> <!--Arrumar Rotas-->
+        <li>
+          <RouterLink to="/sazonais">
+            <box-icon name="purchase-tag"></box-icon>
+             SAZONAIS
+          </RouterLink>
+        </li>
+<!--         <li> 
           <RouterLink to="/entregas">
             <box-icon name="discount" type="solid"></box-icon>
              DESCONTOS
@@ -47,7 +53,7 @@ export default { components: { RouterLink } }
             <box-icon name="truck" type="solid"></box-icon>
              ENTREGAS
           </RouterLink>
-        </li>
+        </li> -->
       </ul>
       <div class="alerta">
         <h4>Produtos em falta!</h4>
