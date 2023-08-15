@@ -14,16 +14,13 @@ body {
   font-family: 'Mukta', sans-serif;
 }
 
-body {
-  padding: 10px;
-}
-
 #app {
   display: flex;
 }
 
 main {
   width: 100%;
+  padding: 10px;
 }
 
 td button {

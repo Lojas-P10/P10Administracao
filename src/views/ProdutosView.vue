@@ -61,7 +61,7 @@ div {
 
 table {
   width: -webkit-fill-available;
-  border-radius: 0px;
+  border-radius: 10px;
   border-collapse: collapse;
   margin-top: 10px;
 }

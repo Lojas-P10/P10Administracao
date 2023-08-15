@@ -5,59 +5,60 @@ export default { components: { RouterLink } }
 </script>
 <template>
   <nav>
-    <div class="perfil-usuario">
-      <img src="/src/assets/img/edudasilva.jpeg" alt="Foto do usuário" />
-      <h2>Eduardo da Silva</h2>
-      <h3>@edudasilva</h3>
-    </div>
-    <div class="links">
-      <ul>
-        <li>
-          <RouterLink to="/produtos">
-          <box-icon name="package"></box-icon>
-             PRODUTOS
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/categorias">
-          <box-icon name="category"></box-icon>
-             CATEGORIAS 
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/fornecedores">
-            <box-icon name="user-pin"></box-icon>
-             FORNECEDORES
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/promocoes">
-            <box-icon name="purchase-tag"></box-icon>
-             PROMOÇÕES
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/sazonais">
-            <box-icon name="purchase-tag"></box-icon>
-             SAZONAIS
-          </RouterLink>
-        </li>
-<!--         <li> 
-          <RouterLink to="/entregas">
-            <box-icon name="discount" type="solid"></box-icon>
-             DESCONTOS
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/entregas">
-            <box-icon name="truck" type="solid"></box-icon>
-             ENTREGAS
-          </RouterLink>
-        </li> -->
-      </ul>
-      <div class="alerta">
-        <h4>Produtos em falta!</h4>
-        <button></button>
+    <div>
+
+      <header>
+        <img src="/src/assets/img/edudasilva.jpeg" alt="Foto do usuário" />
+        <h2>Eduardo da Silva</h2>
+        <h3>@edudasilva</h3>
+      </header>
+      <div class="links">
+        <ul>
+          <li>
+            <RouterLink to="/produtos">
+              <div>
+                <i class='bx bx-package'></i>
+              </div>
+              PRODUTOS
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/categorias">
+              <div>
+                <i class='bx bx-category' ></i>
+              </div>
+              CATEGORIAS
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/fornecedores">
+              <div>
+                <i class='bx bx-user-pin' ></i>
+              </div>
+              FORNECEDORES
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/promocoes">
+              <div>
+                <i class='bx bx-purchase-tag' ></i>
+              </div>
+              PROMOÇÕES
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/sazonais">
+              <div>
+                <i class='bx bx-purchase-tag' ></i>
+              </div>
+              SAZONAIS
+            </RouterLink>
+          </li>
+        </ul>
+        <div class="alerta">
+          <h4>Produtos em falta!</h4>
+          <button></button>
+        </div>
       </div>
     </div>
     <div class="log-set">
@@ -75,22 +76,25 @@ export default { components: { RouterLink } }
 h3 {
   color: #00bf63;
 }
+
 nav {
-  height: 97vh;
-  width: 20%;
-  margin-right: 7px;
-  display: flex;
-  background-color: #eee;
-  flex-direction: column;
-  justify-content: space-between;
+  height: 100vh;
+width: 20%;
+margin-right: 7px;
+display: flex;
+flex-direction: column;
+box-shadow: 2px 2px 50px rgba(151, 151, 151, 0.25);
+justify-content: space-between;
 }
+
 nav img {
   width: 100px;
   height: 100px;
   border-radius: 50%;
   margin-bottom: 10px;
 }
-nav .perfil-usuario {
+
+nav header {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -100,27 +104,49 @@ nav .perfil-usuario {
   border-bottom: 5px solid white;
   padding: 20px;
 }
+
 nav .links {
   padding: 20px 20px 35px 20px;
   border-bottom: 5px solid white;
 }
+nav ul {
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
 nav ul li {
   list-style: none;
-  margin: 10px 0;
+  display: flex;
+  border-radius: 10px;
+  align-items: center;
+  width: fit-content;
+  padding-right: 15px;
+}
+li div i {
+  color: #888;
+  font-size: 1.5em
+}
+li div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: #ececec;
+  border-radius: 10px;
+/*   background-color: ; */
+}
+li:hover {
+  box-shadow: 2px 2px 30px rgba(73, 73, 73, 0.247);
 }
 nav ul li a {
   color: rgb(20, 20, 20);
   align-items: center;
   display: flex;
   gap: 10px;
-  margin-left: 10px;
   font-weight: 500;
 }
 
-nav ul li a:hover {
-  color: rgb(20, 20, 20);
-  font-weight: 600;
-}
+
 nav .links .alerta {
   background-color: #00bf63;
   color: white;
@@ -131,11 +157,13 @@ nav .links .alerta {
   justify-content: center;
   align-items: center;
 }
+
 nav .links .alerta button {
   width: 100%;
   border-radius: 5px;
   cursor: pointer;
 }
+
 nav .log-set {
   padding: 10px;
 }
