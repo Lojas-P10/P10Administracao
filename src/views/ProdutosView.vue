@@ -61,9 +61,11 @@ div {
 
 table {
   width: -webkit-fill-available;
-  border-radius: 10px;
-  border-collapse: collapse;
-  margin-top: 10px;
+    border-radius: 10px;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-top: 10px;
 }
 
 thead {
