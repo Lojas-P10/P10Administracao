@@ -3,53 +3,103 @@ export default {}
 </script>
 
 <template>
-  <header>
-    <RouterLink to="/">
-      <img src="src/assets/img/1.png" alt="" />
-    </RouterLink>
-    <div>
-      <input type="text" />
-      <button>
-        <box-icon size="1.7em" color="#fff" name="search"></box-icon>
+  <header class="app-header">
+    <div class="app-header-logo">
+      <div class="logo">
+        <span class="logo-icon">
+          <img src="https://assets.codepen.io/285131/almeria-logo.svg" />
+        </span>
+        <h1 class="logo-title">
+          <span>Almeria</span>
+          <span>NeoBank</span>
+        </h1>
+      </div>
+    </div>
+    <div class="app-header-navigation">
+      <div class="tabs">
+        <a href="#"> Overview </a>
+        <a href="#" class="active"> Payments </a>
+        <a href="#"> Cards </a>
+        <a href="#"> Account </a>
+        <a href="#"> System </a>
+        <a href="#"> Business </a>
+      </div>
+    </div>
+    <div class="app-header-actions">
+      <button class="user-profile">
+        <span>Matheo Peterson</span>
+        <span>
+          <img src="https://assets.codepen.io/285131/almeria-avatar.jpeg" />
+        </span>
       </button>
-      <box-icon size="1.7em" name="bell"></box-icon>
+      <div class="app-header-actions-buttons">
+        <button class="icon-button large">
+          <i class="ph-magnifying-glass"></i>
+        </button>
+        <button class="icon-button large">
+          <i class="ph-bell"></i>
+        </button>
+      </div>
+    </div>
+    <div class="app-header-mobile">
+      <button class="icon-button large">
+        <i class="ph-list"></i>
+      </button>
     </div>
   </header>
 </template>
 
 <style scoped>
-header {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: space-between;
+.app-header {
+  display: grid;
+  grid-template-columns: minmax(-webkit-min-content, 175px) minmax(-webkit-max-content, 1fr) minmax(-webkit-max-content, 400px);
+  grid-template-columns: minmax(min-content, 175px) minmax(max-content, 1fr) minmax(max-content, 400px);
+  -moz-column-gap: 4rem;
+       column-gap: 4rem;
+  align-items: flex-end;
 }
-header img {
-  width: 15em;
-  height: auto;
+@media (max-width: 1200px) {
+  .app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--c-gray-600);
+  }
 }
-header input {
-  outline: 2px solid #00bf63;
-  width: 100%;
-  border-top-left-radius: 7px;
-  border-bottom-left-radius: 7px;
-  padding: 5px 10px;
-}
-header div {
-  display: flex;
-  align-items: center;
-  width: 35%;
-}
-header div button {
-  background-color: #00bf63;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-  margin-right: 10px;
-  border: none;
 
-  border-top-right-radius: 7px;
-  border-bottom-right-radius: 7px;
+@media (max-width: 1200px) {
+  .app-header-navigation {
+    display: none;
+  }
 }
+
+.app-header-actions {
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 1200px) {
+  .app-header-actions {
+    display: none;
+  }
+}
+
+.app-header-actions-buttons {
+  display: flex;
+  border-left: 1px solid var(--c-gray-600);
+  margin-left: 2rem;
+  padding-left: 2rem;
+}
+.app-header-actions-buttons > * + * {
+  margin-left: 1rem;
+}
+
+.app-header-mobile {
+  display: none;
+}
+@media (max-width: 1200px) {
+  .app-header-mobile {
+    display: flex;
+  }
+}
+
 </style>

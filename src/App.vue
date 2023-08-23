@@ -5,9 +5,9 @@ import NavTop from "./components/NavTop.vue";
 
 </script>
 <template>
-  <MenuLateral />
-  <main>
-    <NavTop />
+  <NavTop />
+  <main class="app-body">
+    <MenuLateral />
     <RouterView />
   </main>
 </template>
