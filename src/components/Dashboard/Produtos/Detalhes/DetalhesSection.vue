@@ -6,24 +6,46 @@
     <div class="content">
       <div class="card">
         <div>
-          <span class="value">23</span>
-          <span class="title"> Fornecedores</span>
+          <span class="value">531</span>
+          <span class="title"> Vendas nesse mês</span>
         </div>
-        <span class="desc"> 36 fornecedores no mês passado </span>
+        <span class="desc"> 365 vendas no mês passado </span>
       </div>
       <div class="card">
         <div>
-          <span class="value">400</span>
-          <span class="title">Novos produtos</span>
+          <span class="value">5%</span>
+          <span class="title"> De margem de lucro</span>
         </div>
-        <span class="desc"> 100 produtos novos no mês passado </span>
+        <span class="desc"> 30% margem de lucro no mês passado </span>
       </div>
       <div class="card">
+        <div>
+          <span class="value">10</span>
+          <span class="title"> Novos produtos</span>
+        </div>
+        <span class="desc"> 23 novos produtos no mês passado </span>
+      </div>
+      <div class="card">
+        <div>
+          <span class="value">5</span>
+          <span class="title"> Produtos em promoção</span>
+        </div>
+        <span class="desc"> 20 Produtos em promoção no mês passado </span>
+      </div>
+      <div class="card">
+        <div>
+          <span class="value">8</span>
+          <span class="title"> Perdas no estoque</span>
+        </div>
+        <span class="desc"> 40 Produtos perdidos no mês passado </span>
+      </div>
+<!--       <div class="card">
         <div>
           <span class="value"><span class="valor">R$</span> 200</span>
           <span class="title">Gastos nesse mês</span>
         </div>
-      </div>
+      </div> -->
+      <!--fazer um aviso quando o desempenho desse mÊs for inferior ao mês passado-->
     </div>
   </section>
 </template>

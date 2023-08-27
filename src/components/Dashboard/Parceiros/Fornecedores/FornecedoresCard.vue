@@ -1,30 +1,30 @@
 <script setup></script>
 
 <template>
-  <article class="tile">
-    <div class="tile-header">
+  <div class="card">
+    <header>
       <i class="ph-lightning-light"></i>
       <h3>
         <span>Electricity</span>
         <span>UrkEnergo LTD.</span>
       </h3>
-    </div>
+    </header>
     <a href="#">
       <span>Mais informações</span>
       <span class="icon-button">
         <i class="ph-caret-right-bold"></i>
       </span>
     </a>
-  </article>
+  </div>
 </template>
 
 <style scoped>
-.tile {
+.card {
   padding: 1rem;
   border-radius: 8px;
-  background-color: var(--c-olive-500);
-  color: var(--c-gray-900);
-  min-height: 200px;
+  background-color: var(--c-gray-900);
+  color: var(--c-white);
+  min-height: 136px;
   width: 270px;
   display: flex;
   flex-direction: column;
@@ -32,47 +32,40 @@
   position: relative;
   transition: 0.25s ease;
 }
-.tile:hover {
+.card:nth-child(1) {
+  background: rgb(0, 191, 99);
+  color: var(--c-gray-900);
+  background: linear-gradient(329deg, rgba(0, 191, 99, 1) 0%, rgba(92, 240, 169, 1) 100%);
+}
+.card:hover {
   transform: translateY(-5px);
 }
-.tile:focus-within {
+.card:focus-within {
   box-shadow: 0 0 0 2px var(--c-gray-800), 0 0 0 4px var(--c-olive-500);
 }
-.tile:nth-child(2) {
-  background-color: var(--c-green-500);
-}
-.tile:nth-child(2):focus-within {
-  box-shadow: 0 0 0 2px var(--c-gray-800), 0 0 0 4px var(--c-green-500);
-}
-.tile:nth-child(3) {
-  background-color: var(--c-gray-300);
-}
-.tile:nth-child(3):focus-within {
-  box-shadow: 0 0 0 2px var(--c-gray-800), 0 0 0 4px var(--c-gray-300);
-}
-.tile a {
+.card a {
   text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-weight: 600;
 }
-.tile a .icon-button {
+.card a .icon-button {
   color: inherit;
   border-color: inherit;
 }
-.tile a .icon-button:hover,
-.tile a .icon-button:focus {
+.card a .icon-button:hover,
+.card a .icon-button:focus {
   background-color: transparent;
 }
-.tile a .icon-button:hover i,
-.tile a .icon-button:focus i {
+.card a .icon-button:hover i,
+.card a .icon-button:focus i {
   transform: none;
 }
-.tile a:focus {
+.card a:focus {
   box-shadow: none;
 }
-.tile a:after {
+.card a:after {
   content: '';
   display: block;
   position: absolute;
@@ -82,23 +75,23 @@
   bottom: 0;
 }
 
-.tile-header {
+header {
   display: flex;
   align-items: center;
 }
-.tile-header i {
+header i {
   font-size: 2.5em;
 }
-.tile-header h3 {
+header h3 {
   display: flex;
   flex-direction: column;
   line-height: 1.375;
   margin-left: 0.5rem;
 }
-.tile-header h3 span:first-child {
+header h3 span:first-child {
   font-weight: 600;
 }
-.tile-header h3 span:last-child {
+header h3 span:last-child {
   font-size: 0.825em;
   font-weight: 200;
 }

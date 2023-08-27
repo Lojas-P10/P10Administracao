@@ -11,7 +11,7 @@ export default {}
       <button class="user-profile">
         <span>Eduardo da Silva</span>
         <span>
-          <img src="https://avatars.githubusercontent.com/u/48130339?v=4" />
+          <img class="user-image" src="https://avatars.githubusercontent.com/u/48130339?v=4" />
         </span>
       </button>
       <div class="buttons">
@@ -47,7 +47,9 @@ header {
   width: 50px;
 }
 
-
+.user-image {
+  border-radius: 10px;
+}
 .user-profile {
   display: flex;
   align-items: center;
@@ -89,7 +91,7 @@ header {
 .icon-button {
   width: 32px;
   height: 32px;
-  border-radius: 50%;
+  border-radius: 10px;
   border: 0;
   background-color: transparent;
   border: 1px solid var(--c-gray-500);

@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import ParceirosView from "@/views/Dashboard/ParceirosView.vue";
+import ProdutosDashView from "@/views/Dashboard/ProdutosView.vue";
+/* import DashboardView from "@/views/Dashboard/DashboardView.vue";
+ */
 import CategoriasView from "@/views/CategoriasView.vue";
 import ProdutosView from "@/views/ProdutosView.vue";
 import FornecedoresView from "@/views/FornecedoresView.vue";
@@ -11,13 +14,17 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/",
-      name: "home",
+      path: "/dashboard/parceiros",
       component: ParceirosView,
     },
     {
-      path: "/Dashboard",
-      name: "home",
+      path: "/dashboard/produtos",
+      name: "",
+      component: ProdutosDashView,
+    },
+    {
+      path: "/dashboard",
+      name: "dashboard",
       component: ParceirosView,
     },
     {

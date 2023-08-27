@@ -4,13 +4,17 @@ import 'boxicons'
 <template>
   <nav>
     <div class="routes">
-      <RouterLink to="/Dashboard">
+      <RouterLink to="/dashboard">
         <i class="ph-browsers"></i>
         <span>Dashboard</span>
       </RouterLink>
       <RouterLink to="/categorias">
         <i class="ph-table"></i>
         <span>Tabelas</span>
+      </RouterLink>
+	  <RouterLink to="/dashboard/produtos">
+        <i class="ph-table"></i>
+        <span>Produtos (futuramente vai para o dash)</span>
       </RouterLink>
     </div>
     <footer class="footer">
@@ -26,6 +30,7 @@ nav {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 70vh;
 }
 @media (max-width: 1200px) {
   nav {
