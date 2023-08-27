@@ -1,79 +1,62 @@
-<script>
+<script setup>
 import 'boxicons'
-export default {  }
 </script>
 <template>
-  <div class="app-body-navigation">
-    <nav class="navigation">
-      <a href="#">
+  <nav>
+    <div class="routes">
+      <RouterLink to="/Dashboard">
         <i class="ph-browsers"></i>
         <span>Dashboard</span>
-      </a>
-      <a href="#">
-        <i class="ph-check-square"></i>
-        <span>Scheduled</span>
-      </a>
-      <a href="#">
-        <i class="ph-swap"></i>
-        <span>Transfers</span>
-      </a>
-      <a href="#">
-        <i class="ph-file-text"></i>
-        <span>Templates</span>
-      </a>
-      <a href="#">
-        <i class="ph-globe"></i>
-        <span>SWIFT</span>
-      </a>
-      <a href="#">
-        <i class="ph-clipboard-text"></i>
-        <span>Exchange</span>
-      </a>
-    </nav>
+      </RouterLink>
+      <RouterLink to="/categorias">
+        <i class="ph-table"></i>
+        <span>Tabelas</span>
+      </RouterLink>
+    </div>
     <footer class="footer">
-      <h1>Almeria<small>©</small></h1>
+      <h1>Lojas P10<small>©</small></h1>
       <div>
-        Almeria ©<br />
-        All Rights Reserved 2021
+        geosgrafia (Alter ego de geovana horodeski) ©<br />
       </div>
     </footer>
-  </div>
+  </nav>
 </template>
 <style scoped>
-.app-body-navigation {
+nav {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 @media (max-width: 1200px) {
-  .app-body-navigation {
+  nav {
     display: none;
   }
 }
-.navigation {
+.routes {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   color: var(--c-text-tertiary);
 }
-.navigation a {
+.routes a {
   display: flex;
   align-items: center;
   text-decoration: none;
   transition: 0.25s ease;
 }
-.navigation a * {
+.routes a * {
   transition: 0.25s ease;
 }
-.navigation a i {
+.routes a i {
   margin-right: 0.75rem;
   font-size: 1.25em;
   flex-shrink: 0;
 }
-.navigation a + a {
+.routes a + a {
   margin-top: 1.25rem;
 }
-.navigation a:hover, .navigation a:focus {
+.routes a:hover,
+.routes a:focus {
   transform: translateX(4px);
   color: var(--c-text-primary);
 }

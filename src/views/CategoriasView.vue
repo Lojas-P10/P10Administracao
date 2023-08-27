@@ -11,52 +11,7 @@ onMounted(async() => {
 </script>
 
 <template>
-  <div>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Descrição</th>
-          <th>    <button class="add">Adicionar produto</button></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="categoria in categorias" :key="categoria.id">
-          <td>{{categoria.id}}</td>
-          <td>{{ categoria.descricao }}</td>
-          <td>
-            <button ><box-icon name='edit'></box-icon></button>
-            <button><box-icon name='trash' ></box-icon></button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Descrição</th>
-          <th>    <button class="add">Adicionar produto</button></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="categoria in categorias" :key="categoria.id">
-          <td>{{categoria.id}}</td>
-          <td>{{ categoria.descricao }}</td>
-          <td>
-            <button ><box-icon name='edit'></box-icon></button>
-            <button><box-icon name='trash' ></box-icon></button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <!--         <div class="senao" v-else>
-          <span class="aviso">Não existem editoras cadastradas</span>
-          <i class="bx bx-error"></i>
-        </div> -->
+  <div>pika</div>
 </template>
 
 <style scoped>

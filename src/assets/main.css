@@ -10,7 +10,7 @@
   --c-gray-300: #bdbbb7;
   --c-gray-200: #f1f1f1;
   --c-gray-100: #ffffff;
-  --c-green-500: #45ffbc;
+  --c-green-500: #00bf63;
   --c-olive-500: #e3ffa8;
   --c-white: var(--c-gray-100);
   --c-text-primary: var(--c-gray-100);
@@ -25,8 +25,6 @@ body {
   background-color: var(--c-gray-900);
   color: var(--c-text-primary);
   display: flex;
-  padding-top: 3vw;
-  padding-bottom: 3vw;
   justify-content: center;
 }
 
@@ -60,9 +58,7 @@ a {
 }
 
 #app {
-  min-height: 80vh;
-  width: 95%;
-  max-width: 1600px;
+  width: 100%;
   background-color: var(--c-gray-800);
   padding: 2vw 4vw 6vw;
   display: flex;
