@@ -1,8 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import ParceirosView from "@/views/Dashboard/ParceirosView.vue";
 import ProdutosDashView from "@/views/Dashboard/ProdutosView.vue";
-/* import DashboardView from "@/views/Dashboard/DashboardView.vue";
- */
 import CategoriasView from "@/views/CategoriasView.vue";
 import ProdutosView from "@/views/ProdutosView.vue";
 import FornecedoresView from "@/views/FornecedoresView.vue";
@@ -18,14 +16,18 @@ const router = createRouter({
       component: ParceirosView,
     },
     {
+      path: "/",
+      redirect: "/dashboard/produtos"
+    },
+    {
       path: "/dashboard/produtos",
       name: "",
       component: ProdutosDashView,
     },
     {
-      path: "/dashboard",
+      path: "/dashboard/produtos",
       name: "dashboard",
-      component: ParceirosView,
+      component: ProdutosDashView,
     },
     {
       path: "/categorias",
