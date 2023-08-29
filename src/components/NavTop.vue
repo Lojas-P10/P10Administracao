@@ -5,7 +5,9 @@ export default {}
 <template>
   <header>
     <div class="p10-logo">
-      <img src="../assets/img/3.png" />
+      <RouterLink to="/">
+        <img src="../assets/img/3.png" />
+      </RouterLink>
     </div>
     <div class="app-header-actions">
       <button class="user-profile">
