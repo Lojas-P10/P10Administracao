@@ -3,22 +3,21 @@
 <template>
   <div class="card">
     <dl class="desc">
-      <i class="ph ph-arrow-up"></i>
       <div>
         <dt>Caneca Marvel</dt>
         <dd>MarvelChopyeh</dd>
       </div>
       <div>
-        <dd>Última venda</dd>
+        <dd>Chegada</dd>
         <dt>28 Jul. 23</dt>
       </div>
       <div>
-        <dd>Total</dd>
+        <dd>Valor</dd>
         <dt>R$268,05</dt>
       </div>
       <div>
         <dd>Unidades</dd>
-        <dt>36</dt>
+        <dt>525</dt>
       </div>
     </dl>
   </div>
@@ -52,12 +51,7 @@
 }
 .logo img {
   width: 45%;
-}
-.desc i {
-  color: var(--c-green-500);
-  margin-right: 1em;
-  font-size: 1.5em;
-}
+} 
 .desc {
   display: flex;
   align-items: center;
