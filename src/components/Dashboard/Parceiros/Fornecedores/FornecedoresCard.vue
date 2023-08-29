@@ -3,7 +3,6 @@
 <template>
   <div class="card">
     <header>
-      <i class="ph-lightning-light"></i>
       <h3>
         <span>Electricity</span>
         <span>UrkEnergo LTD.</span>
@@ -78,9 +77,6 @@
 header {
   display: flex;
   align-items: center;
-}
-header i {
-  font-size: 2.5em;
 }
 header h3 {
   display: flex;

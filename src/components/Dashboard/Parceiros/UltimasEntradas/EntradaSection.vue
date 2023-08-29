@@ -4,7 +4,7 @@ import EntradaCard from "./EntradaCard.vue";
 <template>
   <section>
     <header>
-      <h2>Últimas entradas</h2>
+      <h2>Últimas entradas no estoque</h2>
     </header>
     <div class="transfers">
       <EntradaCard />
