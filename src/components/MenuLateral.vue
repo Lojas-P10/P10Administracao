@@ -15,23 +15,18 @@ import 'boxicons'
           <i class="ph-table"></i> <span>Relatórios</span></label
         >
         <div class="section-dropdown">
-          <input class="dropdown-sub" type="checkbox" id="dropdown-sub" name="dropdown-sub" />
-          <label class="for-dropdown" for="dropdown-sub"
-            >Produtos <i class="uil uil-plus"></i
-          ></label>
-          <div class="section-dropdown-sub">
-            <a href="#">a <i class="uil uil-arrow-right"></i></a>
-            <a href="#">b <i class="uil uil-arrow-right"></i></a>
-          </div>
-          <a href="#">Dropdown Link <i class="uil uil-arrow-right"></i></a>
-          <a href="#">Dropdown Link <i class="uil uil-arrow-right"></i></a>
-          <a href="#">Dropdown Link <i class="uil uil-arrow-right"></i></a>
+          <a href="#">Vendas <i class="ph ph-caret-right"></i></a>
+          <a href="#">Vendas por hora <i class="ph ph-caret-right"></i></a>
+          <a href="#">Vendas por dia <i class="ph ph-caret-right"></i></a>
+          <a href="#">Vendas por categoria <i class="ph ph-caret-right"></i></a>
+          <a href="#">Vendas por funcionário <i class="ph ph-caret-right"></i></a>
+          <a href="#">Filiais <i class="ph ph-caret-right"></i></a>
+          <a href="#">Produtos <i class="ph ph-caret-right"></i></a>
+          <a href="#">Fornecedores <i class="ph ph-caret-right"></i></a>
+          <a href="#">Descontos <i class="ph ph-caret-right"></i></a>
+          <a href="#">Categorias <i class="ph ph-caret-right"></i></a>
         </div>
       </div>
-      <!--       <RouterLink to="/categorias">
-        <i class="ph-table"></i>
-        <span>Relatórios</span>
-      </RouterLink> -->
     </div>
     <footer class="footer">
       <h1>Lojas P10<small>©</small></h1>
@@ -44,7 +39,7 @@ nav {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 70vh;
+  height: 100vh;
 }
 @media (max-width: 1200px) {
   nav {
@@ -118,6 +113,7 @@ nav {
   display: block;
   z-index: 2;
   opacity: 0;
+  width: 15em;
   pointer-events: none;
   transform: translateY(-20px);
   transition: all 200ms linear;
@@ -127,7 +123,6 @@ nav {
   pointer-events: auto;
   transform: translateY(0);
 }
-
 
 .section-dropdown-sub {
   position: relative;
@@ -149,7 +144,7 @@ nav {
 .section-dropdown-sub a {
   font-size: 14px;
 }
-.section-dropdown-sub a .uil {
+.section-dropdown-sub a .ph {
   font-size: 20px;
 }
 
@@ -159,20 +154,17 @@ nav {
   align-items: flex-start;
   color: var(--c-text-tertiary);
 }
-.routes a {
+.routes a, label {
   display: flex;
   align-items: center;
   text-decoration: none;
+  gap: 0.75em;
   transition: 0.25s ease;
 }
 .routes a * {
   transition: 0.25s ease;
 }
-.routes i {
-  margin-right: 0.75rem;
-  font-size: 1.25em;
-  flex-shrink: 0;
-}
+
 .routes a + a {
   margin-top: 1.25rem;
 }
