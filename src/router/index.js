@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import ParceirosView from "@/views/Dashboard/ParceirosView.vue";
+import VendasView from "@/views/Relatorios/VendasView.vue";
 import ProdutosDashView from "@/views/Dashboard/ProdutosView.vue";
 import CategoriasView from "@/views/CategoriasView.vue";
 import ProdutosView from "@/views/ProdutosView.vue";
@@ -23,6 +24,11 @@ const router = createRouter({
       path: "/dashboard/produtos",
       name: "",
       component: ProdutosDashView,
+    },
+    {
+      path: "/vendas",
+      name: "",
+      component: VendasView,
     },
     {
       path: "/dashboard/produtos",

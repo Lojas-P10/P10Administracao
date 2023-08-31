@@ -1,5 +1,14 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+
 import EntradaCard from "./EntradaCard.vue";
+import FornecedoresApi from "@/api/fornecedores";
+const fornecedoresApi = new FornecedoresApi();
+const fornecedores = ref([]);
+
+onMounted(async () => {
+  fornecedores.value = await fornecedoresApi.buscarTodosOsFornecedores()
+})
 </script>
 <template>
   <section>

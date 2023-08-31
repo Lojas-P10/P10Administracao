@@ -7,8 +7,8 @@
     </div>
     <dl class="desc">
       <div>
-        <dt>Apple Inc.</dt>
-        <dd>Apple ID Payment</dd>
+        <dt>{{ nome }}</dt>
+        <dd>{{ email }}</dd>
       </div>
       <dt>28 Jul. 23</dt>
       <dt>R$268,05</dt>

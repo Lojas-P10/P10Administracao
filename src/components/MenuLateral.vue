@@ -15,12 +15,7 @@ import 'boxicons'
           <i class="ph-table"></i> <span>Relatórios</span></label
         >
         <div class="section-dropdown">
-          <a href="#">Vendas <i class="ph ph-caret-right"></i></a>
-          <a href="#">Vendas por hora <i class="ph ph-caret-right"></i></a>
-          <a href="#">Vendas por dia <i class="ph ph-caret-right"></i></a>
-          <a href="#">Vendas por categoria <i class="ph ph-caret-right"></i></a>
-          <a href="#">Vendas por funcionário <i class="ph ph-caret-right"></i></a>
-          <a href="#">Filiais <i class="ph ph-caret-right"></i></a>
+          <RouterLink to="/vendas">Vendas <i class="ph ph-caret-right"></i></RouterLink>
           <a href="#">Produtos <i class="ph ph-caret-right"></i></a>
           <a href="#">Fornecedores <i class="ph ph-caret-right"></i></a>
           <a href="#">Descontos <i class="ph ph-caret-right"></i></a>
