@@ -1,11 +1,16 @@
-<script setup></script>
+<script setup>
+defineProps({
+  nome: String,
+  email: String,
+})
+</script>
 
 <template>
   <div class="card">
     <header>
       <h3>
-        <span>Electricity</span>
-        <span>UrkEnergo LTD.</span>
+        <span>{{ nome }}</span>
+        <span>{{ email }}</span>
       </h3>
     </header>
     <a href="#">
@@ -24,7 +29,7 @@
   background-color: var(--c-gray-900);
   color: var(--c-white);
   min-height: 136px;
-  width: 270px;
+  min-width: 350px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
