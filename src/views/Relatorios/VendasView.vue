@@ -1,40 +1,15 @@
 <script setup>
-import { ref } from 'vue';
-
-const detail = ref(null);
-const htmlBody = ref(null);
-
-const toggleOpen = (e) => {
-  e.preventDefault();
-  detail.value.classList.toggle('open');
-  htmlBody.value.classList.toggle('open');
-};
-
+import FiltroComp from "../../components/Relatorios/Vendas/FiltroComp.vue";
+import TabelaComp from "../../components/Relatorios/Vendas/TabelaComp.vue";
 </script>
 <template>
-    <main class="app-body-main-content">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Categoria</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="categoria in categorias" :key="categoria.id">
-              <td>{{ categoria.id }}</td>
-              <td>{{ categoria.descricao }}</td>
-              <td>
-                <button @click="editar(categoria)">editar</button>
-                <button @click="excluir(categoria)">excluir</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-    </main>
+  <main class="app-body-main-content">
+    <TabelaComp />
+  </main>
+  <aside class="app-body-sidebar">
+    <FiltroComp />
+  </aside>
 </template>
 
 
-<style scoped >
-
-</style>
+<style scoped ></style>

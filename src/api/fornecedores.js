@@ -1,7 +1,7 @@
 import axios from 'axios';
 export default class FornecedoresApi {
   async buscarTodosOsFornecedores() {
-    const { data } = await axios.get('http://127.0.0.1:8000/api/fornecedores/');
+    const { data } = await axios.get('https://p10backend-eugreg-dev.fl0.io/api/fornecedores/');
     return data;
   }
   async adicionarFornecedor(fornecedor) {

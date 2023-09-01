@@ -172,7 +172,7 @@ nav {
   margin-top: auto;
 }
 .footer h1 {
-  font-size: 1.5rem;
+   
   line-height: 1.125;
   display: flex;
   align-items: flex-start;

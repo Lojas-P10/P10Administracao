@@ -28,7 +28,7 @@ import ProdutoCard from './ProdutoCard.vue'
 
 <style scoped>
 h2 {
-  font-size: 1.5rem;  
+     
   margin-bottom: 1.25rem;
 }
 .fornecedores {

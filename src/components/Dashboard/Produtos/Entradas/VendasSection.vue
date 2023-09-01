@@ -28,7 +28,7 @@ header {
   border-bottom: 1px solid var(--c-gray-600);
 }
 header h2 {
-  font-size: 1.5rem;
+   
 }
 
 .transfers {

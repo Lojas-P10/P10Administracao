@@ -62,7 +62,7 @@ section {
   gap: 36px;
 }
 h2 {
-  font-size: 1.5rem;
+   
   margin-bottom: 11px;
 }
 .content {
