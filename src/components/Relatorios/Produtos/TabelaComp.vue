@@ -1,35 +1,43 @@
-<script setup></script>
+<script setup>
+import ProdutosApi from "@/api/produtos";
+import { ref, onMounted } from 'vue';
+const produtosApi = new ProdutosApi();
+
+const produtos = ref([]);
+
+onMounted(async () => {
+  produtos.value = await produtosApi.buscarTodosOsProdutos()
+})
+</script>
 
 <template>
   <header>
-    <h2>Vendas</h2>
+    <h2>Produtos</h2>
   </header>
   <table>
     <thead>
       <tr>
-        <th><a>Última venda</a></th>
+        <th><a>ID</a></th>
+        <th><a>Nome</a></th>
         <th><a>Categoria</a></th>
-        <!--ideia: Brinquedos(bonecas)-->
-        <th><a>Produto</a></th>
         <th><a>Fornecedor</a></th>
         <th><a>Qtde.</a></th>
-        <th><a>Frete</a></th>
-        <th><a>filial</a></th>
-        <th><a>Venda Total</a></th>
-        <th><a>Lucro Total</a></th>
+        <th><a>Sazonal</a></th>
+        <th><a>Desconto</a></th>
+        <th><a>Preço</a></th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>Tom</td>
-        <td>2</td>
+      <tr v-for="produto in produtos" :key="produto.id">
+        <td>{{ produto.id }}</td>
+        <td>{{ produto.nome }}</td>
+        <td>{{ categoria.descricao }}(Bonecas)</td>
         <td>0</td>
         <td>1</td>
         <td>1</td>
         <td>1</td>
         <td>1</td>
-        <td>1</td>
-        <td>5</td>
+        
       </tr>
       </tbody>
   </table>

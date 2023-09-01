@@ -1,13 +1,5 @@
 <script setup>
-import ProdutosApi from "@/api/produtos";
-import { ref, onMounted } from 'vue';
-const produtosApi = new ProdutosApi();
 
-const produtos = ref([]);
-
-onMounted(async () => {
-  produtos.value = await produtosApi.buscarTodosOsProdutos()
-})
 </script>
 
 <template>

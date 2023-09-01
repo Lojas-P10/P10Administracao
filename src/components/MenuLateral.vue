@@ -1,5 +1,6 @@
 <script setup>
 import 'boxicons'
+import { RouterLink } from 'vue-router';
 </script>
 <template>
   <nav>
@@ -16,7 +17,7 @@ import 'boxicons'
         >
         <div class="section-dropdown">
           <RouterLink to="/vendas">Vendas <i class="ph ph-caret-right"></i></RouterLink>
-          <a href="#">Produtos <i class="ph ph-caret-right"></i></a>
+          <RouterLink to="/produtos">Produtos <i class="ph ph-caret-right"></i></RouterLink>
           <a href="#">Fornecedores <i class="ph ph-caret-right"></i></a>
           <a href="#">Descontos <i class="ph ph-caret-right"></i></a>
           <a href="#">Categorias <i class="ph ph-caret-right"></i></a>
