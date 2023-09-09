@@ -1,19 +1,21 @@
 <script setup>
 import ProdutosApi from "@/api/produtos";
 import { ref, onMounted } from 'vue';
-const produtosApi = new ProdutosApi();
 
+const produtosApi = new ProdutosApi();
 const produtos = ref([]);
+
+function valorTotal(produto) {
+  return (produto.preco * produto.quantidade).toFixed(2)
+}
 
 onMounted(async () => {
   produtos.value = await produtosApi.buscarTodosOsProdutos()
 })
+
 </script>
 
 <template>
-  <header>
-    <h2>Produtos</h2>
-  </header>
   <table>
     <thead>
       <tr>
@@ -24,19 +26,24 @@ onMounted(async () => {
         <th><a>Qtde.</a></th>
         <th><a>Sazonal</a></th>
         <th><a>Desconto</a></th>
-        <th><a>Preço</a></th>
+        <th><a>Valor Unit.</a></th>
+        <th><a>Valor Total</a></th>
+        <th>Manutenção</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="produto in produtos" :key="produto.id">
         <td>{{ produto.id }}</td>
         <td>{{ produto.nome }}</td>
-        <td>{{ categoria.descricao }}(Bonecas)</td>
-        <td>0</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
+        <td></td>
+        <td></td>
+        <td>{{ produto.quantidade }}</td>
+        <td></td>
+        <td></td>
+        <td>{{ produto.preco  }}</td>
+        <td>{{ valorTotal(produto) }}</td>
+<!--         <td>{{ categoria.categoria }}(Bonecas)</td>
+ -->
         
       </tr>
       </tbody>
@@ -54,10 +61,8 @@ h2 {
   margin-bottom: 0;
 }
 thead {
-  background: #2f2f2f;
+  background: #000;
 }
-
-tr {}
 
 td,
 th {
@@ -65,11 +70,5 @@ th {
   text-align: center;
 }
 
-header {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--c-gray-600);
-}
+
 </style>
