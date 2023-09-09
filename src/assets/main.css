@@ -56,7 +56,25 @@ a {
   margin-left: auto;
   margin-right: auto;
 }
+input:focus-visible {
+  outline: 0;
+}
 
+input:focus {
+  color: var(--c-white);
+  border-bottom: 1px solid var(--c-white);
+
+}
+
+input {
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border: 0;
+  border-bottom: 1px solid var(--c-gray-600);
+  background-color: transparent;
+  padding-left: 1.5rem;
+}
 #app {
   width: 100%;
   background-color: var(--c-gray-800);

@@ -46,10 +46,6 @@ h2 {
     display: none;
   }
 }
-input:focus-visible {
-  outline: 0;
-}
-
 .icon-button {
   width: 32px;
   height: 32px;
@@ -82,20 +78,6 @@ input:focus-visible {
   display: flex;
   flex-grow: 1;
   position: relative;
-}
-input:focus{
-  color: var(--c-white);
-  border-bottom: 1px solid var(--c-white);
-
-}
-input {
-  width: 100%;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  border: 0;
-  border-bottom: 1px solid var(--c-gray-600);
-  background-color: transparent;
-  padding-left: 1.5rem;
 }
 .search-field div i {
   position: absolute;

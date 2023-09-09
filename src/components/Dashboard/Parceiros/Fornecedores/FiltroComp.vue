@@ -65,9 +65,6 @@ const showDataList = ref(false);
     }
 }
 
-input:focus-visible {
-    outline: 0;
-}
 
 .search-field form {
     display: flex;
@@ -75,21 +72,6 @@ input:focus-visible {
     position: relative;
 }
 
-input:focus {
-    color: var(--c-white);
-    border-bottom: 1px solid var(--c-white);
-
-}
-
-input {
-    width: 100%;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    border: 0;
-    border-bottom: 1px solid var(--c-gray-600);
-    background-color: transparent;
-    padding-left: 1.5rem;
-}
 
 .search-field form i {
     position: absolute;
