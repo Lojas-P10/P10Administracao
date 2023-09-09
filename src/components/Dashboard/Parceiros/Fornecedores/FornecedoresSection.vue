@@ -1,11 +1,11 @@
 <script setup>
 import FornecedoresCard from './FornecedoresCard.vue'
-import FornecedoresApi from "@/api/fornecedores";
-import { ref, computed, onMounted } from 'vue';
-import FiltroComp from "./FiltroComp.vue"
+import FornecedoresApi from '@/api/fornecedores'
+import { ref, computed, onMounted } from 'vue'
+import FiltroComp from './FiltroComp.vue'
 
-const fornecedoresApi = new FornecedoresApi();
-const fornecedores = ref([]);
+const fornecedoresApi = new FornecedoresApi()
+const fornecedores = ref([])
 
 const filtrarNome = ref('')
 
@@ -25,7 +25,6 @@ function AlteraNome(nome) {
   filtrarNome.value = nome
 }
 
-
 onMounted(async () => {
   fornecedores.value = await fornecedoresApi.buscarTodosOsFornecedores()
 })
@@ -35,19 +34,23 @@ onMounted(async () => {
   <section>
     <h2>Fornecedores</h2>
     <FiltroComp :fornecedores="fornecedores" @change="AlteraNome" />
-    <div  class="fornecedores">
-      <FornecedoresCard v-for="fornecedor in FiltroFornecedores" :key="fornecedor.key" :nome="fornecedor.nome"
-        :email="fornecedor.email" />
-        <p v-if="FiltroFornecedores.length == 0">Este fornecedor não foi encontrado em nossos sistemas</p>
+    <div class="fornecedores">
+      <FornecedoresCard
+        v-for="fornecedor in FiltroFornecedores"
+        :key="fornecedor.id"
+        :nome="fornecedor.nome"
+        :email="fornecedor.email"
+      />
+      <p v-if="FiltroFornecedores.length == 0">
+        Este fornecedor não foi encontrado em nossos sistemas
+      </p>
     </div>
-    <div >
-    </div>
+    <div></div>
   </section>
 </template>
 
 <style scoped>
 h2 {
-   
   margin-bottom: 1.25rem;
 }
 
