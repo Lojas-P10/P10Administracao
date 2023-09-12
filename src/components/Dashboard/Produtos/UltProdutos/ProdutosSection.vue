@@ -15,7 +15,7 @@ import ProdutoCard from './ProdutoCard.vue'
         <i class="ph ph-faders-horizontal"></i>
 
       </button>
-      <button>Pesquisar</button>
+      <button class="btn-gray">Pesquisar</button>
     </div>
     <div class="fornecedores">
       <ProdutoCard />
@@ -92,17 +92,5 @@ h2 {
   transform: translateY(-50%);
 }
 
-button {
-  border-radius: 6px;
-  background-color: var(--c-gray-700);
-  padding: 0.5em 1.5em;
-  border: 0;
-  color: var(--c-text-secondary);
-  transition: 0.25s ease;
-  cursor: pointer;
-}
-button:hover,
-button:focus {
-  background-color: var(--c-gray-600);
-}
+
 </style>

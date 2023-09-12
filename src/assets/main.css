@@ -60,6 +60,19 @@ input:focus-visible {
   outline: 0;
 }
 
+.btn-gray {
+  border-radius: 6px;
+  background-color: var(--c-gray-700);
+  padding: 0.5em 1.5em;
+  border: 0;
+  color: var(--c-text-secondary);
+  transition: 0.25s ease;
+  cursor: pointer;
+}
+.btn-gray:hover,
+.btn-gray:focus {
+  background-color: var(--c-gray-600);
+}
 input:focus {
   color: var(--c-white);
   border-bottom: 1px solid var(--c-white);
@@ -82,14 +95,16 @@ input {
   display: flex;
   flex-direction: column;
 }
-
+.app-body-main-content {
+  width: 70%
+}
 .app-body {
-  height: 100%;
-  display: grid;
+  display: flex;
+  /*   display: grid;
   grid-template-columns: minmax(-webkit-min-content, 175px) minmax(-webkit-max-content, 1fr) minmax(-webkit-min-content, 400px);
   grid-template-columns: minmax(min-content, 210px) minmax(max-content, 1fr) minmax(min-content, 400px);
   -moz-column-gap: 4rem;
-  column-gap: 4rem;
+  column-gap: 4rem; */
   padding-top: 2.5rem;
 }
 h2 {
