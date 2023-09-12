@@ -11,7 +11,7 @@
   --c-gray-200: #f1f1f1;
   --c-gray-100: #ffffff;
   --c-green-500: #00bf63;
-  --c-olive-500: #00bf63;
+  --c-olive-500: #34d889;
   --c-white: var(--c-gray-100);
   --c-text-primary: var(--c-gray-100);
   --c-text-secondary: var(--c-gray-200);
@@ -60,18 +60,28 @@ input:focus-visible {
   outline: 0;
 }
 
-.btn-gray {
+.btn-gray, .btn-green {
   border-radius: 6px;
   background-color: var(--c-gray-700);
   padding: 0.5em 1.5em;
   border: 0;
+  display: flex;
   color: var(--c-text-secondary);
   transition: 0.25s ease;
   cursor: pointer;
 }
-.btn-gray:hover,
+.btn-gray:hover, .btn-green:hover, .btn-green:focus
 .btn-gray:focus {
   background-color: var(--c-gray-600);
+}
+.btn-green {
+  background-color: var(--c-green-500);
+  color: var(--c-text-secondary);
+
+}
+.btn-green:hover,
+.btn-green:focus {
+  background-color: var(--c-olive-500);
 }
 input:focus {
   color: var(--c-white);

@@ -73,8 +73,8 @@
       </div>
     </div>
     <div class="sub-main">
-      <button class="btn-gray"><span>Buscar</span></button>
-      <button class="btn-gray"><span>Buscar</span></button>
+      <button class="btn-green"><span>Buscar</span></button>
+      
     </div>
   </form>
 </template>
