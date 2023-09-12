@@ -1,13 +1,24 @@
 <script setup>
-import {RouterView} from "vue-router";
+import { RouterView } from "vue-router";
 import MenuLateral from "./components/MenuLateral.vue";
 import NavTop from "./components/NavTop.vue";
 
 </script>
 <template>
   <NavTop />
-  <main class="app-body">
+  <div class="app-body">
     <MenuLateral />
-    <RouterView />
-  </main>
+    <div class="container">
+      <RouterView />
+    </div>
+  </div>
 </template>
+
+<style scoped>
+.container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+
+}
+</style>

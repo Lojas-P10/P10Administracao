@@ -90,7 +90,6 @@ h2 {
 .card,
 .btn {
   background-color: var(--c-gray-900);
-
   border-radius: 8px;
   padding: 1rem;
   display: flex;

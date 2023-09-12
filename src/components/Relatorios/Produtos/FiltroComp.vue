@@ -44,13 +44,13 @@
           <option value="3">Option #3</option>
         </select>
       </div>
-    </div>
-    <div class="dropdown">
-      <label for="">Preço</label>
-      <input type="text">
+      <div class="dropdown">
+        <label for="">Preço</label>
+        <input type="text">
+      </div>
     </div>
     <div class="sub-main">
-      <button class="button-two"><span>Buscar</span></button>
+      <button class="btn-gray"><span>Buscar</span></button>
     </div>
   </form>
 </template>
@@ -77,7 +77,9 @@ form div {
   flex-direction: row;
   gap: 10px;
 }
-
+input::placeholder {
+  color: var(--c-gray-900)
+}
 .dropdown:before,
 .dropdown:after {
   content: '';
@@ -135,40 +137,4 @@ input,
   cursor: pointer;
 }
 
-.button-two {
-  text-align: center;
-  cursor: pointer;
-  border-radius: 10px;
-  background-color: #00bf63;
-  padding: 5px;
-  color: white;
-  border: none;
-  transition: all 0.5s;
-  margin-top: 5px;
-}
-
-.button-two span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
-
-.button-two span:after {
-  content: '»';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-}
-
-.button-two:hover span {
-  padding-right: 25px;
-}
-
-.button-two:hover span:after {
-  opacity: 1;
-  right: 0;
-}
 </style>
