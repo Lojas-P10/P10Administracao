@@ -5,15 +5,15 @@ export default class FornecedoresApi {
     return data;
   }
   async adicionarFornecedor(fornecedor) {
-    const { data } = await axios.post('http://127.0.0.1:8000/api/fornecedores/', fornecedor);
+    const { data } = await axios.post('https://p10backend-eugreg-dev.fl0.io/api/fornecedores/', fornecedor);
     return data;
   }
   async atualizarFornecedores(fornecedor) {
-    const { data } = await axios.put(`http://127.0.0.1:8000/api/fornecedores/${fornecedor.id}/`, fornecedor);
+    const { data } = await axios.put(`https://p10backend-eugreg-dev.fl0.io/api/fornecedores/${fornecedor.id}/`, fornecedor);
     return data;
   }
   async excluirFornecedores(id) {
-    const { data } = await axios.delete(`http://127.0.0.1:8000/api/fornecedores/${id}/`);
+    const { data } = await axios.delete(`https://p10backend-eugreg-dev.fl0.io/api/fornecedores/${id}/`);
     return data;
   }
 }

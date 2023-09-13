@@ -107,7 +107,7 @@ form div {
   gap: 10px;
 }
 input::placeholder {
-  color: var(--c-gray-900);
+  color: var(--c-gray-100);
 }
 .dropdown:before,
 .dropdown:after {

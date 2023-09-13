@@ -13,13 +13,17 @@
     "axios": "^1.4.0",
     "boxicons": "^2.1.4",
     "chart.js": "^4.2.1",
+    "tiptap-vuetify": "^2.24.0",
     "vue": "^3.2.47",
     "vue-horizontal-scroll": "^0.2.4",
+    "vue-quill-editor": "^3.0.6",
     "vue-router": "^4.1.6",
-    "vue-scroll-snap": "^0.1.11"
+    "vue-scroll-snap": "^0.1.11",
+    "vue2-editor": "^2.10.3"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
+    "@types/vue2-editor": "^2.6.1",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/eslint-config-prettier": "^7.1.0",
     "eslint": "^8.34.0",

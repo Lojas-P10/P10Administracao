@@ -1,16 +1,50 @@
 <script setup>
 import ProdutosApi from '@/api/produtos'
+import CategoriasApi from '@/api/categorias'
+import FornecedoresApi from '@/api/fornecedores'
+/* import DescontosApi from '@/api/descontos' */
+import SazonalApi from '@/api/sazonal'
+
 import { ref, onMounted } from 'vue'
 
 const produtosApi = new ProdutosApi()
+const categoriasApi = new CategoriasApi()
+const fornecedoresApi = new FornecedoresApi()
+/* const descontosApi = new DescontosApi() */
+const sazonalApi = new SazonalApi()
 const produtos = ref([])
+const fornecedores = ref([])
+const categorias = ref([])
+/* const descontos = ref([]) */
+const sazonais = ref([])
+
+
 const isLoading = ref(true)
 const modalHidden = ref(true)
+const fileInput = ref(null)
 
 const loadDataFromDatabase = async () => {
   produtos.value = await produtosApi.buscarTodosOsProdutos()
+  fornecedores.value = await fornecedoresApi.buscarTodosOsFornecedores()
+/*   descontos.value = await descontosApi.buscarTodosOsDescontos() */
+  sazonais.value = await sazonalApi.buscarTodosOsSazonais()
+  categorias.value = await categoriasApi.buscarTodasAsCategorias()
+
   isLoading.value = false
 }
+
+const selectedFiles = ref([])
+
+const handleFileChange = (event) => {
+  const fileInput = event.target
+  if (fileInput.files.length > 0) {
+    selectedFiles.value = Array.from(fileInput.files)
+  }
+}
+
+/* const removeSelectedFile = (file) => {
+  selectedFiles.value = selectedFiles.value.filter((f) => f !== file)
+} */
 
 const toggleModal = () => {
   modalHidden.value = !modalHidden.value
@@ -59,7 +93,7 @@ onMounted(loadDataFromDatabase)
       </tr>
     </tbody>
   </table>
-  
+
   <div class="modal-overlay" @click="toggleModal" :class="{ hide: modalHidden }"></div>
   <div id="modal-content" :class="[{ hide: modalHidden }]">
     <header>
@@ -69,6 +103,110 @@ onMounted(loadDataFromDatabase)
       </button>
       <!-- arrumar esse button -->
     </header>
+    <form>
+      <div class="container-form">
+        <label for="">Nome do produto</label>
+        <input type="text" />
+        <p class="input__description">Limite de 5000 caracteres</p>
+      </div>
+      <div class="container-form">
+        <label class="input__label">Descrição</label>
+        <textarea class=""></textarea>
+        <p class="input__description">Limite de 5000 caracteres</p>
+      </div>
+      <div class="container-row">
+        <div class="container-form row-3">
+          <label for="">Preço</label>
+          <input type="number" />
+        </div>
+        <div class="container-form row-3">
+          <label for="">Quantidade</label>
+          <input type="number" />
+        </div>
+        <div class="container-form row-3">
+          <label for="">Data de entrada no estoque</label>
+          <input type="date" />
+        </div>
+      </div>
+      <div class="container-form">
+        <label for="">Tags</label>
+        <input type="text" />
+      </div>
+      <div class="container-row">
+        <div class="container-form row-2">
+          <div class="dropdown">
+            <label for="">Fornecedor</label>
+            <select class="dropdown-select">
+              <option value="">Escolha um fornecedor</option>
+              <option v-for="fornecedor of fornecedores"
+              :key="fornecedor.id"
+              :value="fornecedor.nome">{{ fornecedor.nome }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="container-form row-2">
+          <div class="dropdown">
+            <label for="">Categoria</label>
+            <select class="dropdown-select">
+              <option value="">Escolha uma categoria</option>
+              <option v-for="categoria of categorias"
+              :key="categoria.id"
+              :value="categoria.descricao">{{ categoria.descricao }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="container-row">
+        <div class="container-form row-2">
+          <div class="dropdown">
+            <label for="">Sazonal</label>
+            <select class="dropdown-select">
+              <option value="">Escolha uma categoria Sazonal</option>
+              <option v-for="sazonal of sazonais"
+              :key="sazonal.id"
+              :value="sazonal.nome">{{ sazonal.descricao }}</option>
+            </select>
+          </div>
+        </div>
+        <!-- <div class="container-form row-2">
+          <div class="dropdown">
+            <label for="">Descontos</label>
+            <select class="dropdown-select">
+              <option value="">Escolha um desconto</option>
+              <option v-for="desconto of descontos"
+              :key="desconto.id"
+              :value="desconto.descricao">{{ desconto.descricao }}</option>
+            </select>
+          </div>
+        </div> -->
+      </div>
+      <div class="container-form">
+        <label for="">Imagens</label>
+        <div class="upload-files-container">
+          <div class="drag-file-area">
+            <h3>Jogue seu arquivo aqui</h3>
+            <label>
+              ou
+              <span class="browse-files">
+                <input
+                  ref="fileInput"
+                  type="file"
+                  class="default-file-input"
+                  @click="handleFileChange"
+                />
+                <span class="browse-files-text">Procure pelo seu arquivo</span>
+              </span>
+            </label>
+          </div>
+        </div>
+        <ul>
+          <li v-for="file in selectedFiles" class="selected-images" :key="file.name">
+            {{ file.name }}
+          </li>
+        </ul>
+      </div>
+      <button class="btn-green">Adicionar</button>
+    </form>
   </div>
 </template>
 
@@ -83,7 +221,15 @@ table {
 h2 {
   margin-bottom: 0;
 }
-
+form {
+  gap: 1em;
+  display: flex;
+  margin-top: 1em;
+  padding: 0 1em;
+  overflow-y: scroll;
+  height: 65vh;
+  flex-direction: column;
+}
 body.modal-open {
   overflow: hidden;
 }
@@ -94,10 +240,78 @@ body.modal-open {
   justify-content: center;
   align-items: center;
 }
+
+.upload-files-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+.drag-file-area {
+  border: 3px dashed var(--c-green-500);
+  border-radius: 10px;
+  margin: 10px 0 15px;
+  padding: 30px 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.drag-file-area,
+.drag-file-area label,
+.browse-files {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.drag-file-area h3 {
+  margin: 15px 0;
+}
+.drag-file-area label .browse-files-text {
+  color: var(--c-green-500);
+  font-weight: bolder;
+  cursor: pointer;
+}
+.browse-files span {
+  position: relative;
+  top: -25px;
+}
+.default-file-input {
+  opacity: 0;
+}
+.selected-images {
+  background-color: var(--c-gray-800);
+  width: fit-content;
+  padding: 0.5em;
+  border-radius: 10px;
+}
+
 .btn-green {
   padding: 0.5em;
 }
-
+.container-form {
+  display: flex;
+  flex-direction: column;
+}
+.row-3 {
+  width: 31%;
+}
+.row-2 {
+  width: 48%;
+}
+.container-row {
+  display: flex;
+  justify-content: space-between;
+}
+button {
+  width: fit-content;
+}
+.container-row input {
+  width: 100%;
+}
+label {
+  margin-bottom: 0.6em;
+}
 thead {
   background: #000;
 }
@@ -113,6 +327,11 @@ thead {
   transition: opacity 0.2s, pointer-events 0.2s;
 }
 
+.input__description {
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  color: #8d8d8d;
+}
 .modal-overlay.hide {
   opacity: 0;
   pointer-events: none;
