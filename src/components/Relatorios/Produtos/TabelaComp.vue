@@ -1,25 +1,30 @@
 <script setup>
-import ProdutosApi from "@/api/produtos";
-import { ref, onMounted } from 'vue';
+import ProdutosApi from '@/api/produtos'
+import { ref, onMounted } from 'vue'
 
-const produtosApi = new ProdutosApi();
-const produtos = ref([]);
-
-function valorTotal(produto) {
-  return (produto.preco * produto.quantidade).toFixed(2)
-}
+const produtosApi = new ProdutosApi()
+const produtos = ref([])
+const isLoading = ref(true)
 const modalHidden = ref(true)
+
+const loadDataFromDatabase = async () => {
+  produtos.value = await produtosApi.buscarTodosOsProdutos()
+  isLoading.value = false
+}
+
 const toggleModal = () => {
   modalHidden.value = !modalHidden.value
 }
-onMounted(async () => {
-  produtos.value = await produtosApi.buscarTodosOsProdutos()
-})
+function valorTotal(produto) {
+  return (produto.preco * produto.quantidade).toFixed(2)
+}
 
+onMounted(loadDataFromDatabase)
 </script>
 
 <template>
-  <table>
+  <div v-if="isLoading" class="container-loader"><span class="loader"></span></div>
+  <table v-else>
     <thead>
       <tr>
         <th><a>ID</a></th>
@@ -32,31 +37,35 @@ onMounted(async () => {
         <th><a>Valor Unit.</a></th>
         <th><a>Valor Total</a></th>
         <th>Manutenção</th>
-        <th><button @click="toggleModal" class="btn-green"><box-icon name='plus' color="white"></box-icon></button></th>
+        <th>
+          <button @click="toggleModal" class="btn-green">
+            <box-icon name="plus" color="white"></box-icon>
+          </button>
+        </th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="produto in produtos" :key="produto.id">
         <td>{{ produto.id }}</td>
         <td>{{ produto.nome }}</td>
-        <td></td>
-        <td></td>
+        <td>{{ produto.categoria.descricao }}</td>
+        <td>{{ produto.fornecedor.nome }}</td>
         <td>{{ produto.quantidade }}</td>
-        <td></td>
-        <td></td>
+        <td>{{ produto.sazonal }}</td>
+        <td>{{ produto.desconto }}</td>
         <td>R${{ produto.preco }}</td>
         <td>R${{ valorTotal(produto) }}</td>
         <!--         <td>{{ categoria.categoria }}(Bonecas)</td>-->
-
       </tr>
     </tbody>
   </table>
+  
   <div class="modal-overlay" @click="toggleModal" :class="{ hide: modalHidden }"></div>
   <div id="modal-content" :class="[{ hide: modalHidden }]">
     <header>
-      <h2>Novo Produto</h2> 
+      <h2>Novo Produto</h2>
       <button class="btn-green" @click="toggleModal">
-        <box-icon name='x' color="white"></box-icon>
+        <box-icon name="x" color="white"></box-icon>
       </button>
       <!-- arrumar esse button -->
     </header>
@@ -78,7 +87,13 @@ h2 {
 body.modal-open {
   overflow: hidden;
 }
-
+.container-loader {
+  width: 100%;
+  display: flex;
+  padding: 5em;
+  justify-content: center;
+  align-items: center;
+}
 .btn-green {
   padding: 0.5em;
 }

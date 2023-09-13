@@ -56,6 +56,7 @@ a {
   margin-left: auto;
   margin-right: auto;
 }
+
 input:focus-visible {
   outline: 0;
 }
@@ -70,19 +71,22 @@ input:focus-visible {
   transition: 0.25s ease;
   cursor: pointer;
 }
-.btn-gray:hover, .btn-green:hover, .btn-green:focus
-.btn-gray:focus {
+
+.btn-gray:hover, .btn-green:hover, .btn-green:focus .btn-gray:focus {
   background-color: var(--c-gray-600);
 }
+
 .btn-green {
   background-color: var(--c-green-500);
   color: var(--c-text-secondary);
 
 }
+
 .btn-green:hover,
 .btn-green:focus {
   background-color: var(--c-olive-500);
 }
+
 input:focus {
   color: var(--c-white);
   border-bottom: 1px solid var(--c-white);
@@ -98,6 +102,7 @@ input {
   background-color: transparent;
   padding-left: 1.5rem;
 }
+
 #app {
   width: 100%;
   background-color: var(--c-gray-800);
@@ -105,9 +110,11 @@ input {
   display: flex;
   flex-direction: column;
 }
+
 .app-body-main-content {
   width: 70%
 }
+
 .app-body {
   display: flex;
   /*   display: grid;
@@ -117,10 +124,33 @@ input {
   column-gap: 4rem; */
   padding-top: 2.5rem;
 }
+
 h2 {
-  font-size: 1.5rem;  
+  font-size: 1.5rem;
   margin-bottom: 1.25rem;
 }
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid var(--c-gray-100);
+  border-bottom-color: var(--c-green-500);
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 1200px) {
   .app-body {
     grid-template-columns: 1fr;
