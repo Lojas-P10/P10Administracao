@@ -24,6 +24,24 @@
           <option value="3">Option #3</option>
         </select>
       </div>
+      <div class="dropdown">
+        <label for="">Valor unitário</label>
+        <select class="dropdown-select">
+          <option value="">Dias da semana</option>
+          <option value="1">Option #1</option>
+          <option value="2">Option #2</option>
+          <option value="3">Option #3</option>
+        </select>
+      </div>
+      <div class="dropdown">
+        <label for="">Valor Total</label>
+        <select class="dropdown-select">
+          <option value="">Dias da semana</option>
+          <option value="1">Option #1</option>
+          <option value="2">Option #2</option>
+          <option value="3">Option #3</option>
+        </select>
+      </div>
     </div>
     <div class="container">
       <div class="dropdown">
@@ -45,12 +63,18 @@
         </select>
       </div>
       <div class="dropdown">
-        <label for="">Preço</label>
-        <input type="text">
+        <label for="">Quantidade</label>
+        <select class="dropdown-select">
+          <option value="">Dias da semana</option>
+          <option value="1">Option #1</option>
+          <option value="2">Option #2</option>
+          <option value="3">Option #3</option>
+        </select>
       </div>
     </div>
     <div class="sub-main">
-      <button class="btn-gray"><span>Buscar</span></button>
+      <button class="btn-green"><span>Buscar</span></button>
+      
     </div>
   </form>
 </template>
@@ -60,6 +84,11 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+}
+.sub-main {
+  display: flex;
+  gap: 1em;
+  flex-direction: row;
 }
 form {
   display: flex;
@@ -78,7 +107,7 @@ form div {
   gap: 10px;
 }
 input::placeholder {
-  color: var(--c-gray-900)
+  color: var(--c-gray-100);
 }
 .dropdown:before,
 .dropdown:after {
@@ -136,5 +165,4 @@ input,
   border-radius: 3px;
   cursor: pointer;
 }
-
 </style>
