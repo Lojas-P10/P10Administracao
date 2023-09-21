@@ -7,7 +7,6 @@ import ProdutoCard from './ProdutoCard.vue'
     <h2>Produtos recentes</h2>
     <div class="search-field">
       <div>
-        <i class="ph-magnifying-glass"></i>
         <input type="text" placeholder="Buscar por nome ou fornecedor" />
       </div>
       <!--Fazer um dropdown aqui, fitrando por quantidade de produtos para aparecer-->

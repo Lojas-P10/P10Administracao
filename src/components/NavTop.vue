@@ -6,7 +6,7 @@ export default {}
   <header>
     <div class="p10-logo">
       <RouterLink to="/">
-        <img src="../assets/img/3.png" />
+        <img src="/public/logo/LojasP10/logo-menor.png" />
       </RouterLink>
     </div>
     <div class="app-header-actions">
@@ -16,11 +16,6 @@ export default {}
           <img class="user-image" src="https://avatars.githubusercontent.com/u/48130339?v=4" />
         </span>
       </button>
-      <div class="buttons">
-        <button class="icon-button large">
-          <i class="ph-bell"></i>
-        </button>
-      </div>
     </div>
   </header>
 </template>
@@ -46,7 +41,7 @@ header {
   }
 }
 .p10-logo img {
-  width: 50px;
+  width: 6em;
 }
 
 .user-image {

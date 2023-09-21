@@ -10,7 +10,7 @@
   --c-gray-300: #bdbbb7;
   --c-gray-200: #f1f1f1;
   --c-gray-100: #ffffff;
-  --c-green-500: #00bf63;
+  --c-green-500: #5aed83;
   --c-olive-500: #34d889;
   --c-white: var(--c-gray-100);
   --c-text-primary: var(--c-gray-100);
@@ -45,7 +45,9 @@ input,
 textarea {
   font: inherit;
 }
-
+input  {
+  width: 100%
+}
 a {
   color: inherit;
 }
@@ -138,7 +140,7 @@ input,
 input:focus, .dropdown-select:focus, textarea:focus{
   outline: none;
   border-color: var(--c-green-500);
-  box-shadow: 0 0 0 1px var(--c-green-500), 0 0 0 4px #00bf6352;
+  box-shadow: 0 0 0 1px var(--c-green-500), 0 0 0 4px #5aed8352;
 }
 
 .dropdown-select > option {
