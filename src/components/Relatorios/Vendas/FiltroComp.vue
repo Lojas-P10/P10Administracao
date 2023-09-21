@@ -143,7 +143,7 @@
 
 .button-two {
     border-radius: 2px;
-    background-color: #00bf63;
+    background-color: #5aed83;
     border: none;
     padding: 5px;
     transition: all 0.5s;

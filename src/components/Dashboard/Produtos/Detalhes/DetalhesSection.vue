@@ -12,7 +12,6 @@
             <span class="value">531</span>
             <span class="title"> Vendas nesse mês</span>
           </div>
-          <span class="desc">+ 5%</span>
         </div>
         <div class="card">
           <i class="ph ph-arrow-square-up"></i>
@@ -21,7 +20,6 @@
             <span class="value">5%</span>
             <span class="title"> De margem de lucro</span>
           </div>
-          <span class="desc">+ 5%</span>
         </div>
         <div class="card">
           <i class="ph ph-arrow-square-up"></i>
@@ -30,7 +28,6 @@
             <span class="value">10</span>
             <span class="title"> Novos produtos</span>
           </div>
-          <span class="desc">+ 5%</span>
         </div>
         <div class="card">
           <i class="ph ph-arrow-square-up"></i>
@@ -39,7 +36,6 @@
             <span class="value">5</span>
             <span class="title"> Produtos em promoção</span>
           </div>
-          <span class="desc">+ 5%</span>
         </div>
         <div class="card">
           <i class="ph ph-arrow-square-up"></i>
@@ -48,60 +44,20 @@
             <span class="value">8</span>
             <span class="title"> Perdas no estoque</span>
           </div>
-          <span class="desc">+ 5%</span>
         </div>
       </div>
     </div>
-    <div>
-      <h2>Mês passado</h2>
-      <div class="content">
-        <div class="card">
-          <div>
-            <span class="value">531</span>
-            <span class="title"> Vendas nesse mês</span>
-          </div>
-          <span class="desc"> 365 vendas no mês passado </span>
-        </div>
-        <div class="card">
-          <div>
-            <span class="value">5%</span>
-            <span class="title"> De margem de lucro</span>
-          </div>
-          <span class="desc"> 30% margem de lucro no mês passado </span>
-        </div>
-        <div class="card">
-          <div>
-            <span class="value">10</span>
-            <span class="title"> Novos produtos</span>
-          </div>
-          <span class="desc"> 23 novos produtos no mês passado </span>
-        </div>
-        <div class="card">
-          <div>
-            <span class="value">5</span>
-            <span class="title"> Produtos em promoção</span>
-          </div>
-          <span class="desc"> 20 Produtos em promoção no mês passado </span>
-        </div>
-        <div class="card">
-          <div>
-            <span class="value">8</span>
-            <span class="title"> Perdas no estoque</span>
-          </div>
-          <span class="desc"> 40 Produtos perdidos no mês passado </span>
-        </div>
-        <div class="btn">
-          <span class="title"> Meses anteriores</span>
-          <i class="ph ph-caret-right"></i>
-        </div>
-        <div class="exportar">
-          <div class="btn">
-            <span class="title"> Exportar para PDF</span>
-          </div>
-          <div class="btn">
-            <span class="title"> Exportar para Excel</span>
-          </div>
-        </div>
+
+    <div class="btn">
+      <span class="title"> Meses anteriores</span>
+      <i class="ph ph-caret-right"></i>
+    </div>
+    <div class="exportar">
+      <div class="btn">
+        <span class="title"> Exportar para PDF</span>
+      </div>
+      <div class="btn">
+        <span class="title"> Exportar para Excel</span>
       </div>
     </div>
     <!--       <div class="card">
@@ -109,7 +65,7 @@
           <span class="value"><span class="valor">R$</span> 200</span>
           <span class="title">Gastos nesse mês</span>
         </div>
-      </div> -->
+      -->
     <!--fazer um aviso quando o desempenho desse mÊs for inferior ao mês passado-->
   </section>
 </template>
@@ -121,7 +77,6 @@ section {
   gap: 36px;
 }
 h2 {
-   
   margin-bottom: 11px;
 }
 .content {
@@ -143,10 +98,17 @@ h2 {
 }
 .card i {
   font-size: 1.5em;
-  position: absolute;
-  right: 5%;
 }
-.card,
+.card {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 8px;
+  background-color: var(--c-gray-900);
+  transition: 0.25s ease;
+  padding: 1rem;
+}
 .btn {
   background-color: var(--c-gray-900);
 

@@ -32,7 +32,6 @@ const showDataList = ref(false);
 <template>
     <div class="search-field">
         <form @submit.prevent="filtrarNome">
-            <i class="ph-magnifying-glass"></i>
             <input type="text" name="fornecedores" list="fornecedores" id="input-search" required autocomplete="off"
                 v-model="filtrarNome" @input="updateDataList" @keyup.enter="$emit('change', filtrarNome)"
                 placeholder="Busque por nome ou CNPJ" />

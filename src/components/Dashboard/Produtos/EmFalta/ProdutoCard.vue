@@ -40,14 +40,14 @@
 }
 .img {
   width: 100%;
-  height: 7em;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  background: rgb(0, 191, 99);
-  background: linear-gradient(329deg, rgba(0, 191, 99, 1) 0%, rgba(92, 240, 169, 1) 100%);
-  display: flex;
-  align-items: top;
-  justify-content: right;
+    height: 7em;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background: #5aed83;
+    background: linear-gradient(329deg, #5aed83 0%, #5aed83 100%);
+    display: flex;
+    align-items: top;
+    justify-content: right;
 }
 
 
