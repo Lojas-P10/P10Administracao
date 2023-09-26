@@ -1,59 +1,410 @@
-<script setup>
+<!-- <script setup>
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
+import SazonalApi from '@/api/sazonal'
 import ProdutosApi from '@/api/produtos'
 import CategoriasApi from '@/api/categorias'
 import FornecedoresApi from '@/api/fornecedores'
-/* import DescontosApi from '@/api/descontos' */
-import SazonalApi from '@/api/sazonal'
-
-import { ref, onMounted } from 'vue'
+import DescontosApi from '@/api/descontos'
+import TagsApi from '@/api/tags'
 
 const produtosApi = new ProdutosApi()
 const categoriasApi = new CategoriasApi()
 const fornecedoresApi = new FornecedoresApi()
-/* const descontosApi = new DescontosApi() */
+const descontosApi = new DescontosApi()
 const sazonalApi = new SazonalApi()
+const tagsApi = new TagsApi()
+
 const produtos = ref([])
 const fornecedores = ref([])
 const categorias = ref([])
-/* const descontos = ref([]) */
+const descontos = ref([])
+const tags = ref([])
 const sazonais = ref([])
 
+const nome = ref('')
+const descricao = ref('')
+const preco = ref('')
+const categoria = ref('')
+const fornecedor = ref('')
+const marca = ref('')
+const sazonal = ref('')
+const quantidade = ref('')
+const data = ref('')
+const tag = ref([''])
+const desconto = ref('')
+const imagem = ref(null)
 
+const coverUrl = ref('')
+const image = ref(null)
+const currentProduto = reactive({
+  nome: '',
+  descricao: '',
+  imagem: '',
+  quantidade: 0,
+  preco: 0,
+  data: '',
+  categoria: '',
+  marca: '',
+  sazonal: '',
+  desconto: '',
+  tag: ''
+})
+const resetCurrentProduto = () => {
+  currentProduto.nome = ''
+  currentProduto.descricao = ''
+  currentProduto.imagem = ''
+  currentProduto.quantidade = 0
+  currentProduto.preco = 0
+  currentProduto.data = ''
+  currentProduto.categoria = ''
+  currentProduto.marca = ''
+  currentProduto.sazonal = ''
+  currentProduto.desconto = ''
+  currentProduto.tag = ''
+}
+resetCurrentProduto()
+
+const produto = ref({})
 const isLoading = ref(true)
+const imageInput = ref(null)
 const modalHidden = ref(true)
-const fileInput = ref(null)
 
 const loadDataFromDatabase = async () => {
   produtos.value = await produtosApi.buscarTodosOsProdutos()
   fornecedores.value = await fornecedoresApi.buscarTodosOsFornecedores()
-/*   descontos.value = await descontosApi.buscarTodosOsDescontos() */
+  descontos.value = await descontosApi.buscarTodosOsDescontos()
   sazonais.value = await sazonalApi.buscarTodosOsSazonais()
   categorias.value = await categoriasApi.buscarTodasAsCategorias()
+  tags.value = await tagsApi.buscarTodasAsTags()
 
   isLoading.value = false
 }
 
-const selectedFiles = ref([])
+const postProduto = async () => {
+  if (!nome.value || !imagem.value) {
+    setAlert('erro', 'O nome do produto e a imagem são obrigatórios')
+    return
+  }
 
-const handleFileChange = (event) => {
-  const fileInput = event.target
-  if (fileInput.files.length > 0) {
-    selectedFiles.value = Array.from(fileInput.files)
+  const formData = new FormData()
+  formData.append('nome', nome.value)
+  formData.append('descricao', descricao.value)
+  formData.append('preco', preco.value)
+  formData.append('categoria', categoria.value)
+  formData.append('imagem', imagem.value)
+  formData.append('quantidade', quantidade.value)
+  formData.append('data', data.value)
+  formData.append('fornecedor', fornecedor.value)
+  formData.append('sazonal', sazonal.value)
+  formData.append('marca', marca.value)
+  formData.append('desconto', desconto.value)
+  formData.append('tag', tag.value)
+
+  try {
+    const response = await axios.post('https://p10backend-eugreg-dev.fl0.io/api/produtos/', formData)
+    produtos.value.push(response.data)
+    limparCampos()
+  } catch (error) {
+    console.error('Erro ao adicionar produto:', error)
   }
 }
 
-/* const removeSelectedFile = (file) => {
-  selectedFiles.value = selectedFiles.value.filter((f) => f !== file)
-} */
+const limparCampos = () => {
+  nome.value = ''
+  descricao.value = ''
+  preco.value = ''
+  categoria.value = ''
+  fornecedor.value = ''
+  marca.value = ''
+  sazonal.value = ''
+  quantidade.value = ''
+  data.value = ''
+  tag.value = ''
+  desconto.value = ''
+  imagem.value = null
+}
+
+
+const selectedimages = ref([])
+
+function onimageChange(e) {
+  image.value = e.target.images[0]
+  coverUrl.value = URL.createObjectURL(image.value)
+}
+
+const salvar = async () => {
+  const produtoParaSalvar = { ...currentProduto }
+
+  if (produtoParaSalvar.id) {
+    await produtosApi.atualizarproduto(produtoParaSalvar)
+  } else {
+    await produtosApi.adicionarproduto(produtoParaSalvar)
+  }
+  produtos.value = await produtosApi.buscarTodosOsProdutos()
+  fornecedores.value = await fornecedoresApi.buscarTodosOsFornecedores()
+  descontos.value = await descontosApi.buscarTodosOsDescontos()
+  sazonais.value = await sazonalApi.buscarTodosOsSazonais()
+  categorias.value = await categoriasApi.buscarTodasAsCategorias()
+  tags.value = await tagsApi.buscarTodasAsTags()
+  modalHidden.value = true
+} 
+
+const postProduto = async () => {
+  if (!currentProduto.nome || !currentProduto.imagem) {
+    return;
+  }
+
+  const produtoParaSalvar = { ...currentProduto };
+
+  try {
+    if (produtoParaSalvar.id) {
+      await produtosApi.atualizarProduto(produtoParaSalvar);
+    } else {
+      const response = await produtosApi.adicionarProduto(produtoParaSalvar);
+      produtos.value.push(response.data);
+    }
+    resetCurrentProduto();
+  } catch (error) {
+    console.error('Erro ao adicionar/atualizar produto:', error);
+  }
+};
+
+const excluir = async (produto) => {
+  await produtosApi.excluirproduto(produto.id)
+  produtos.value = await produtosApi.buscarTodosOsProdutos()
+}
+
+const editar = (produto) => {
+  Object.assign(produto.value, produto)
+}
 
 const toggleModal = () => {
   modalHidden.value = !modalHidden.value
 }
+
 function valorTotal(produto) {
+  return (produto.preco * produto.quantidade).toFixed(2)
+}
+const handleFileChange = (e) => {
+  const selectedFile = e.target.files[0]
+
+  if (selectedFile) {
+    currentProduto.imagem = selectedFile
+  }
+}
+
+const handleBrowseClick = () => {
+  imageInput.value.click()
+}
+
+onMounted(loadDataFromDatabase)
+</script> -->
+<!-- <script setup>
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
+import SazonalApi from '@/api/sazonal'
+import ProdutosApi from '@/api/produtos'
+import CategoriasApi from '@/api/categorias'
+import FornecedoresApi from '@/api/fornecedores'
+import DescontosApi from '@/api/descontos'
+import TagsApi from '@/api/tags'
+
+const produtosApi = new ProdutosApi()
+const categoriasApi = new CategoriasApi()
+const fornecedoresApi = new FornecedoresApi()
+const descontosApi = new DescontosApi()
+const sazonalApi = new SazonalApi()
+const tagsApi = new TagsApi()
+
+const produtos = ref([])
+const fornecedores = ref([])
+const categorias = ref([])
+const descontos = ref([])
+const tags = ref([])
+const sazonais = ref([])
+
+const nome = ref('')
+const descricao = ref('')
+const preco = ref('')
+const categoria = ref('')
+const fornecedor = ref('')
+const marca = ref('')
+const sazonal = ref('')
+const quantidade = ref('')
+const data = ref('')
+const tag = ref([''])
+const desconto = ref('')
+const imagem = ref(null)
+
+const isLoading = ref(true)
+const imageInput = ref(null)
+const modalHidden = ref(true)
+
+const loadDataFromDatabase = async () => {
+  try {
+    produtos.value = await produtosApi.buscarTodosOsProdutos()
+    fornecedores.value = await fornecedoresApi.buscarTodosOsFornecedores()
+    descontos.value = await descontosApi.buscarTodosOsDescontos()
+    sazonais.value = await sazonalApi.buscarTodosOsSazonais()
+    categorias.value = await categoriasApi.buscarTodasAsCategorias()
+    tags.value = await tagsApi.buscarTodasAsTags()
+  } catch (error) {
+    console.error('Erro ao carregar dados do banco de dados:', error)
+  }
+
+  isLoading.value = false
+}
+
+const postProduto = async () => {
+  if (!nome.value || !imagem.value) {
+    console.error('O nome do produto e a imagem são obrigatórios')
+    return
+  }
+
+  const produto = {
+    imagem: imagem.value,
+    nome: nome.value,
+    descricao: descricao.value,
+    preco: preco.value,
+    quantidade: quantidade.value,
+    data: data.value,
+    fornecedor: fornecedor.value,
+    categoria: categoria.value,
+    marca: marca.value,
+    sazonal: sazonal.value,
+    desconto: desconto.value,
+    tag: tag.value
+  }
+
+  try {
+    const response = await produtosApi.adicionarProduto(produto)
+    produtos.value.push(response)
+    limparCampos()
+  } catch (error) {
+    console.error('Erro ao adicionar produto:', error)
+  }
+  console.log('Após o envio da requisição');
+}
+
+const limparCampos = () => {
+  imagem.value = null
+  nome.value = ''
+  descricao.value = ''
+  preco.value = ''
+  quantidade.value = ''
+  data.value = ''
+  fornecedor.value = ''
+  categoria.value = ''
+  marca.value = ''
+  sazonal.value = ''
+  desconto.value = ''
+  tag.value = ''
+}
+
+const handleFileChange = (e) => {
+  const selectedFile = e.target.files[0]
+
+  if (selectedFile) {
+    imagem.value = selectedFile
+  }
+}
+
+const handleBrowseClick = () => {
+  const fileInput = imageInput.value
+
+  if (fileInput) {
+    fileInput.click()
+  }
+}
+
+const toggleModal = () => {
+  modalHidden.value = !modalHidden.value
+}
+
+const valorTotal = (produto) => {
   return (produto.preco * produto.quantidade).toFixed(2)
 }
 
 onMounted(loadDataFromDatabase)
+</script> -->
+<script>
+import axios from 'axios'
+import SazonalApi from '@/api/sazonal'
+import ProdutosApi from '@/api/produtos'
+import CategoriasApi from '@/api/categorias'
+import FornecedoresApi from '@/api/fornecedores'
+import DescontosApi from '@/api/descontos'
+import TagsApi from '@/api/tags'
+
+const produtosApi = new ProdutosApi()
+const categoriasApi = new CategoriasApi()
+const fornecedoresApi = new FornecedoresApi()
+const descontosApi = new DescontosApi()
+const sazonalApi = new SazonalApi()
+const tagsApi = new TagsApi()
+
+export default {
+  data() {
+    return {
+      produto: {},
+      produtos: [],
+      fornecedor: {},
+      fornecedores: [],
+      categoria: {},
+      categorias: [],
+      tag: {},
+      tags: [],
+      desconto: {},
+      descontos: [],
+      sazonal: {},
+      sazonais: [],
+      modalHidden: true
+    }
+  },
+  async created() {
+    this.produtos = await produtosApi.buscarTodosOsProdutos()
+    this.fornecedores = await fornecedoresApi.buscarTodosOsFornecedores()
+    this.descontos = await descontosApi.buscarTodosOsDescontos()
+    this.sazonais = await sazonalApi.buscarTodosOsSazonais()
+    this.categorias = await categoriasApi.buscarTodasAsCategorias()
+    this.tags = await tagsApi.buscarTodasAsTags()
+  },
+  methods: {
+    try: {
+
+      async salvar() {
+        if (this.produto.id) {
+          await produtosApi.atualizarProduto(this.produto)
+        } else {
+          await produtosApi.adicionarProduto(this.produto)
+        }
+        this.produtos = await produtosApi.buscarTodosOsProdutos()
+        this.fornecedores = await fornecedoresApi.buscarTodosOsFornecedores()
+        this.descontos = await descontosApi.buscarTodosOsDescontos()
+        this.sazonais = await sazonalApi.buscarTodosOsSazonais()
+        this.categorias = await categoriasApi.buscarTodasAsCategorias()
+        this.produto = {}
+      },
+    }, catch (error) {
+  console.error("Ocorreu um erro:", error);
+},
+    async valorTotal(produto) {
+      return (produto.preco * produto.quantidade).toFixed(2)
+    },
+
+/*     async excluir(produto) {
+      await produtosApi.excluirProduto(produto.id)
+      this.produtos = await produtosApi.buscarTodosOsProdutos()
+    },
+    editar(produto) {
+      Object.assign(this.produto, produto)
+    }, */
+    toggleModal() {
+      this.modalHidden = !this.modalHidden
+    }
+  }
+}
 </script>
 
 <template>
@@ -72,7 +423,7 @@ onMounted(loadDataFromDatabase)
         <th><a>Valor Total</a></th>
         <th>Manutenção</th>
         <th>
-          <button @click="toggleModal" class="btn-green">
+          <button @click="toggleModal" class="btn-blue">
             <box-icon name="plus" color="white"></box-icon>
           </button>
         </th>
@@ -85,11 +436,22 @@ onMounted(loadDataFromDatabase)
         <td>{{ produto.categoria.descricao }}</td>
         <td>{{ produto.fornecedor.nome }}</td>
         <td>{{ produto.quantidade }}</td>
-        <td>{{ produto.sazonal }}</td>
-        <td>{{ produto.desconto }}</td>
+        <td v-if="produto.sazonal">{{ produto.sazonal.descricao }}</td>
+        <td v-else><box-icon name="block" size="2em" color="var(--c-blue-500)"></box-icon></td>
+        <td v-if="produto.desconto">
+          {{ produto.desconto.descricao }} ({{ produto.desconto.porcentagem }}%)
+        </td>
+        <td v-else><box-icon name="block" size="2em" color="var(--c-blue-500)"></box-icon></td>
         <td>R${{ produto.preco }}</td>
         <td>R${{ valorTotal(produto) }}</td>
-        <!--         <td>{{ categoria.categoria }}(Bonecas)</td>-->
+        <td class="container-manutencao">
+          <button class="btn-green">
+            <box-icon color="var(--c-white)" type="solid" name="edit"></box-icon>
+          </button>
+          <button class="btn-green">
+            <box-icon name="trash-alt" color="var(--c-white)" type="solid"></box-icon>
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -98,60 +460,72 @@ onMounted(loadDataFromDatabase)
   <div id="modal-content" :class="[{ hide: modalHidden }]">
     <header>
       <h2>Novo Produto</h2>
-      <button class="btn-green" @click="toggleModal">
+      <button class="btn-blue" @click="toggleModal">
         <box-icon name="x" color="white"></box-icon>
       </button>
-      <!-- arrumar esse button -->
     </header>
     <form>
       <div class="container-form">
         <label for="">Nome do produto</label>
-        <input type="text" />
+        <input type="text" required v-model="produto.nome" />
         <p class="input__description">Limite de 5000 caracteres</p>
       </div>
       <div class="container-form">
         <label class="input__label">Descrição</label>
-        <textarea class=""></textarea>
+        <textarea v-model="produto.descricao" required class=""></textarea>
         <p class="input__description">Limite de 5000 caracteres</p>
       </div>
       <div class="container-row">
         <div class="container-form row-3">
           <label for="">Preço</label>
-          <input type="number" />
+          <input v-model="produto.preco" placeholder="R$" required type="number" />
         </div>
         <div class="container-form row-3">
           <label for="">Quantidade</label>
-          <input type="number" />
+          <input v-model="produto.quantidade" type="number" required />
         </div>
         <div class="container-form row-3">
           <label for="">Data de entrada no estoque</label>
-          <input type="date" />
+          <input v-model="produto.data" type="date" required />
         </div>
       </div>
       <div class="container-form">
         <label for="">Tags</label>
-        <input type="text" />
+        <select v-model="produto.tag" required class="dropdown-select">
+          <option value="">Defina as tags</option>
+          <option v-for="tag of tags" :key="tag.id" :value="tag.descricao">
+            {{ tag.descricao }}
+          </option>
+        </select>
       </div>
       <div class="container-row">
         <div class="container-form row-2">
           <div class="dropdown">
             <label for="">Fornecedor</label>
-            <select class="dropdown-select">
+            <select v-model="produto.fornecedor" required class="dropdown-select">
               <option value="">Escolha um fornecedor</option>
-              <option v-for="fornecedor of fornecedores"
-              :key="fornecedor.id"
-              :value="fornecedor.nome">{{ fornecedor.nome }}</option>
+              <option
+                v-for="fornecedor of fornecedores"
+                :key="fornecedor.id"
+                :value="fornecedor.nome"
+              >
+                {{ fornecedor.nome }}
+              </option>
             </select>
           </div>
         </div>
         <div class="container-form row-2">
           <div class="dropdown">
             <label for="">Categoria</label>
-            <select class="dropdown-select">
+            <select required v-model="produto.categoria" class="dropdown-select">
               <option value="">Escolha uma categoria</option>
-              <option v-for="categoria of categorias"
-              :key="categoria.id"
-              :value="categoria.descricao">{{ categoria.descricao }}</option>
+              <option
+                v-for="categoria of categorias"
+                :key="categoria.id"
+                :value="categoria.descricao"
+              >
+                {{ categoria.descricao }}
+              </option>
             </select>
           </div>
         </div>
@@ -160,52 +534,60 @@ onMounted(loadDataFromDatabase)
         <div class="container-form row-2">
           <div class="dropdown">
             <label for="">Sazonal</label>
-            <select class="dropdown-select">
+            <select v-model="produto.sazonal" class="dropdown-select">
               <option value="">Escolha uma categoria Sazonal</option>
-              <option v-for="sazonal of sazonais"
-              :key="sazonal.id"
-              :value="sazonal.nome">{{ sazonal.descricao }}</option>
+              <option v-for="sazonal of sazonais" :key="sazonal.id" :value="sazonal.nome">
+                {{ sazonal.descricao }}
+              </option>
             </select>
           </div>
         </div>
-        <!-- <div class="container-form row-2">
+        <div class="container-form row-2">
           <div class="dropdown">
             <label for="">Descontos</label>
-            <select class="dropdown-select">
+            <select v-model="produto.desconto" class="dropdown-select">
               <option value="">Escolha um desconto</option>
-              <option v-for="desconto of descontos"
-              :key="desconto.id"
-              :value="desconto.descricao">{{ desconto.descricao }}</option>
+              <option v-for="desconto of descontos" :key="desconto.id" :value="desconto.descricao">
+                {{ desconto.descricao }}
+              </option>
             </select>
           </div>
-        </div> -->
+        </div>
       </div>
       <div class="container-form">
         <label for="">Imagens</label>
-        <div class="upload-files-container">
-          <div class="drag-file-area">
+        <div class="upload-images-container">
+          <div class="drag-image-area">
             <h3>Jogue seu arquivo aqui</h3>
             <label>
               ou
-              <span class="browse-files">
+              <span class="browse-images">
                 <input
-                  ref="fileInput"
+                  required
                   type="file"
-                  class="default-file-input"
-                  @click="handleFileChange"
+                  ref="fileInput"
+                  @change="handleFileChange"
+                  class="default-image-input"
                 />
-                <span class="browse-files-text">Procure pelo seu arquivo</span>
+                <span class="browse-images-text" @click="handleBrowseClick"
+                  >Procure pelo seu arquivo</span
+                >
               </span>
             </label>
           </div>
+          <!-- 
+          <div class="cover">
+            <img v-if="coverUrl" :src="coverUrl" />
+          </div> -->
         </div>
+        <!-- 
         <ul>
-          <li v-for="file in selectedFiles" class="selected-images" :key="file.name">
-            {{ file.name }}
+          <li v-for="image in selectedimages" class="selected-images" :key="image.name">
+            {{ image.name }}
           </li>
-        </ul>
+        </ul> -->
       </div>
-      <button class="btn-green">Adicionar</button>
+      <button @click="salvar" class="btn-blue">Adicionar</button>
     </form>
   </div>
 </template>
@@ -240,15 +622,19 @@ body.modal-open {
   justify-content: center;
   align-items: center;
 }
-
-.upload-files-container {
+.container-manutencao {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.upload-images-container {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: row;
 }
-.drag-file-area {
+.drag-image-area {
   border: 3px dashed var(--c-green-500);
   border-radius: 10px;
   margin: 10px 0 15px;
@@ -257,26 +643,26 @@ body.modal-open {
   display: flex;
   flex-direction: column;
 }
-.drag-file-area,
-.drag-file-area label,
-.browse-files {
+.drag-image-area,
+.drag-image-area label,
+.browse-images {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.drag-file-area h3 {
+.drag-image-area h3 {
   margin: 15px 0;
 }
-.drag-file-area label .browse-files-text {
+.drag-image-area label .browse-images-text {
   color: var(--c-green-500);
   font-weight: bolder;
   cursor: pointer;
 }
-.browse-files span {
+.browse-images span {
   position: relative;
   top: -25px;
 }
-.default-file-input {
+.default-image-input {
   opacity: 0;
 }
 .selected-images {
@@ -286,7 +672,7 @@ body.modal-open {
   border-radius: 10px;
 }
 
-.btn-green {
+.btn-blue {
   padding: 0.5em;
 }
 .container-form {
@@ -315,7 +701,9 @@ label {
 thead {
   background: #000;
 }
-
+tbody {
+  background-color: var(--c-gray-600);
+}
 .modal-overlay {
   position: fixed;
   top: 0;
