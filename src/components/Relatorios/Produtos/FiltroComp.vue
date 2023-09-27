@@ -3,7 +3,7 @@
   <form class="filter">
     <div>
       <label>Filtrar por produto</label>
-      <input placeholder="batata doce..." type="" />
+      <input placeholder="Gregory Valmir..." type="text" />
     </div>
     <div class="container">
       <div class="dropdown">

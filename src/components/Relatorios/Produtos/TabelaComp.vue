@@ -21,7 +21,6 @@ const categorias = ref([])
 const descontos = ref([])
 const tags = ref([])
 const sazonais = ref([])
-const isLoading = ref(true)
 const modalHidden = ref(true)
 const coverUrl = ref('')
 const file = ref(null)
@@ -109,17 +108,18 @@ const produtos = ref([]);
 const updateSubmit = ref(false);
 const erro = ref("");
 const departamentos = ref([]);
+const isLoading = ref(true)
 
 const load = () => {
   axios
-    .get("http://localhost:3000/users")
+  .get("http://localhost:3000/users")
     .then((res) => {
       users.value = res.data;
     })
     .catch((err) => {
       console.log(err);
     });
-
+    
   axios
     .get("http://localhost:3000/departamentos")
     .then((res) => {

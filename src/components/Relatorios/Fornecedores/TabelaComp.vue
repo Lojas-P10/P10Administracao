@@ -88,62 +88,67 @@ onMounted(async () => {
     console.error('Erro ao carregar dados do banco de dados:', error);
   }
 }); */
-import { ref, onMounted } from "vue";
-import axios from "axios";
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 
 const form = ref({
   nome: '',
   cnpj: '',
   cep: '',
   endereco: '',
-  telefone: "",
+  telefone: '',
   email: ''
-});
+})
 
-const fornecedores = ref([]);
-const updateSubmit = ref(false);
-const erro = ref("");
+const fornecedores = ref([])
+const updateSubmit = ref(false)
+const erro = ref('')
 const modalHidden = ref(true)
+const isLoading = ref(false)
+
 const toggleModal = () => {
   modalHidden.value = !modalHidden.value
 }
 const load = () => {
-  axios.get("https://p10backend-eugreg-dev.fl0.io/api/fornecedores/").then((res) => {
-        fornecedores.value = res.data;
+  axios
+    .get('https://p10backend-eugreg-dev.fl0.io/api/fornecedores/')
+    .then((res) => {
+      fornecedores.value = res.data
     })
     .catch((err) => {
-      console.log(err);
-    });
-
-};
+      console.log(err)
+    })
+}
 
 const add = () => {
   if (
-    form.value.nome.length == "" ||
-    form.value.endereco.length == "" ||
-    form.value.email.length == "" ||
-    form.value.telefone.length == "" ||
-    form.value.cep.length == "" ||
-    form.value.cnpj.length == "" 
+    form.value.nome.length == '' ||
+    form.value.endereco.length == '' ||
+    form.value.email.length == '' ||
+    form.value.telefone.length == '' ||
+    form.value.cep.length == '' ||
+    form.value.cnpj.length == ''
   ) {
-    erro.value = "Preencha todos os campos";
+    erro.value = 'Preencha todos os campos'
   } else {
-    erro.value = "";
-    axios.post("https://p10backend-eugreg-dev.fl0.io/api/fornecedores/", form.value).then((response) => {
-    console.log(response); 
-    load();
-    form.value.nome = "";
-    form.value.endereco = "";
-    form.value.email = "";
-    form.value.telefone = "";
-    form.value.cnpj = "";
-    form.value.cep = "";
-  })
-  .catch((error) => {
-    console.error(error); 
-  });
+    erro.value = ''
+    axios
+      .post('https://p10backend-eugreg-dev.fl0.io/api/fornecedores/', form.value)
+      .then((response) => {
+        console.log(response)
+        load()
+        form.value.nome = ''
+        form.value.endereco = ''
+        form.value.email = ''
+        form.value.telefone = ''
+        form.value.cnpj = ''
+        form.value.cep = ''
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }
-};
+}
 
 /* const edit = (user) => {
   updateSubmit.value = true;
@@ -178,62 +183,69 @@ const update = () => {
 };
 */
 const del = (fornecedor) => {
-  if (confirm("Tem certeza que deseja deletar este usuário?")) {
-    axios.delete(`https://p10backend-eugreg-dev.fl0.io/api/fornecedores/${fornecedor.id}/`).then((response) => {
-        console.log(response); 
-        load();
-        const index = fornecedores.value.findIndex((u) => u.id === fornecedor.id);
+  if (confirm('Tem certeza que deseja deletar este usuário?')) {
+    axios
+      .delete(`https://p10backend-eugreg-dev.fl0.io/api/fornecedores/${fornecedor.id}/`)
+      .then((response) => {
+        console.log(response)
+        load()
+        const index = fornecedores.value.findIndex((u) => u.id === fornecedor.id)
         if (index !== -1) {
-          fornecedores.value.splice(index, 1);
+          fornecedores.value.splice(index, 1)
         }
       })
       .catch((err) => {
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
-}; 
+}
 
 onMounted(() => {
-  load();
-});
+  load()
+})
 </script>
-  
+
 <template>
-<!--   <div v-if="isLoading" class="container-loader"><span class="loader"></span></div> -->
-  <table>
-    <thead>
-      <tr>
-        <th><a>ID</a></th>
-        <th><a>Nome</a></th>
-        <th><a>Endereço</a></th>
-        <th><a>Telefone</a></th>
-        <th><a>Email</a></th>
-        <th>Manutenção</th>
-        <th>
-          <button @click="toggleModal" class="btn-blue">
-            <box-icon name="plus" color="white"></box-icon>
-          </button>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="fornecedor in fornecedores" :key="fornecedor.id">
-        <td>{{ fornecedor.id }}</td>
-        <td>{{ fornecedor.nome }}</td>
-        <td>{{ fornecedor.endereco }}</td>
-        <td>{{ fornecedor.telefone }}</td>
-        <td>{{ fornecedor.email }}</td> 
-        <td class="container-manutencao">
-          <button class="btn-green">
-            <box-icon color="var(--c-white)" type="solid" name="edit"></box-icon>
-          </button>
-          <button  @click="del(fornecedor)" class="btn-green">
-            <box-icon name="trash-alt" color="var(--c-white)" type="solid"></box-icon>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div v-if="isLoading" class="container-loader"><span class="loader"></span></div>
+  <button @click="toggleModal" class="btn-blue">
+    Adicionar Fornecedor<box-icon name="plus" color="white"></box-icon>
+  </button>
+  <div class="container-table">
+    <table>
+      <thead>
+        <tr>
+          <th><a>ID</a></th>
+          <th><a>Nome</a></th>
+          <th><a>Endereço</a></th>
+          <th><a>Telefone</a></th>
+          <th><a>CEP</a></th>
+          <th><a>CNPJ</a></th>
+          <th><a>Email</a></th>
+          <th>Manutenção</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="fornecedor in fornecedores" :key="fornecedor.id">
+          <td>{{ fornecedor.id }}</td>
+          <td>{{ fornecedor.nome }}</td>
+          <!-- Criar um link para uma página com as informações sobre o fornecedor -->
+          <td>{{ fornecedor.endereco }}</td>
+          <td>{{ fornecedor.telefone }}</td>
+          <td>{{ fornecedor.cep }}</td>
+          <td>{{ fornecedor.cnpj }}</td>
+          <td>{{ fornecedor.email }}</td>
+          <td class="container-manutencao">
+            <button class="btn-green">
+              <box-icon color="var(--c-white)" type="solid" name="edit"></box-icon>
+            </button>
+            <button @click="del(fornecedor)" class="btn-green">
+              <box-icon name="trash-alt" color="var(--c-white)" type="solid"></box-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <div class="modal-overlay" @click="toggleModal" :class="{ hide: modalHidden }"></div>
   <div id="modal-content" :class="[{ hide: modalHidden }]">
@@ -245,30 +257,30 @@ onMounted(() => {
     </header>
     <form @submit.prevent="add">
       <div class="container-form">
-        <label for="">Nome do fornecedor</label>
-        <input type="text"  v-model="form.nome" />
+        <label for="nome-input">Nome do fornecedor</label>
+        <input type="text" id="nome-input" v-model="form.nome" />
         <p class="input__description">Limite de 5000 caracteres</p>
       </div>
       <div class="container-form">
-        <label for="">Email</label>
-        <input type="email"  v-model="form.email" />
+        <label for="email-input">Email</label>
+        <input type="email" id="email-input" v-model="form.email" />
       </div>
       <div class="container-form">
-        <label for="">Endereço</label>
-        <input type="text"  v-model="form.endereco" />
+        <label for="endereco-input">Endereço</label>
+        <input type="text" id="endereco-input" v-model="form.endereco" />
         <p class="input__description">Limite de 5000 caracteres</p>
       </div>
       <div class="container-form">
-        <label for="">Telefone</label>
-        <input type="tel"  v-model="form.telefone" />
+        <label for="telefone-input">Telefone</label>
+        <input type="tel" id="telefone-input" v-model="form.telefone" />
       </div>
       <div class="container-form">
-        <label for="">CNPJ</label>
-        <input type="number"  v-model="form.cnpj" />
+        <label for="cnpj-input">CNPJ</label>
+        <input type="number" id="cnpj-input" v-model="form.cnpj" />
       </div>
       <div class="container-form">
-        <label for="">CEP</label>
-        <input type="number"  v-model="form.cep" />
+        <label for="cep-input">CEP</label>
+        <input type="number" id="cep-input" v-model="form.cep" />
       </div>
       <button @click="add" class="btn-blue">Adicionar</button>
     </form>
@@ -277,10 +289,12 @@ onMounted(() => {
 
 <style scoped>
 table {
-  width: 100%;
+  width: 133%;
   overflow: hidden;
   border-radius: 10px;
-  margin-top: 2em;
+}
+.container-table {
+  overflow-x: auto;
 }
 
 h2 {
@@ -315,51 +329,6 @@ body.modal-open {
   justify-content: center;
 }
 
-.upload-images-container {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: row;
-}
-
-.drag-image-area {
-  border: 3px dashed var(--c-green-500);
-  border-radius: 10px;
-  margin: 10px 0 15px;
-  padding: 30px 50px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.drag-image-area,
-.drag-image-area label,
-.browse-images {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.drag-image-area h3 {
-  margin: 15px 0;
-}
-
-.drag-image-area label .browse-images-text {
-  color: var(--c-green-500);
-  font-weight: bolder;
-  cursor: pointer;
-}
-
-.browse-images span {
-  position: relative;
-  top: -25px;
-}
-
-.default-image-input {
-  opacity: 0;
-}
-
 .selected-images {
   background-color: var(--c-gray-800);
   width: fit-content;
@@ -369,6 +338,9 @@ body.modal-open {
 
 .btn-blue {
   padding: 0.5em;
+  margin-bottom: -2em;
+  margin-top: 1em;
+  padding-bottom: 2.5em;
 }
 
 .container-form {
