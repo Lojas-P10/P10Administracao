@@ -1,21 +1,21 @@
 <script setup>
 /* import { ref, onMounted, reactive } from 'vue'
 import SazonalApi from '@/api/sazonal'
-import ProdutosApi from '@/api/produtos'
+import fornecedorsApi from '@/api/fornecedors'
 import CategoriasApi from '@/api/categorias'
 import FornecedoresApi from '@/api/fornecedores'
 import DescontosApi from '@/api/descontos'
 import TagsApi from '@/api/tags'
 import ImagemApi from '@/api/imagem'
 
-const produtosApi = new ProdutosApi()
+const fornecedorsApi = new fornecedorsApi()
 const categoriasApi = new CategoriasApi()
 const fornecedoresApi = new FornecedoresApi()
 const descontosApi = new DescontosApi()
 const sazonalApi = new SazonalApi()
 const tagsApi = new TagsApi()
 
-const produtos = ref([])
+const fornecedors = ref([])
 const fornecedores = ref([])
 const categorias = ref([])
 const descontos = ref([])
@@ -25,7 +25,7 @@ const isLoading = ref(true)
 const modalHidden = ref(true)
 const coverUrl = ref('')
 const file = ref(null)
-const currentProduto = reactive({
+const = reactive({
   nome: '',
   descricao: '',
   quantidade: 0,
@@ -48,9 +48,9 @@ const toggleModal = () => {
 
 async function save() {
   const imagem = await ImagemApi.uploadImage(file.value)
-  currentProduto.cover_attachment_key = imagem.attachment_key
-  await produtosApi.adicionarProduto(currentProduto)
-  Object.assign(currentProduto, {
+  cover_attachment_key = imagem.attachment_key
+  await fornecedorsApi.adicionarfornecedor(
+  Object.assign( {
     nome: '',
     descricao: '',
     quantidade: 0,
@@ -65,12 +65,12 @@ async function save() {
   })
 }
 
-const valorTotal = (produto) => {
-  return (produto.preco * produto.quantidade).toFixed(2)
+const valorTotal = (fornecedor) => {
+  return (fornecedor.preco * fornecedor.quantidade).toFixed(2)
 }
 const loadDataFromDatabase = async () => {
   try {
-    produtos.value = await produtosApi.buscarTodosOsProdutos()
+    fornecedors.value = await fornecedorsApi.buscarTodosOsfornecedors()
     fornecedores.value = await fornecedoresApi.buscarTodosOsFornecedores()
     descontos.value = await descontosApi.buscarTodosOsDescontos()
     sazonais.value = await sazonalApi.buscarTodosOsSazonais()
@@ -93,69 +93,59 @@ import axios from "axios";
 
 const form = ref({
   nome: '',
-  descricao: '',
-  quantidade: 0,
-  preco: 0,
-  data: '',
-  categoria: '',
-  marca: '',
-  sazonal: '',
-  desconto: '',
-  tag: '',
-  imagem: ''
+  cnpj: '',
+  cep: '',
+  endereco: '',
+  telefone: "",
+  email: ''
 });
 
-const produtos = ref([]);
+const fornecedores = ref([]);
 const updateSubmit = ref(false);
 const erro = ref("");
-const departamentos = ref([]);
-
+const modalHidden = ref(true)
+const toggleModal = () => {
+  modalHidden.value = !modalHidden.value
+}
 const load = () => {
-  axios
-    .get("http://localhost:3000/users")
-    .then((res) => {
-      users.value = res.data;
+  axios.get("https://p10backend-eugreg-dev.fl0.io/api/fornecedores/").then((res) => {
+        fornecedores.value = res.data;
     })
     .catch((err) => {
       console.log(err);
     });
 
-  axios
-    .get("http://localhost:3000/departamentos")
-    .then((res) => {
-      departamentos.value = res.data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
 };
 
 const add = () => {
   if (
-    form.value.name.length == "" ||
-    form.value.data.length == "" ||
+    form.value.nome.length == "" ||
+    form.value.endereco.length == "" ||
     form.value.email.length == "" ||
-    form.value.departamento.length == ""
+    form.value.telefone.length == "" ||
+    form.value.cep.length == "" ||
+    form.value.cnpj.length == "" 
   ) {
     erro.value = "Preencha todos os campos";
   } else {
     erro.value = "";
-    axios
-      .post("http://localhost:3000/users/", form.value)
-      .then((res) => {
-        load();
-        form.value.name = "";
-        form.value.data = "";
-        form.value.email = "";
-        form.value.departamento = "";
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    axios.post("https://p10backend-eugreg-dev.fl0.io/api/fornecedores/", form.value).then((response) => {
+    console.log(response); 
+    load();
+    form.value.nome = "";
+    form.value.endereco = "";
+    form.value.email = "";
+    form.value.telefone = "";
+    form.value.cnpj = "";
+    form.value.cep = "";
+  })
+  .catch((error) => {
+    console.error(error); 
+  });
   }
 };
 
-const edit = (user) => {
+/* const edit = (user) => {
   updateSubmit.value = true;
   form.value.id = user.id;
   form.value.name = user.name;
@@ -186,23 +176,22 @@ const update = () => {
       console.log(err);
     });
 };
-
-const del = (user) => {
+*/
+const del = (fornecedor) => {
   if (confirm("Tem certeza que deseja deletar este usuário?")) {
-    axios
-      .delete("http://localhost:3000/users/" + user.id)
-      .then((res) => {
+    axios.delete(`https://p10backend-eugreg-dev.fl0.io/api/fornecedores/${fornecedor.id}/`).then((response) => {
+        console.log(response); 
         load();
-        const index = users.value.findIndex((u) => u.id === user.id);
+        const index = fornecedores.value.findIndex((u) => u.id === fornecedor.id);
         if (index !== -1) {
-          users.value.splice(index, 1);
+          fornecedores.value.splice(index, 1);
         }
       })
       .catch((err) => {
         console.log(err);
       });
   }
-};
+}; 
 
 onMounted(() => {
   load();
@@ -210,19 +199,15 @@ onMounted(() => {
 </script>
   
 <template>
-  <div v-if="isLoading" class="container-loader"><span class="loader"></span></div>
-  <table v-else>
+<!--   <div v-if="isLoading" class="container-loader"><span class="loader"></span></div> -->
+  <table>
     <thead>
       <tr>
         <th><a>ID</a></th>
         <th><a>Nome</a></th>
-        <th><a>Categoria</a></th>
-        <th><a>Fornecedor</a></th>
-        <th><a>Qtde.</a></th>
-        <th><a>Sazonal</a></th>
-        <th><a>Desconto</a></th>
-        <th><a>Valor Unit.</a></th>
-        <th><a>Valor Total</a></th>
+        <th><a>Endereço</a></th>
+        <th><a>Telefone</a></th>
+        <th><a>Email</a></th>
         <th>Manutenção</th>
         <th>
           <button @click="toggleModal" class="btn-blue">
@@ -232,25 +217,17 @@ onMounted(() => {
       </tr>
     </thead>
     <tbody>
-      <tr v-for="produto in produtos" :key="produto.id">
-        <td>{{ produto.id }}</td>
-        <td>{{ produto.nome }}</td>
-        <td>{{ produto.categoria.descricao }}</td>
-        <td>{{ produto.fornecedor.nome }}</td>
-        <td>{{ produto.quantidade }}</td>
-        <td v-if="produto.sazonal">{{ produto.sazonal.descricao }}</td>
-        <td v-else><box-icon name="block" size="2em" color="var(--c-blue-500)"></box-icon></td>
-        <td v-if="produto.desconto">
-          {{ produto.desconto.descricao }} ({{ produto.desconto.porcentagem }}%)
-        </td>
-        <td v-else><box-icon name="block" size="2em" color="var(--c-blue-500)"></box-icon></td>
-        <td>R${{ produto.preco }}</td>
-        <td>R${{ valorTotal(produto) }}</td>
+      <tr v-for="fornecedor in fornecedores" :key="fornecedor.id">
+        <td>{{ fornecedor.id }}</td>
+        <td>{{ fornecedor.nome }}</td>
+        <td>{{ fornecedor.endereco }}</td>
+        <td>{{ fornecedor.telefone }}</td>
+        <td>{{ fornecedor.email }}</td> 
         <td class="container-manutencao">
           <button class="btn-green">
             <box-icon color="var(--c-white)" type="solid" name="edit"></box-icon>
           </button>
-          <button class="btn-green">
+          <button  @click="del(fornecedor)" class="btn-green">
             <box-icon name="trash-alt" color="var(--c-white)" type="solid"></box-icon>
           </button>
         </td>
@@ -261,119 +238,39 @@ onMounted(() => {
   <div class="modal-overlay" @click="toggleModal" :class="{ hide: modalHidden }"></div>
   <div id="modal-content" :class="[{ hide: modalHidden }]">
     <header>
-      <h2>Novo Produto</h2>
+      <h2>Novo fornecedor</h2>
       <button class="btn-blue" @click="toggleModal">
         <box-icon name="x" color="white"></box-icon>
       </button>
     </header>
-    <form>
+    <form @submit.prevent="add">
       <div class="container-form">
-        <label for="">Nome do produto</label>
-        <input type="text"  v-model="currentProduto.nome" />
+        <label for="">Nome do fornecedor</label>
+        <input type="text"  v-model="form.nome" />
         <p class="input__description">Limite de 5000 caracteres</p>
       </div>
       <div class="container-form">
-        <label class="input__label">Descrição</label>
-        <textarea v-model="currentProduto.descricao"  class=""></textarea>
+        <label for="">Email</label>
+        <input type="email"  v-model="form.email" />
+      </div>
+      <div class="container-form">
+        <label for="">Endereço</label>
+        <input type="text"  v-model="form.endereco" />
         <p class="input__description">Limite de 5000 caracteres</p>
       </div>
-      <div class="container-row">
-        <div class="container-form row-3">
-          <label for="">Preço</label>
-          <input v-model="currentProduto.preco" placeholder="R$"  type="number" />
-        </div>
-        <div class="container-form row-3">
-          <label for="">Quantidade</label>
-          <input v-model="currentProduto.quantidade" type="number"  />
-        </div>
-        <div class="container-form row-3">
-          <label for="">Data de entrada no estoque</label>
-          <input v-model="currentProduto.data" type="date"  />
-        </div>
+      <div class="container-form">
+        <label for="">Telefone</label>
+        <input type="tel"  v-model="form.telefone" />
       </div>
       <div class="container-form">
-        <label for="">Tags</label>
-        <select v-model="currentProduto.tag"  class="dropdown-select">
-          <option value="">Defina as tags</option>
-          <option v-for="tag of tags" :key="tag.id" :value="tag.descricao">
-            {{ tag.descricao }}
-          </option>
-        </select>
-      </div>
-      <div class="container-row">
-        <div class="container-form row-2">
-          <div class="dropdown">
-            <label for="">Fornecedor</label>
-            <select v-model="currentProduto.fornecedor"  class="dropdown-select">
-              <option value="">Escolha um fornecedor</option>
-              <option v-for="fornecedor of fornecedores" :key="fornecedor.id" :value="fornecedor.nome">
-                {{ fornecedor.nome }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="container-form row-2">
-          <div class="dropdown">
-            <label for="">Categoria</label>
-            <select  v-model="currentProduto.categoria" class="dropdown-select">
-              <option value="">Escolha uma categoria</option>
-              <option v-for="categoria of categorias" :key="categoria.id" :value="categoria.descricao">
-                {{ categoria.descricao }}
-              </option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="container-row">
-        <div class="container-form row-2">
-          <div class="dropdown">
-            <label for="">Sazonal</label>
-            <select v-model="currentProduto.sazonal" class="dropdown-select">
-              <option value="">Escolha uma categoria Sazonal</option>
-              <option v-for="sazonal of sazonais" :key="sazonal.id" :value="sazonal.nome">
-                {{ sazonal.descricao }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="container-form row-2">
-          <div class="dropdown">
-            <label for="">Descontos</label>
-            <select v-model="currentProduto.desconto" class="dropdown-select">
-              <option value="">Escolha um desconto</option>
-              <option v-for="desconto of descontos" :key="desconto.id" :value="desconto.descricao">
-                {{ desconto.descricao }}
-              </option>
-            </select>
-          </div>
-        </div>
+        <label for="">CNPJ</label>
+        <input type="number"  v-model="form.cnpj" />
       </div>
       <div class="container-form">
-        <label for="">Imagens</label>
-        <div class="upload-images-container">
-          <div class="drag-image-area">
-            <h3>Jogue seu arquivo aqui</h3>
-            <label>
-              ou
-              <span class="browse-images">
-                <input  type="file" @change="onFileChange" class="default-image-input" />
-                <span class="browse-images-text">Procure pelo seu arquivo</span>
-              </span>
-            </label>
-          </div>
-          <!-- 
-          <div class="cover">
-            <img v-if="coverUrl" :src="coverUrl" />
-          </div> -->
-        </div>
-        <!-- 
-        <ul>
-          <li v-for="image in selectedimages" class="selected-images" :key="image.name">
-            {{ image.name }}
-          </li>
-        </ul> -->
+        <label for="">CEP</label>
+        <input type="number"  v-model="form.cep" />
       </div>
-      <button @click="save" class="btn-blue">Adicionar</button>
+      <button @click="add" class="btn-blue">Adicionar</button>
     </form>
   </div>
 </template>

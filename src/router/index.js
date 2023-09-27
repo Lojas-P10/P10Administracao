@@ -5,7 +5,7 @@ import ProdutosRela from "@/views/Relatorios/ProdutosView.vue";
 import ProdutosDashView from "@/views/Dashboard/ProdutosView.vue";
 import CategoriasView from "@/views/CategoriasView.vue";
 import ProdutosView from "@/views/ProdutosView.vue";
-import FornecedoresView from "@/views/FornecedoresView.vue";
+import FornecedoresView from "@/views/Relatorios/FornecedoresView.vue";
 import EntregasView from "@/views/EntregasView.vue";
 import PromocoesView from "@/views/PromocoesView.vue";
 import SazonaisView from "@/views/SazonaisView.vue";
