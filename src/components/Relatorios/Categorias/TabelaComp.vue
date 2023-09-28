@@ -1,93 +1,4 @@
 <script setup>
-/* import { ref, onMounted, reactive } from 'vue'
-import SazonalApi from '@/api/sazonal'
-import fornecedorsApi from '@/api/fornecedors'
-import CategoriasApi from '@/api/categorias'
-import FornecedoresApi from '@/api/fornecedores'
-import DescontosApi from '@/api/descontos'
-import TagsApi from '@/api/tags'
-import ImagemApi from '@/api/imagem'
-
-const fornecedorsApi = new fornecedorsApi()
-const categoriasApi = new CategoriasApi()
-const fornecedoresApi = new FornecedoresApi()
-const descontosApi = new DescontosApi()
-const sazonalApi = new SazonalApi()
-const tagsApi = new TagsApi()
-
-const fornecedors = ref([])
-const fornecedores = ref([])
-const categorias = ref([])
-const descontos = ref([])
-const tags = ref([])
-const sazonais = ref([])
-const isLoading = ref(true)
-const modalHidden = ref(true)
-const coverUrl = ref('')
-const file = ref(null)
-const = reactive({
-  nome: '',
-  descricao: '',
-  quantidade: 0,
-  preco: 0,
-  data: '',
-  categoria: '',
-  marca: '',
-  sazonal: '',
-  desconto: '',
-  tag: ''
-})
-
-function onFileChange(e) {
-  file.value = e.target.files[0]
-  coverUrl.value = URL.createObjectURL(file.value)
-}
-const toggleModal = () => {
-  modalHidden.value = !modalHidden.value
-}
-
-async function save() {
-  const imagem = await ImagemApi.uploadImage(file.value)
-  cover_attachment_key = imagem.attachment_key
-  await fornecedorsApi.adicionarfornecedor(
-  Object.assign( {
-    nome: '',
-    descricao: '',
-    quantidade: 0,
-    preco: 0,
-    data: '',
-    categoria: '',
-    marca: '',
-    sazonal: '',
-    desconto: '',
-    tag: '',
-    cover_attachment_key: ''
-  })
-}
-
-const valorTotal = (fornecedor) => {
-  return (fornecedor.preco * fornecedor.quantidade).toFixed(2)
-}
-const loadDataFromDatabase = async () => {
-  try {
-    fornecedors.value = await fornecedorsApi.buscarTodosOsfornecedors()
-    fornecedores.value = await fornecedoresApi.buscarTodosOsFornecedores()
-    descontos.value = await descontosApi.buscarTodosOsDescontos()
-    sazonais.value = await sazonalApi.buscarTodosOsSazonais()
-    categorias.value = await categoriasApi.buscarTodasAsCategorias()
-    tags.value = await tagsApi.buscarTodasAsTags()
-  } catch (error) {
-    console.error('Erro ao carregar dados do banco de dados:', error)
-  }
-  isLoading.value = false
-}
-onMounted(async () => {
-  try {
-    await loadDataFromDatabase(); 
-  } catch (error) {
-    console.error('Erro ao carregar dados do banco de dados:', error);
-  }
-}); */
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
@@ -100,7 +11,7 @@ const form = ref({
   email: ''
 })
 
-const fornecedores = ref([])
+const categorias = ref([])
 const updateSubmit = ref(false)
 const erro = ref('')
 const modalHidden = ref(true)
@@ -110,17 +21,14 @@ const toggleModal = () => {
   modalHidden.value = !modalHidden.value
 }
 const load = () => {
-  axios
-    .get('https://p10backend-eugreg-dev.fl0.io/api/fornecedores/')
-    .then((res) => {
-      fornecedores.value = res.data
-    })
-    .catch((err) => {
+  axios.get('https://p10backend-eugreg-dev.fl0.io/api/categorias/').then((res) => {
+      categorias.value = res.data
+    }).catch((err) => {
       console.log(err)
     })
 }
 
-const add = () => {
+/* const add = () => {
   if (
     form.value.nome.length == '' ||
     form.value.endereco.length == '' ||
@@ -133,7 +41,7 @@ const add = () => {
   } else {
     erro.value = ''
     axios
-      .post('https://p10backend-eugreg-dev.fl0.io/api/fornecedores/', form.value)
+      .post('https://p10backend-eugreg-dev.fl0.io/api/categorias/', form.value)
       .then((response) => {
         console.log(response)
         load()
@@ -149,7 +57,7 @@ const add = () => {
       })
   }
 }
-
+ */
 /* const edit = (user) => {
   updateSubmit.value = true;
   form.value.id = user.id;
@@ -182,16 +90,14 @@ const update = () => {
     });
 };
 */
-const del = (fornecedor) => {
-  if (confirm('Tem certeza que deseja deletar este usuário?')) {
-    axios
-      .delete(`https://p10backend-eugreg-dev.fl0.io/api/fornecedores/${fornecedor.id}/`)
-      .then((response) => {
+const del = (categoria) => {
+  if (confirm('Tem certeza que deseja deletar este categoria?')) {
+    axios.delete(`https://p10backend-eugreg-dev.fl0.io/api/categorias/${categoria.id}/`).then((response) => {
         console.log(response)
         load()
-        const index = fornecedores.value.findIndex((u) => u.id === fornecedor.id)
+        const index = categorias.value.findIndex((u) => u.id === categoria.id)
         if (index !== -1) {
-          fornecedores.value.splice(index, 1)
+          categorias.value.splice(index, 1)
         }
       })
       .catch((err) => {
@@ -208,37 +114,27 @@ onMounted(() => {
 <template>
   <div v-if="isLoading" class="container-loader"><span class="loader"></span></div>
   <button @click="toggleModal" class="btn-blue add">
-    Adicionar Fornecedor<box-icon name="plus" color="white"></box-icon>
+    Adicionar Desconto<box-icon name="plus" color="white"></box-icon>
   </button>
   <div class="container-table">
     <table>
       <thead>
         <tr>
-          <th><a>Nome</a></th>
           <th><a>ID</a></th>
-          <th><a>Endereço</a></th>
-          <th><a>Telefone</a></th>
-          <th><a>CEP</a></th>
-          <th><a>CNPJ</a></th>
-          <th><a>Email</a></th>
+          <th><a>Descricao</a></th>
           <th>Manutenção</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="fornecedor in fornecedores" :key="fornecedor.id">
-          <td>{{ fornecedor.nome }}</td>
-          <td>{{ fornecedor.id }}</td>
-          <!-- Criar um link para uma página com as informações sobre o fornecedor -->
-          <td>{{ fornecedor.endereco }}</td>
-          <td>{{ fornecedor.telefone }}</td>
-          <td>{{ fornecedor.cep }}</td>
-          <td>{{ fornecedor.cnpj }}</td>
-          <td>{{ fornecedor.email }}</td>
+        <tr v-for="categoria in categorias" :key="categoria.id">
+          <td>{{ categoria.id }}</td>
+          <td>{{ categoria.descricao }}</td>
+          <!-- Criar um link para uma página com as informações sobre o categoria -->
           <td class="container-manutencao">
             <button class="btn-green">
               <box-icon color="var(--c-white)" type="solid" name="edit"></box-icon>
             </button>
-            <button @click="del(fornecedor)" class="btn-green">
+            <button @click="del(categoria)" class="btn-green">
               <box-icon name="trash-alt" color="var(--c-white)" type="solid"></box-icon>
             </button>
           </td>
@@ -250,14 +146,14 @@ onMounted(() => {
   <div class="modal-overlay" @click="toggleModal" :class="{ hide: modalHidden }"></div>
   <div id="modal-content" :class="[{ hide: modalHidden }]">
     <header>
-      <h2>Novo fornecedor</h2>
+      <h2>Novo categoria</h2>
       <button class="btn-blue" @click="toggleModal">
         <box-icon name="x" color="white"></box-icon>
       </button>
     </header>
     <form @submit.prevent="add">
       <div class="container-form">
-        <label for="nome-input">Nome do fornecedor</label>
+        <label for="nome-input">Nome do categoria</label>
         <input type="text" id="nome-input" v-model="form.nome" />
         <p class="input__description">Limite de 5000 caracteres</p>
       </div>
@@ -289,7 +185,7 @@ onMounted(() => {
 
 <style scoped>
 table {
-  width: 133%;
+  width: 100%;
   overflow: hidden;
   border-radius: 10px;
 }

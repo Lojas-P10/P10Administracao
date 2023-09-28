@@ -19,8 +19,8 @@ import { RouterLink } from 'vue-router';
           <RouterLink to="/vendas">Vendas <i class="ph ph-caret-right"></i></RouterLink>
           <RouterLink to="/produtos">Produtos <i class="ph ph-caret-right"></i></RouterLink>
           <RouterLink to="/fornecedores">Fornecedores <i class="ph ph-caret-right"></i></RouterLink>
-          <a href="#">Descontos <i class="ph ph-caret-right"></i></a>
-          <a href="#">Categorias <i class="ph ph-caret-right"></i></a>
+          <RouterLink to="/descontos">Descontos <i class="ph ph-caret-right"></i></RouterLink>
+          <RouterLink to="/categorias">Categorias <i class="ph ph-caret-right"></i></RouterLink>
         </div>
       </div>
     </div>
