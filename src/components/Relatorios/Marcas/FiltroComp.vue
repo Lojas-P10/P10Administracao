@@ -2,7 +2,7 @@
 <template>
   <form class="filter">
     <div>
-      <label>Filtrar por descrição da categoria</label>
+      <label>Filtrar por nome das marcas</label>
       <input placeholder="batata doce..." type="text" />
     </div>
     <div class="sub-main">

@@ -1,93 +1,4 @@
 <script setup>
-/* import { ref, onMounted, reactive } from 'vue'
-import SazonalApi from '@/api/sazonal'
-import fornecedorsApi from '@/api/fornecedors'
-import CategoriasApi from '@/api/categorias'
-import FornecedoresApi from '@/api/fornecedores'
-import DescontosApi from '@/api/descontos'
-import TagsApi from '@/api/tags'
-import ImagemApi from '@/api/imagem'
-
-const fornecedorsApi = new fornecedorsApi()
-const categoriasApi = new CategoriasApi()
-const fornecedoresApi = new FornecedoresApi()
-const descontosApi = new DescontosApi()
-const sazonalApi = new SazonalApi()
-const tagsApi = new TagsApi()
-
-const fornecedors = ref([])
-const fornecedores = ref([])
-const categorias = ref([])
-const descontos = ref([])
-const tags = ref([])
-const sazonais = ref([])
-const isLoading = ref(true)
-const modalHidden = ref(true)
-const coverUrl = ref('')
-const file = ref(null)
-const = reactive({
-  nome: '',
-  descricao: '',
-  quantidade: 0,
-  preco: 0,
-  data: '',
-  categoria: '',
-  marca: '',
-  sazonal: '',
-  desconto: '',
-  tag: ''
-})
-
-function onFileChange(e) {
-  file.value = e.target.files[0]
-  coverUrl.value = URL.createObjectURL(file.value)
-}
-const toggleModal = () => {
-  modalHidden.value = !modalHidden.value
-}
-
-async function save() {
-  const imagem = await ImagemApi.uploadImage(file.value)
-  cover_attachment_key = imagem.attachment_key
-  await fornecedorsApi.adicionarfornecedor(
-  Object.assign( {
-    nome: '',
-    descricao: '',
-    quantidade: 0,
-    preco: 0,
-    data: '',
-    categoria: '',
-    marca: '',
-    sazonal: '',
-    desconto: '',
-    tag: '',
-    cover_attachment_key: ''
-  })
-}
-
-const valorTotal = (fornecedor) => {
-  return (fornecedor.preco * fornecedor.quantidade).toFixed(2)
-}
-const loadDataFromDatabase = async () => {
-  try {
-    fornecedors.value = await fornecedorsApi.buscarTodosOsfornecedors()
-    fornecedores.value = await fornecedoresApi.buscarTodosOsFornecedores()
-    descontos.value = await descontosApi.buscarTodosOsDescontos()
-    sazonais.value = await sazonalApi.buscarTodosOsSazonais()
-    categorias.value = await categoriasApi.buscarTodasAsCategorias()
-    tags.value = await tagsApi.buscarTodasAsTags()
-  } catch (error) {
-    console.error('Erro ao carregar dados do banco de dados:', error)
-  }
-  isLoading.value = false
-}
-onMounted(async () => {
-  try {
-    await loadDataFromDatabase(); 
-  } catch (error) {
-    console.error('Erro ao carregar dados do banco de dados:', error);
-  }
-}); */
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
@@ -104,7 +15,7 @@ const fornecedores = ref([])
 const updateSubmit = ref(false)
 const erro = ref('')
 const modalHidden = ref(true)
-const isLoading = ref(false)
+const isLoading = ref(true)
 
 const toggleModal = () => {
   modalHidden.value = !modalHidden.value
@@ -114,6 +25,7 @@ const load = () => {
     .get('https://p10backend-eugreg-dev.fl0.io/api/fornecedores/')
     .then((res) => {
       fornecedores.value = res.data
+      isLoading.value = false;
     })
     .catch((err) => {
       console.log(err)
@@ -207,10 +119,10 @@ onMounted(() => {
 
 <template>
   <div v-if="isLoading" class="container-loader"><span class="loader"></span></div>
-  <button @click="toggleModal" class="btn-blue add">
-    Adicionar Fornecedor<box-icon name="plus" color="white"></box-icon>
-  </button>
-  <div class="container-table">
+  <div v-else class="container-table">
+    <button @click="toggleModal" class="btn-blue add">
+      Adicionar Fornecedor<box-icon name="plus" color="white"></box-icon>
+    </button>
     <table>
       <thead>
         <tr>

@@ -4,6 +4,9 @@ import VendasView from "@/views/Relatorios/VendasView.vue";
 import ProdutosRela from "@/views/Relatorios/ProdutosView.vue";
 import DescontosRela from "@/views/Relatorios/DescontosView.vue";
 import CategoriasRela from "@/views/Relatorios/CategoriasView.vue";
+import SazonaisRela from "@/views/Relatorios/SazonaisView.vue";
+import MarcasRela from "@/views/Relatorios/MarcasView.vue";
+import TagsRela from "@/views/Relatorios/TagsView.vue";
 import ProdutosDashView from "@/views/Dashboard/ProdutosView.vue";
 import CategoriasView from "@/views/CategoriasView.vue";
 import ProdutosView from "@/views/ProdutosView.vue";
@@ -42,6 +45,21 @@ const router = createRouter({
       path: "/categorias",
       name: "",
       component: CategoriasRela,
+    },
+    {
+      path: "/sazonais",
+      name: "",
+      component: SazonaisRela,
+    },
+    {
+      path: "/marcas",
+      name: "",
+      component: MarcasRela,
+    },
+    {
+      path: "/tags",
+      name: "",
+      component: TagsRela,
     },
     {
       path: "/descontos",

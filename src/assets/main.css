@@ -165,7 +165,7 @@ input:focus, .dropdown-select:focus, textarea:focus {
   margin: 3px;
   padding: 6px 8px;
   text-shadow: none;
-  background: #fff;
+  background: #fff; 
   border-radius: 3px;
   cursor: pointer;
 }

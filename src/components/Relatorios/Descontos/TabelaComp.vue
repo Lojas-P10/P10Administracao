@@ -15,7 +15,7 @@ const descontos = ref([])
 const updateSubmit = ref(false)
 const erro = ref('')
 const modalHidden = ref(true)
-const isLoading = ref(false)
+const isLoading = ref(true)
 
 const toggleModal = () => {
   modalHidden.value = !modalHidden.value
@@ -23,6 +23,7 @@ const toggleModal = () => {
 const load = () => {
   axios.get('https://p10backend-eugreg-dev.fl0.io/api/descontos/').then((res) => {
       descontos.value = res.data
+      isLoading.value = false;
     }).catch((err) => {
       console.log(err)
     })
@@ -113,23 +114,23 @@ onMounted(() => {
 
 <template>
   <div v-if="isLoading" class="container-loader"><span class="loader"></span></div>
-  <button @click="toggleModal" class="btn-blue add">
-    Adicionar Desconto<box-icon name="plus" color="white"></box-icon>
-  </button>
-  <div class="container-table">
+  <div v-else class="container-table">
+    <button @click="toggleModal" class="btn-blue add">
+      Adicionar Desconto<box-icon name="plus" color="white"></box-icon>
+    </button>
     <table>
       <thead>
         <tr>
-          <th><a>Descricao</a></th>
           <th><a>ID</a></th>
+          <th><a>Descricao</a></th>
           <th><a>Porcentagem</a></th>
           <th>Manutenção</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="desconto in descontos" :key="desconto.id">
-          <td>{{ desconto.descricao }}</td>
           <td>{{ desconto.id }}</td>
+          <td>{{ desconto.descricao }}</td>
           <!-- Criar um link para uma página com as informações sobre o desconto -->
           <td>{{ desconto.porcentagem }}</td>
           <td class="container-manutencao">

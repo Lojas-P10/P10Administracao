@@ -11,18 +11,19 @@ const form = ref({
   email: ''
 })
 
-const categorias = ref([])
+const tags = ref([])
 const updateSubmit = ref(false)
 const erro = ref('')
 const modalHidden = ref(true)
 const isLoading = ref(true)
 
+
 const toggleModal = () => {
   modalHidden.value = !modalHidden.value
 }
 const load = () => {
-  axios.get('https://p10backend-eugreg-dev.fl0.io/api/categorias/').then((res) => {
-      categorias.value = res.data
+  axios.get('https://p10backend-eugreg-dev.fl0.io/api/tag/').then((res) => {
+      tags.value = res.data
       isLoading.value = false;
     }).catch((err) => {
       console.log(err)
@@ -42,7 +43,7 @@ const load = () => {
   } else {
     erro.value = ''
     axios
-      .post('https://p10backend-eugreg-dev.fl0.io/api/categorias/', form.value)
+      .post('https://p10backend-eugreg-dev.fl0.io/api/tag/', form.value)
       .then((response) => {
         console.log(response)
         load()
@@ -91,14 +92,14 @@ const update = () => {
     });
 };
 */
-const del = (categoria) => {
-  if (confirm('Tem certeza que deseja deletar este categoria?')) {
-    axios.delete(`https://p10backend-eugreg-dev.fl0.io/api/categorias/${categoria.id}/`).then((response) => {
+const del = (tag) => {
+  if (confirm('Tem certeza que deseja deletar este tag?')) {
+    axios.delete(`https://p10backend-eugreg-dev.fl0.io/api/tag/${tag.id}/`).then((response) => {
         console.log(response)
         load()
-        const index = categorias.value.findIndex((u) => u.id === categoria.id)
+        const index = tags.value.findIndex((u) => u.id === tag.id)
         if (index !== -1) {
-          categorias.value.splice(index, 1)
+          tags.value.splice(index, 1)
         }
       })
       .catch((err) => {
@@ -116,26 +117,25 @@ onMounted(() => {
   <div v-if="isLoading" class="container-loader"><span class="loader"></span></div>
   <div v-else class="container-table">
     <button @click="toggleModal" class="btn-blue add">
-      Adicionar Desconto<box-icon name="plus" color="white"></box-icon>
+      Adicionar tag<box-icon name="plus" color="white"></box-icon>
     </button>
     <table>
       <thead>
         <tr>
-          <th><a>ID</a></th>
           <th><a>Descricao</a></th>
+          <th><a>ID</a></th>
           <th>Manutenção</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="categoria in categorias" :key="categoria.id">
-          <td>{{ categoria.id }}</td>
-          <td>{{ categoria.descricao }}</td>
-          <!-- Criar um link para uma página com as informações sobre o categoria -->
+        <tr v-for="tag in tags" :key="tag.id">
+          <td>{{ tag.descricao }}</td>
+          <td>{{ tag.id }}</td>
           <td class="container-manutencao">
             <button class="btn-green">
               <box-icon color="var(--c-white)" type="solid" name="edit"></box-icon>
             </button>
-            <button @click="del(categoria)" class="btn-green">
+            <button @click="del(tag)" class="btn-green">
               <box-icon name="trash-alt" color="var(--c-white)" type="solid"></box-icon>
             </button>
           </td>
@@ -147,14 +147,14 @@ onMounted(() => {
   <div class="modal-overlay" @click="toggleModal" :class="{ hide: modalHidden }"></div>
   <div id="modal-content" :class="[{ hide: modalHidden }]">
     <header>
-      <h2>Novo categoria</h2>
+      <h2>Novo tag</h2>
       <button class="btn-blue" @click="toggleModal">
         <box-icon name="x" color="white"></box-icon>
       </button>
     </header>
     <form @submit.prevent="add">
       <div class="container-form">
-        <label for="nome-input">Nome do categoria</label>
+        <label for="nome-input">Nome do tag</label>
         <input type="text" id="nome-input" v-model="form.nome" />
         <p class="input__description">Limite de 5000 caracteres</p>
       </div>
