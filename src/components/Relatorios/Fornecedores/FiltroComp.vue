@@ -2,50 +2,31 @@
 <template>
   <form class="filter">
     <div>
-      <label>Filtrar por produto</label>
-      <input placeholder="Gregory Valmir..." type="text" />
+      <label>Filtrar por nome do fornecedor</label>
+      <input placeholder="batata doce..." type="text" />
+    </div>
+    <div class="dropdown">
+      <label for="">Endereço</label>
+      <select class="dropdown-select">
+        <option value="">Dias da semana</option>
+        <option value="1">Option #1</option>
+        <option value="2">Option #2</option>
+        <option value="3">Option #3</option>
+      </select>
     </div>
     <div class="container">
       <div class="dropdown">
-        <label for="">Fornecedor</label>
-        <select class="dropdown-select">
-          <option value="">Dias da semana</option>
-          <option value="1">Option #1</option>
-          <option value="2">Option #2</option>
-          <option value="3">Option #3</option>
-        </select>
+        <label for="">CNPJ</label>
+        <input placeholder="batata doce..." type="number" />
       </div>
       <div class="dropdown">
-        <label for="">Categoria</label>
-        <select class="dropdown-select">
-          <option value="">Dias da semana</option>
-          <option value="1">Option #1</option>
-          <option value="2">Option #2</option>
-          <option value="3">Option #3</option>
-        </select>
-      </div>
-      <div class="dropdown">
-        <label for="">Valor unitário</label>
-        <select class="dropdown-select">
-          <option value="">Dias da semana</option>
-          <option value="1">Option #1</option>
-          <option value="2">Option #2</option>
-          <option value="3">Option #3</option>
-        </select>
-      </div>
-      <div class="dropdown">
-        <label for="">Valor Total</label>
-        <select class="dropdown-select">
-          <option value="">Dias da semana</option>
-          <option value="1">Option #1</option>
-          <option value="2">Option #2</option>
-          <option value="3">Option #3</option>
-        </select>
+        <label for="">CEP</label>
+        <input placeholder="batata doce..." type="number" />
       </div>
     </div>
     <div class="container">
       <div class="dropdown">
-        <label for="">Sazonal</label>
+        <label for="">Email</label>
         <select class="dropdown-select">
           <option value="">Dias da semana</option>
           <option value="1">Option #1</option>
@@ -54,16 +35,7 @@
         </select>
       </div>
       <div class="dropdown">
-        <label for="">Desconto</label>
-        <select class="dropdown-select">
-          <option value="">Dias da semana</option>
-          <option value="1">Option #1</option>
-          <option value="2">Option #2</option>
-          <option value="3">Option #3</option>
-        </select>
-      </div>
-      <div class="dropdown">
-        <label for="">Quantidade</label>
+        <label for="">Telefone</label>
         <select class="dropdown-select">
           <option value="">Dias da semana</option>
           <option value="1">Option #1</option>
@@ -74,7 +46,6 @@
     </div>
     <div class="sub-main">
       <button class="btn-green"><span>Buscar</span></button>
-      
     </div>
   </form>
 </template>

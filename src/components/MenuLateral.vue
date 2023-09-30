@@ -18,9 +18,12 @@ import { RouterLink } from 'vue-router';
         <div class="section-dropdown">
           <RouterLink to="/vendas">Vendas <i class="ph ph-caret-right"></i></RouterLink>
           <RouterLink to="/produtos">Produtos <i class="ph ph-caret-right"></i></RouterLink>
-          <a href="#">Fornecedores <i class="ph ph-caret-right"></i></a>
-          <a href="#">Descontos <i class="ph ph-caret-right"></i></a>
-          <a href="#">Categorias <i class="ph ph-caret-right"></i></a>
+          <RouterLink to="/fornecedores">Fornecedores <i class="ph ph-caret-right"></i></RouterLink>
+          <RouterLink to="/descontos">Descontos <i class="ph ph-caret-right"></i></RouterLink>
+          <RouterLink to="/categorias">Categorias <i class="ph ph-caret-right"></i></RouterLink>
+          <RouterLink to="/sazonais">Sazonais <i class="ph ph-caret-right"></i></RouterLink>
+          <RouterLink to="/marcas">Marcas <i class="ph ph-caret-right"></i></RouterLink>
+          <RouterLink to="/tags">Tags <i class="ph ph-caret-right"></i></RouterLink>
         </div>
       </div>
     </div>

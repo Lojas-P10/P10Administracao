@@ -1,61 +1,126 @@
 <script setup>
-import ProdutosApi from '@/api/produtos'
-import CategoriasApi from '@/api/categorias'
-import FornecedoresApi from '@/api/fornecedores'
-/* import DescontosApi from '@/api/descontos' */
-import SazonalApi from '@/api/sazonal'
+import { ref, onMounted } from "vue";
+import axios from "axios";
 
-import { ref, onMounted } from 'vue'
+const form = ref({
+  nome: '',
+  descricao: '',
+  quantidade: 0,
+  preco: 0,
+  data: '',
+  categoria: '',
+  marca: '',
+  sazonal: '',
+  desconto: '',
+  tag: '',
+  imagem: ''
+});
 
-const produtosApi = new ProdutosApi()
-const categoriasApi = new CategoriasApi()
-const fornecedoresApi = new FornecedoresApi()
-/* const descontosApi = new DescontosApi() */
-const sazonalApi = new SazonalApi()
-const produtos = ref([])
-const fornecedores = ref([])
-const categorias = ref([])
-/* const descontos = ref([]) */
-const sazonais = ref([])
-
-
+const produtos = ref([]);
+const updateSubmit = ref(false);
+const erro = ref("");
+const departamentos = ref([]);
 const isLoading = ref(true)
-const modalHidden = ref(true)
-const fileInput = ref(null)
 
-const loadDataFromDatabase = async () => {
-  produtos.value = await produtosApi.buscarTodosOsProdutos()
-  fornecedores.value = await fornecedoresApi.buscarTodosOsFornecedores()
-/*   descontos.value = await descontosApi.buscarTodosOsDescontos() */
-  sazonais.value = await sazonalApi.buscarTodosOsSazonais()
-  categorias.value = await categoriasApi.buscarTodasAsCategorias()
+const load = () => {
+  axios
+  .get("http://localhost:3000/users")
+    .then((res) => {
+      users.value = res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+    
+  axios
+    .get("http://localhost:3000/departamentos")
+    .then((res) => {
+      departamentos.value = res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
-  isLoading.value = false
-}
-
-const selectedFiles = ref([])
-
-const handleFileChange = (event) => {
-  const fileInput = event.target
-  if (fileInput.files.length > 0) {
-    selectedFiles.value = Array.from(fileInput.files)
+const add = () => {
+  if (
+    form.value.name.length == "" ||
+    form.value.data.length == "" ||
+    form.value.email.length == "" ||
+    form.value.departamento.length == ""
+  ) {
+    erro.value = "Preencha todos os campos";
+  } else {
+    erro.value = "";
+    axios
+      .post("http://localhost:3000/users/", form.value)
+      .then((res) => {
+        load();
+        form.value.name = "";
+        form.value.data = "";
+        form.value.email = "";
+        form.value.departamento = "";
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
-}
+};
 
-/* const removeSelectedFile = (file) => {
-  selectedFiles.value = selectedFiles.value.filter((f) => f !== file)
-} */
+const edit = (user) => {
+  updateSubmit.value = true;
+  form.value.id = user.id;
+  form.value.name = user.name;
+  form.value.data = user.data;
+  form.value.email = user.email;
+  form.value.departamento = user.departamento;
+};
 
-const toggleModal = () => {
-  modalHidden.value = !modalHidden.value
-}
-function valorTotal(produto) {
-  return (produto.preco * produto.quantidade).toFixed(2)
-}
+const update = () => {
+  axios
+    .put("http://localhost:3000/users/" + form.value.id, {
+      name: form.value.name,
+      data: form.value.data,
+      email: form.value.email,
+      departamento: form.value.departamento,
+    })
+    .then((res) => {
+      load();
+      form.value.id = "";
+      form.value.name = "";
+      form.value.data = "";
+      form.value.email = "";
+      form.value.departamento = "";
+      updateSubmit.value = false;
+      alert("Usuário alterado");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
-onMounted(loadDataFromDatabase)
+const del = (user) => {
+  if (confirm("Tem certeza que deseja deletar este usuário?")) {
+    axios
+      .delete("http://localhost:3000/users/" + user.id)
+      .then((res) => {
+        load();
+        const index = users.value.findIndex((u) => u.id === user.id);
+        if (index !== -1) {
+          users.value.splice(index, 1);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+};
+
+onMounted(() => {
+  load();
+});
 </script>
-
+  
 <template>
   <div v-if="isLoading" class="container-loader"><span class="loader"></span></div>
   <table v-else>
@@ -72,7 +137,7 @@ onMounted(loadDataFromDatabase)
         <th><a>Valor Total</a></th>
         <th>Manutenção</th>
         <th>
-          <button @click="toggleModal" class="btn-green">
+          <button @click="toggleModal" class="btn-blue">
             <box-icon name="plus" color="white"></box-icon>
           </button>
         </th>
@@ -85,11 +150,22 @@ onMounted(loadDataFromDatabase)
         <td>{{ produto.categoria.descricao }}</td>
         <td>{{ produto.fornecedor.nome }}</td>
         <td>{{ produto.quantidade }}</td>
-        <td>{{ produto.sazonal }}</td>
-        <td>{{ produto.desconto }}</td>
+        <td v-if="produto.sazonal">{{ produto.sazonal.descricao }}</td>
+        <td v-else><box-icon name="block" size="2em" color="var(--c-blue-500)"></box-icon></td>
+        <td v-if="produto.desconto">
+          {{ produto.desconto.descricao }} ({{ produto.desconto.porcentagem }}%)
+        </td>
+        <td v-else><box-icon name="block" size="2em" color="var(--c-blue-500)"></box-icon></td>
         <td>R${{ produto.preco }}</td>
         <td>R${{ valorTotal(produto) }}</td>
-        <!--         <td>{{ categoria.categoria }}(Bonecas)</td>-->
+        <td class="container-manutencao">
+          <button class="btn-green">
+            <box-icon color="var(--c-white)" type="solid" name="edit"></box-icon>
+          </button>
+          <button class="btn-green">
+            <box-icon name="trash-alt" color="var(--c-white)" type="solid"></box-icon>
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -98,60 +174,64 @@ onMounted(loadDataFromDatabase)
   <div id="modal-content" :class="[{ hide: modalHidden }]">
     <header>
       <h2>Novo Produto</h2>
-      <button class="btn-green" @click="toggleModal">
+      <button class="btn-blue" @click="toggleModal">
         <box-icon name="x" color="white"></box-icon>
       </button>
-      <!-- arrumar esse button -->
     </header>
     <form>
       <div class="container-form">
         <label for="">Nome do produto</label>
-        <input type="text" />
+        <input type="text"  v-model="currentProduto.nome" />
         <p class="input__description">Limite de 5000 caracteres</p>
       </div>
       <div class="container-form">
         <label class="input__label">Descrição</label>
-        <textarea class=""></textarea>
+        <textarea v-model="currentProduto.descricao"  class=""></textarea>
         <p class="input__description">Limite de 5000 caracteres</p>
       </div>
       <div class="container-row">
         <div class="container-form row-3">
           <label for="">Preço</label>
-          <input type="number" />
+          <input v-model="currentProduto.preco" placeholder="R$"  type="number" />
         </div>
         <div class="container-form row-3">
           <label for="">Quantidade</label>
-          <input type="number" />
+          <input v-model="currentProduto.quantidade" type="number"  />
         </div>
         <div class="container-form row-3">
           <label for="">Data de entrada no estoque</label>
-          <input type="date" />
+          <input v-model="currentProduto.data" type="date"  />
         </div>
       </div>
       <div class="container-form">
         <label for="">Tags</label>
-        <input type="text" />
+        <select v-model="currentProduto.tag"  class="dropdown-select">
+          <option value="">Defina as tags</option>
+          <option v-for="tag of tags" :key="tag.id" :value="tag.descricao">
+            {{ tag.descricao }}
+          </option>
+        </select>
       </div>
       <div class="container-row">
         <div class="container-form row-2">
           <div class="dropdown">
             <label for="">Fornecedor</label>
-            <select class="dropdown-select">
+            <select v-model="currentProduto.fornecedor"  class="dropdown-select">
               <option value="">Escolha um fornecedor</option>
-              <option v-for="fornecedor of fornecedores"
-              :key="fornecedor.id"
-              :value="fornecedor.nome">{{ fornecedor.nome }}</option>
+              <option v-for="fornecedor of fornecedores" :key="fornecedor.id" :value="fornecedor.nome">
+                {{ fornecedor.nome }}
+              </option>
             </select>
           </div>
         </div>
         <div class="container-form row-2">
           <div class="dropdown">
             <label for="">Categoria</label>
-            <select class="dropdown-select">
+            <select  v-model="currentProduto.categoria" class="dropdown-select">
               <option value="">Escolha uma categoria</option>
-              <option v-for="categoria of categorias"
-              :key="categoria.id"
-              :value="categoria.descricao">{{ categoria.descricao }}</option>
+              <option v-for="categoria of categorias" :key="categoria.id" :value="categoria.descricao">
+                {{ categoria.descricao }}
+              </option>
             </select>
           </div>
         </div>
@@ -160,52 +240,52 @@ onMounted(loadDataFromDatabase)
         <div class="container-form row-2">
           <div class="dropdown">
             <label for="">Sazonal</label>
-            <select class="dropdown-select">
+            <select v-model="currentProduto.sazonal" class="dropdown-select">
               <option value="">Escolha uma categoria Sazonal</option>
-              <option v-for="sazonal of sazonais"
-              :key="sazonal.id"
-              :value="sazonal.nome">{{ sazonal.descricao }}</option>
+              <option v-for="sazonal of sazonais" :key="sazonal.id" :value="sazonal.nome">
+                {{ sazonal.descricao }}
+              </option>
             </select>
           </div>
         </div>
-        <!-- <div class="container-form row-2">
+        <div class="container-form row-2">
           <div class="dropdown">
             <label for="">Descontos</label>
-            <select class="dropdown-select">
+            <select v-model="currentProduto.desconto" class="dropdown-select">
               <option value="">Escolha um desconto</option>
-              <option v-for="desconto of descontos"
-              :key="desconto.id"
-              :value="desconto.descricao">{{ desconto.descricao }}</option>
+              <option v-for="desconto of descontos" :key="desconto.id" :value="desconto.descricao">
+                {{ desconto.descricao }}
+              </option>
             </select>
           </div>
-        </div> -->
+        </div>
       </div>
       <div class="container-form">
         <label for="">Imagens</label>
-        <div class="upload-files-container">
-          <div class="drag-file-area">
+        <div class="upload-images-container">
+          <div class="drag-image-area">
             <h3>Jogue seu arquivo aqui</h3>
             <label>
               ou
-              <span class="browse-files">
-                <input
-                  ref="fileInput"
-                  type="file"
-                  class="default-file-input"
-                  @click="handleFileChange"
-                />
-                <span class="browse-files-text">Procure pelo seu arquivo</span>
+              <span class="browse-images">
+                <input  type="file" @change="onFileChange" class="default-image-input" />
+                <span class="browse-images-text">Procure pelo seu arquivo</span>
               </span>
             </label>
           </div>
+          <!-- 
+          <div class="cover">
+            <img v-if="coverUrl" :src="coverUrl" />
+          </div> -->
         </div>
+        <!-- 
         <ul>
-          <li v-for="file in selectedFiles" class="selected-images" :key="file.name">
-            {{ file.name }}
+          <li v-for="image in selectedimages" class="selected-images" :key="image.name">
+            {{ image.name }}
           </li>
-        </ul>
+        </ul> -->
       </div>
-      <button class="btn-green">Adicionar</button>
+      <button @click="save" class="btn-blue">Adicionar</button>
     </form>
   </div>
 </template>
@@ -221,6 +301,7 @@ table {
 h2 {
   margin-bottom: 0;
 }
+
 form {
   gap: 1em;
   display: flex;
@@ -230,9 +311,11 @@ form {
   height: 65vh;
   flex-direction: column;
 }
+
 body.modal-open {
   overflow: hidden;
 }
+
 .container-loader {
   width: 100%;
   display: flex;
@@ -241,14 +324,21 @@ body.modal-open {
   align-items: center;
 }
 
-.upload-files-container {
+.container-manutencao {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.upload-images-container {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: row;
 }
-.drag-file-area {
+
+.drag-image-area {
   border: 3px dashed var(--c-green-500);
   border-radius: 10px;
   margin: 10px 0 15px;
@@ -257,28 +347,34 @@ body.modal-open {
   display: flex;
   flex-direction: column;
 }
-.drag-file-area,
-.drag-file-area label,
-.browse-files {
+
+.drag-image-area,
+.drag-image-area label,
+.browse-images {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.drag-file-area h3 {
+
+.drag-image-area h3 {
   margin: 15px 0;
 }
-.drag-file-area label .browse-files-text {
+
+.drag-image-area label .browse-images-text {
   color: var(--c-green-500);
   font-weight: bolder;
   cursor: pointer;
 }
-.browse-files span {
+
+.browse-images span {
   position: relative;
   top: -25px;
 }
-.default-file-input {
+
+.default-image-input {
   opacity: 0;
 }
+
 .selected-images {
   background-color: var(--c-gray-800);
   width: fit-content;
@@ -286,34 +382,46 @@ body.modal-open {
   border-radius: 10px;
 }
 
-.btn-green {
+.btn-blue {
   padding: 0.5em;
 }
+
 .container-form {
   display: flex;
   flex-direction: column;
 }
+
 .row-3 {
   width: 31%;
 }
+
 .row-2 {
   width: 48%;
 }
+
 .container-row {
   display: flex;
   justify-content: space-between;
 }
+
 button {
   width: fit-content;
 }
+
 .container-row input {
   width: 100%;
 }
+
 label {
   margin-bottom: 0.6em;
 }
+
 thead {
   background: #000;
+}
+
+tbody {
+  background-color: var(--c-gray-600);
 }
 
 .modal-overlay {
@@ -332,6 +440,7 @@ thead {
   margin-top: 0.5rem;
   color: #8d8d8d;
 }
+
 .modal-overlay.hide {
   opacity: 0;
   pointer-events: none;
@@ -364,6 +473,7 @@ th {
   padding: 20px;
   text-align: center;
 }
+
 header {
   display: flex;
   justify-content: space-between;
