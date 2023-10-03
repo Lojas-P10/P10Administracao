@@ -2,6 +2,22 @@
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 
+import SazonalApi from '@/api/sazonal'
+import ProdutosApi from '@/api/produtos'
+import CategoriasApi from '@/api/categorias'
+import FornecedoresApi from '@/api/fornecedores'
+import DescontosApi from '@/api/descontos'
+import TagsApi from '@/api/tags'
+import MarcasApi from '@/api/marcas'
+
+const produtosApi = new ProdutosApi()
+const categoriasApi = new CategoriasApi()
+const fornecedoresApi = new FornecedoresApi()
+const tagsApi = new TagsApi()
+const descontosApi = new DescontosApi()
+const sazonalApi = new SazonalApi()
+const marcasApi = new MarcasApi()
+
 const form = ref({
   nome: '',
   descricao: '',
@@ -9,12 +25,12 @@ const form = ref({
   preco: 0,
   data: '',
   categoria: '',
+  marca: '',
   sazonal: '',
   desconto: '',
   tag: '',
   imagemUrl: ''
 })
-const tableRowCount = computed(() => `(${produtos.value.length}) produtos`)
 const produtos = ref([])
 const descontos = ref([])
 const sazonais = ref([])
@@ -29,65 +45,21 @@ const modalHidden = ref(true)
 const toggleModal = () => {
   modalHidden.value = !modalHidden.value
 }
-const load = () => {
-  axios
-    .get('https://p10backend-eugreg-dev.fl0.io/api/produtos/')
-    .then((res) => {
-      produtos.value = res.data
-      isLoading.value = false
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-
-  axios
-    .get('https://p10backend-eugreg-dev.fl0.io/api/descontos/')
-    .then((res) => {
-      descontos.value = res.data
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  axios
-    .get('https://p10backend-eugreg-dev.fl0.io/api/sazonal/')
-    .then((res) => {
-      sazonais.value = res.data
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  axios
-    .get('https://p10backend-eugreg-dev.fl0.io/api/categorias/')
-    .then((res) => {
-      categorias.value = res.data
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  /*   axios
-    .get('https://p10backend-eugreg-dev.fl0.io/api/marcas/')
-    .then((res) => {
-      marcas.value = res.data
-    })
-    .catch((err) => {
-      console.log(err)
-    }) */
-  axios
-    .get('https://p10backend-eugreg-dev.fl0.io/api/fornecedores/')
-    .then((res) => {
-      fornecedores.value = res.data
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  axios
-    .get('https://p10backend-eugreg-dev.fl0.io/api/tag/')
-    .then((res) => {
-      tags.value = res.data
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+const load = async () => {
+  try {
+    isLoading.value = true
+    produtos.value = await produtosApi.buscarTodosOsProdutos()
+    fornecedores.value = await fornecedoresApi.buscarTodosOsFornecedores()
+    descontos.value = await descontosApi.buscarTodosOsDescontos()
+    sazonais.value = await sazonalApi.buscarTodosOsSazonais()
+    categorias.value = await categoriasApi.buscarTodasAsCategorias()
+    marcas.value = await marcasApi.buscarTodasAsMarcas()
+    tags.value = await tagsApi.buscarTodasAsTags()
+    isLoading.value = false
+  } catch (err) {
+    isLoading.value = false
+    console.error(err)
+  }
 }
 
 const add = () => {
@@ -97,6 +69,7 @@ const add = () => {
     form.value.quantidade.length == '' ||
     form.value.preco.length == '' ||
     form.value.tag.length == '' ||
+    form.value.marca.length == '' ||
     form.value.descricao.length == '' ||
     form.value.imagemUrl.trim() === ''
   ) {
@@ -191,23 +164,25 @@ onMounted(() => {
       <table>
         <thead>
           <tr>
+            <th class="sticky-left th"><a>Nome</a></th>
             <th><a>ID</a></th>
-            <th><a>Nome</a></th>
             <th><a>Categoria</a></th>
+            <th><a>Marca</a></th>
             <th><a>Fornecedor</a></th>
             <th><a>Qtde.</a></th>
             <th><a>Sazonal</a></th>
             <th><a>Desconto</a></th>
             <th><a>Valor Unit.</a></th>
             <th><a>Valor Total</a></th>
-            <th class="sticky-right">Manutenção</th>
+            <th class="sticky-right th"></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="produto in produtos" :key="produto.id">
+            <td class="sticky-left">{{ produto.nome }}</td>
             <td>{{ produto.id }}</td>
-            <td>{{ produto.nome }}</td>
             <td>{{ produto.categoria.descricao }}</td>
+            <td>{{ produto.marca.nome }}</td>
             <td>{{ produto.fornecedor.nome }}</td>
             <td>{{ produto.quantidade }}</td>
             <td v-if="produto.sazonal">{{ produto.sazonal.descricao }}</td>
@@ -231,90 +206,6 @@ onMounted(() => {
       </table>
     </div>
   </div>
-  <!--  <div class="table-widget">
-    <span class="caption-container">
-      <span class="table-title">
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M11.6775 1.3486C10.9695 2.1636 10.6875 7.2886 11.5105 8.1126C12.3335 8.9346 17.2785 8.5186 18.4665 7.5836C21.3245 5.3326 13.9375 -1.2534 11.6775 1.3486Z"
-            stroke="#272727"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M16.1372 11.79C17.2212 12.874 14.3472 19.054 8.65122 19.054C4.39722 19.054 0.949219 15.606 0.949219 11.353C0.949219 6.053 6.17822 2.663 7.67722 4.162C8.54022 5.025 7.56822 9.086 9.11622 10.635C10.6642 12.184 15.0532 10.706 16.1372 11.79Z"
-            stroke="#272727"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-        Watchlist
-      </span>
-      <span class="table-row-count">{{ tableRowCount }}</span>
-    </span>
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th><a>ID</a></th>
-            <th><a>Nome</a></th>
-            <th><a>Categoria</a></th>
-            <th><a>Fornecedor</a></th>
-            <th><a>Qtde.</a></th>
-            <th><a>Sazonal</a></th>
-            <th><a>Desconto</a></th>
-            <th><a>Valor Unit.</a></th>
-            <th><a>Valor Total</a></th>
-            <th class="sticky-right">Manutenção</th>
-          </tr>
-        </thead>
-        <tbody id="table-rows">
-          <tr v-for="produto in produtos" :key="produto.id">
-            <td class="produto sticky-left">
-              <div class="produto-wrapper">
-                <div class="produto-info">
-                  <span class="produto-info__ticker">{{ produto.id }}</span>
-                  <span class="produto-info__name">{{ produto.nome }}</span>
-                </div>
-              </div>
-            </td>
-            <td>{{ produto.categoria.descricao }}</td>
-          <td>{{ produto.fornecedor.nome }}</td>
-          <td>{{ produto.quantidade }}</td>
-          <td v-if="produto.sazonal">{{ produto.sazonal.descricao }}</td>
-          <td v-else><box-icon name="block" size="2em" color="var(--c-blue-500)"></box-icon></td>
-          <td v-if="produto.desconto">
-            {{ produto.desconto.descricao }} ({{ produto.desconto.porcentagem }}%)
-          </td>
-          <td v-else><box-icon name="block" size="2em" color="var(--c-blue-500)"></box-icon></td>
-          <td>R${{ produto.preco }}</td>
-          <td>R${{ valorTotal(produto) }}</td>
-          <td class="container-manutencao">
-            <button class="btn-green">
-              <box-icon color="var(--c-white)" type="solid" name="edit"></box-icon>
-            </button>
-            <button class="btn-green">
-              <box-icon name="trash-alt" color="var(--c-white)" type="solid"></box-icon>
-            </button>
-          </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
- -->
   <div class="modal-overlay" @click="toggleModal" :class="{ hide: modalHidden }"></div>
   <div id="modal-content" :class="[{ hide: modalHidden }]">
     <header>
@@ -443,8 +334,8 @@ onMounted(() => {
 
 <style scoped>
 table {
-  /*   width: 133%; */
-  overflow: hidden;
+  width: 133%;
+  overflow: auto;
   border-radius: 10px;
   border-collapse: collapse;
   table-layout: fixed;
@@ -452,7 +343,9 @@ table {
 .sticky-left {
   position: sticky;
   z-index: 1;
+  width: 13%;
   top: 0;
+  background-color: #262626;
   left: 0;
 }
 
@@ -460,15 +353,17 @@ table {
   position: sticky;
   z-index: 1;
   top: 0;
+  background-color: #262626;
   right: 0;
 }
-
 .table-wrapper {
   overflow-x: auto;
-  max-width: 100%; 
+  max-width: 100%;
 }
 
-.table-widget thead {
+.th {
+  background: #000;
+
 }
 
 th {

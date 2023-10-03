@@ -93,9 +93,11 @@ h2 {
 .produtos {
   display: flex;
   gap: 10px;
+  overflow: auto;
+  padding: 16px 0;
 }
 form {
-  width: 100%
+  width: 100%;
 }
 .search-field {
   display: flex;

@@ -34,6 +34,7 @@ body {
 *:before,
 *:after {
   box-sizing: border-box;
+  font: -webkit-control;
 }
 
 img {
@@ -41,12 +42,6 @@ img {
   max-width: 100%;
 }
 
-button,
-select,
-input,
-textarea {
-  font: inherit;
-}
 
 input {
   width: 100%
@@ -69,12 +64,13 @@ input:focus-visible {
 
 .btn-gray, .btn-green, .btn-blue {
   border-radius: 6px;
-  padding: 0.5em 1.5em;
+  padding: 0.5em 0.8em;
   border: 0;
   display: flex;
   color: var(--c-text-secondary);
   transition: 0.25s ease;
   cursor: pointer;
+  align-items: center;
 }
 
 .btn-gray {
@@ -179,7 +175,7 @@ input:focus, .dropdown-select:focus, textarea:focus {
 }
 
 .app-body-main-content {
-  width: 70%
+  width: 56em
 }
 
 .app-body {
@@ -216,6 +212,22 @@ h2 {
   100% {
     transform: rotate(360deg);
   }
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--c-green-500);
+  border-radius: 2em;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--c-green-500);
 }
 
 @media (max-width: 1200px) {
