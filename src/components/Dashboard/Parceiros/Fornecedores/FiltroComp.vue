@@ -34,7 +34,7 @@ const showDataList = ref(false);
         <form @submit.prevent="filtrarNome">
             <input type="text" name="fornecedores" list="fornecedores" id="input-search" required autocomplete="off"
                 v-model="filtrarNome" @input="updateDataList" @keyup.enter="$emit('change', filtrarNome)"
-                placeholder="Busque por nome ou CNPJ" />
+                placeholder="procure por nome ou CNPJ" />
             <datalist v-if="showDataList" id="fornecedores">
                 <option v-for="fornecedor of dataListfornecedores" :value="fornecedor.nome" :key="fornecedor.id">
                     {{ fornecedor.nome }}

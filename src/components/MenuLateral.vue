@@ -174,6 +174,7 @@ nav {
 }
 .footer {
   margin-top: auto;
+  width: 80%
 }
 .footer h1 {
    

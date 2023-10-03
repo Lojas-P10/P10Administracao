@@ -19,6 +19,6 @@ import NavTop from "./components/NavTop.vue";
   display: flex;
   width: 100%;
   justify-content: space-between;
-
+  gap: 1em
 }
 </style>

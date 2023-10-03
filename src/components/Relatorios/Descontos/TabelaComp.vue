@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-
+import descontosApi from "@/api/descontos"
 const form = ref({
   nome: '',
   cnpj: '',
@@ -20,15 +20,17 @@ const isLoading = ref(true)
 const toggleModal = () => {
   modalHidden.value = !modalHidden.value
 }
-const load = () => {
-  axios.get('https://p10backend-eugreg-dev.fl0.io/api/descontos/').then((res) => {
-      descontos.value = res.data
-      isLoading.value = false;
-    }).catch((err) => {
-      console.log(err)
-    })
-}
+const load = async () => {
+  try {
+    isLoading.value = true;
+    descontos.value = await descontosApi.buscarTodosOsDescontos();
 
+    isLoading.value = false;
+  } catch (err) {
+    isLoading.value = false;
+    console.log(err);
+  }
+};
 /* const add = () => {
   if (
     form.value.nome.length == '' ||

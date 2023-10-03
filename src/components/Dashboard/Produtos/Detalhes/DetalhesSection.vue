@@ -48,7 +48,7 @@
       </div>
     </div>
 
-    <div class="btn">
+    <div class="btn-blue">
       <span class="title"> Meses anteriores</span>
       <i class="ph ph-caret-right"></i>
     </div>
@@ -74,7 +74,7 @@
 section {
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 1em;
 }
 h2 {
   margin-bottom: 11px;
@@ -82,32 +82,35 @@ h2 {
 .content {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1em;
 }
 .title {
   font-weight: 600;
   line-height: 1.375;
 }
-.atual .card:nth-child(2) .title {
-  text-decoration: underline;
-}
-.atual .card:nth-child(1) {
+.atual .card:hover {
   background: rgb(0, 191, 99);
   color: var(--c-gray-900);
   background: linear-gradient(329deg, rgba(0, 191, 99, 1) 0%, rgba(92, 240, 169, 1) 100%);
 }
 .card i {
   font-size: 1.5em;
+  border-radius: 8px;
+  margin-right: 0.5em;
+  padding: 1em;
+  background: linear-gradient(329deg, rgba(0, 191, 99, 1) 0%, rgba(92, 240, 169, 1) 100%);
+}
+.btn-blue {
+  padding: 1em;
 }
 .card {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   flex-direction: row;
   align-items: center;
   border-radius: 8px;
   background-color: var(--c-gray-900);
   transition: 0.25s ease;
-  padding: 1rem;
 }
 .btn {
   background-color: var(--c-gray-900);
