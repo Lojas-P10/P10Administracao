@@ -49,7 +49,7 @@ onMounted(async () => {
 
 <template>
   <section>
-    <h2>Produtos recentes</h2>
+    <h2>Produtos recentes <span>(Os últimos 5 produtos)</span> </h2>
     <div class="search-field">
       <form @submit.prevent="filtrarNome">
         <input
@@ -98,6 +98,9 @@ h2 {
 }
 form {
   width: 100%;
+}
+h2 span{
+  font-size: 0.6em;
 }
 .search-field {
   display: flex;

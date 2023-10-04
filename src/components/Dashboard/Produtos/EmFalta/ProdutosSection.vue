@@ -1,5 +1,49 @@
 <script setup>
 import ProdutoCard from './ProdutoCard.vue'
+import ProdutosApi from '@/api/produtos'
+import { ref, computed, onMounted } from 'vue'
+
+const produtosApi = new ProdutosApi()
+const produtos = ref([])
+
+const filtrarNome = ref('')
+
+function removerAcento(nome) {
+  return nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+}
+const props = defineProps(['produtos'])
+defineEmits(['change'])
+
+const FiltroProduto = computed(() =>
+  produtos.value.filter((produto) => {
+    const produtoNome = removerAcento(produto.nome.toLowerCase())
+    const filter = removerAcento(filtrarNome.value.toLowerCase())
+    return produtoNome.includes(filter) && produto.quantidade < 20;
+  })
+)
+const updateDataList = () => {
+  if (filtrarNome.value.length >= 2) {
+    const inputText = filtrarNome.value.toLowerCase()
+    const fornecedoresFiltrados = props.fornecedores.filter((member) =>
+      member.name.toLowerCase().startsWith(inputText)
+    )
+    dataListfornecedores.value = fornecedoresFiltrados
+    showDataList.value = true
+  } else {
+    showDataList.value = false
+  }
+}
+
+const dataListfornecedores = ref([])
+const showDataList = ref(false)
+
+function AlteraNome(nome) {
+  filtrarNome.value = nome
+}
+
+onMounted(async () => {
+  produtos.value = await produtosApi.buscarProdutosRecentes()
+})
 </script>
 
 <template>
@@ -12,9 +56,14 @@ import ProdutoCard from './ProdutoCard.vue'
       <button class="btn-gray">Pesquisar</button>
     </div>
     <div class="fornecedores">
-      <ProdutoCard />
-      <ProdutoCard />
-      <ProdutoCard />
+      <ProdutoCard
+        v-for="produto in FiltroProduto"
+        :key="produto.id"
+        :imagem="produto.imagem"
+        :nome="produto.nome"
+        :preco="produto.preco"
+        :quantidade="produto.quantidade"
+      />
     </div>
   </section>
 </template>
@@ -24,13 +73,12 @@ section {
   margin-top: 2em;
 }
 h2 {
-     
   margin-bottom: 1.25rem;
 }
 .fornecedores {
   display: flex;
-  gap: 10px
-} 
+  gap: 10px;
+}
 .search-field {
   display: flex;
   margin-bottom: 16px;

@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 
+import ImagemApi from '@/api/imagem'
 import SazonalApi from '@/api/sazonal'
 import ProdutosApi from '@/api/produtos'
 import CategoriasApi from '@/api/categorias'
@@ -10,6 +11,7 @@ import DescontosApi from '@/api/descontos'
 import TagsApi from '@/api/tags'
 import MarcasApi from '@/api/marcas'
 
+const imagemApi = new ImagemApi()
 const produtosApi = new ProdutosApi()
 const categoriasApi = new CategoriasApi()
 const fornecedoresApi = new FornecedoresApi()
@@ -76,7 +78,6 @@ const add = () => {
     erro.value = 'Preencha todos os campos, incluindo a imagem'
   } else {
     erro.value = ''
-
     axios
       .post('https://p10backend-eugreg-dev.fl0.io/api/produtos/', form.value)
       .then((productResponse) => {
