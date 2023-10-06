@@ -180,6 +180,7 @@ input:focus, .dropdown-select:focus, textarea:focus {
 
 .app-body {
   display: flex;
+  flex-direction: column;
   /*   display: grid;
   grid-tem  plate-columns: minmax(-webkit-min-content, 175px) minmax(-webkit-max-content, 1fr) minmax(-webkit-min-content, 400px);
   grid-template-columns: minmax(min-content, 210px) minmax(max-content, 1fr) minmax(min-content, 400px);
