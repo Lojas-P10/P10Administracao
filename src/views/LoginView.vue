@@ -8,17 +8,17 @@ export default {
         <p>Login</p>
         <form>
             <div class="user-box">
-                <input required="" name="" type="text">
+                <input required="" name="" type="email">
                 <label>Email</label>
             </div>
             <div class="user-box">
                 <input required="" name="" type="password">
                 <label>Password</label>
             </div>
-            <button class="btn-green">
+            <button class="btn-blue">
                 <RouterLink to="/dashboard/produtos">
 
-                    Submit
+                    entrar
                 </RouterLink>
             </button>
         </form>
@@ -32,7 +32,7 @@ export default {
     top: 50%;
     left: 50%;
     width: 400px;
-    padding: 40px;
+    padding: 40px;  
     margin: 20px auto;
     transform: translate(-50%, -55%);
     background: rgba(0, 0, 0, .9);
@@ -67,7 +67,7 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-    padding: 10px 0;
+    padding: 10px;
     font-size: 16px;
     color: #b3b3b3;
     pointer-events: none;
@@ -77,7 +77,7 @@ export default {
 .login-box .user-box input:focus~label,
 .login-box .user-box input:valid~label {
     top: -39px;
-    left: 0;
+    left: -2%;
     color: #fff;
     font-size: 12px;
 }
