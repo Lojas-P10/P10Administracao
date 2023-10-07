@@ -1,25 +1,86 @@
 <script setup>
 import ProdutoCard from './ProdutoCard.vue'
+import ProdutosApi from '@/api/produtos'
+import { ref, computed, onMounted } from 'vue'
+
+const produtosApi = new ProdutosApi()
+const produtos = ref([])
+
+const filtrarNome = ref('')
+
+function removerAcento(nome) {
+  return nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+}
+const props = defineProps(['produtos'])
+defineEmits(['change'])
+
+const FiltroProduto = computed(() =>
+  produtos.value.filter((m) => {
+    const produtoNome = removerAcento(m.nome.toLowerCase())
+    const filter = removerAcento(filtrarNome.value.toLowerCase())
+    return produtoNome.includes(filter)
+  })
+)
+
+const updateDataList = () => {
+  if (filtrarNome.value.length >= 2) {
+    const inputText = filtrarNome.value.toLowerCase()
+    const fornecedoresFiltrados = props.fornecedores.filter((member) =>
+      member.name.toLowerCase().startsWith(inputText)
+    )
+    dataListfornecedores.value = fornecedoresFiltrados
+    showDataList.value = true
+  } else {
+    showDataList.value = false
+  }
+}
+
+const dataListfornecedores = ref([])
+const showDataList = ref(false)
+
+function AlteraNome(nome) {
+  filtrarNome.value = nome
+}
+
+onMounted(async () => {
+  produtos.value = await produtosApi.buscarProdutosRecentes()
+})
 </script>
 
 <template>
   <section>
-    <h2>Produtos recentes</h2>
+    <h2>Produtos recentes <span>(Os últimos 5 produtos)</span> </h2>
     <div class="search-field">
-      <div>
-        <input type="text" placeholder="Buscar por nome ou fornecedor" />
-      </div>
-      <!--Fazer um dropdown aqui, fitrando por quantidade de produtos para aparecer-->
-      <button class="icon-button large">
-        <i class="ph ph-faders-horizontal"></i>
-
-      </button>
-      <button class="btn-gray">Pesquisar</button>
+      <form @submit.prevent="filtrarNome">
+        <input
+          type="text"
+          name="produtos"
+          list="produtos"
+          id="input-search"
+          required
+          autocomplete="off"
+          v-model="filtrarNome"
+          @input="updateDataList"
+          @keyup.enter="$emit('change', filtrarNome)"
+          placeholder="Procure por nome ou fornecedor"
+        />
+        <datalist v-if="showDataList" id="produtos">
+          <option v-for="produto of dataListprodutoes" :value="produto.nome" :key="produto.id">
+            {{ produto.nome }}
+          </option>
+        </datalist>
+      </form>
+      <button @click="$emit('change', filtrarNome)" class="btn-gray">Pesquisar</button>
     </div>
-    <div class="fornecedores">
-      <ProdutoCard />
-      <ProdutoCard />
-      <ProdutoCard />
+    <div class="produtos">
+      <ProdutoCard
+        v-for="produto in FiltroProduto"
+        :key="produto.id"
+        :imagem="produto.imagem"
+        :nome="produto.nome"
+        :preco="produto.preco"
+        :quantidade="produto.quantidade"
+      />
     </div>
     <!--Fazer um v-if depois tipo "Esse produto não existe ou provavelmente não foi adicionado ao estoque recentemente"-->
   </section>
@@ -27,13 +88,20 @@ import ProdutoCard from './ProdutoCard.vue'
 
 <style scoped>
 h2 {
-     
   margin-bottom: 1.25rem;
 }
-.fornecedores {
+.produtos {
   display: flex;
-  gap: 10px
-} 
+  gap: 10px;
+  overflow: auto;
+  padding: 16px 0;
+}
+form {
+  width: 100%;
+}
+h2 span{
+  font-size: 0.6em;
+}
 .search-field {
   display: flex;
   margin-bottom: 16px;
@@ -48,7 +116,6 @@ h2 {
     display: none;
   }
 }
-
 
 .icon-button {
   width: 32px;
@@ -90,6 +157,4 @@ h2 {
   top: 50%;
   transform: translateY(-50%);
 }
-
-
 </style>

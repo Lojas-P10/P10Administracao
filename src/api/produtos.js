@@ -3,7 +3,10 @@ export default class ProdutosApi {
   async buscarTodosOsProdutos() {
     const { data } = await axios.get('https://p10backend-eugreg-dev.fl0.io/api/produtos/');
     return data;
-    
+  }
+  async buscarProdutosRecentes() {
+    const { data } = await axios.get('https://p10backend-eugreg-dev.fl0.io/api/produtos/');
+    return data.slice(-6).reverse();
   }
   async adicionarProduto(produto) {
     const { data } = await axios.post('https://p10backend-eugreg-dev.fl0.io/api/produtos/', produto);

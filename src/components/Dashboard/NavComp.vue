@@ -23,8 +23,7 @@ const isRouteActive = (...paths) => {
 
 <style scoped>
 nav {
-  position : absolute;
-  top: 4%;
+  margin-bottom: 2em;
 }
 .links {
   display: flex;

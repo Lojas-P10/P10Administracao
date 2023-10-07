@@ -1,6 +1,24 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import axios from "axios";
+import { ref, onMounted, computed } from 'vue'
+import axios from 'axios'
+
+import ImagemApi from '@/api/imagem'
+import SazonalApi from '@/api/sazonal'
+import ProdutosApi from '@/api/produtos'
+import CategoriasApi from '@/api/categorias'
+import FornecedoresApi from '@/api/fornecedores'
+import DescontosApi from '@/api/descontos'
+import TagsApi from '@/api/tags'
+import MarcasApi from '@/api/marcas'
+
+const imagemApi = new ImagemApi()
+const produtosApi = new ProdutosApi()
+const categoriasApi = new CategoriasApi()
+const fornecedoresApi = new FornecedoresApi()
+const tagsApi = new TagsApi()
+const descontosApi = new DescontosApi()
+const sazonalApi = new SazonalApi()
+const marcasApi = new MarcasApi()
 
 const form = ref({
   nome: '',
@@ -13,61 +31,77 @@ const form = ref({
   sazonal: '',
   desconto: '',
   tag: '',
-  imagem: ''
-});
-
-const produtos = ref([]);
-const updateSubmit = ref(false);
-const erro = ref("");
-const departamentos = ref([]);
+  imagemUrl: ''
+})
+const produtos = ref([])
+const descontos = ref([])
+const sazonais = ref([])
+const categorias = ref([])
+const marcas = ref([])
+const fornecedores = ref([])
+const tags = ref([])
+const updateSubmit = ref(false)
+const erro = ref('')
 const isLoading = ref(true)
-
-const load = () => {
-  axios
-  .get("http://localhost:3000/users")
-    .then((res) => {
-      users.value = res.data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-    
-  axios
-    .get("http://localhost:3000/departamentos")
-    .then((res) => {
-      departamentos.value = res.data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
+const modalHidden = ref(true)
+const toggleModal = () => {
+  modalHidden.value = !modalHidden.value
+}
+const load = async () => {
+  try {
+    isLoading.value = true
+    produtos.value = await produtosApi.buscarTodosOsProdutos()
+    fornecedores.value = await fornecedoresApi.buscarTodosOsFornecedores()
+    descontos.value = await descontosApi.buscarTodosOsDescontos()
+    sazonais.value = await sazonalApi.buscarTodosOsSazonais()
+    categorias.value = await categoriasApi.buscarTodasAsCategorias()
+    marcas.value = await marcasApi.buscarTodasAsMarcas()
+    tags.value = await tagsApi.buscarTodasAsTags()
+    isLoading.value = false
+  } catch (err) {
+    isLoading.value = false
+    console.error(err)
+  }
+}
 
 const add = () => {
   if (
-    form.value.name.length == "" ||
-    form.value.data.length == "" ||
-    form.value.email.length == "" ||
-    form.value.departamento.length == ""
+    form.value.nome.length == '' ||
+    form.value.data.length == '' ||
+    form.value.quantidade.length == '' ||
+    form.value.preco.length == '' ||
+    form.value.tag.length == '' ||
+    form.value.marca.length == '' ||
+    form.value.descricao.length == '' ||
+    form.value.imagemUrl.trim() === ''
   ) {
-    erro.value = "Preencha todos os campos";
+    erro.value = 'Preencha todos os campos, incluindo a imagem'
   } else {
-    erro.value = "";
+    erro.value = ''
     axios
-      .post("http://localhost:3000/users/", form.value)
-      .then((res) => {
-        load();
-        form.value.name = "";
-        form.value.data = "";
-        form.value.email = "";
-        form.value.departamento = "";
+      .post('https://p10backend-eugreg-dev.fl0.io/api/produtos/', form.value)
+      .then((productResponse) => {
+        console.log(productResponse)
+        load()
+        form.value.imagemUrl = ''
       })
       .catch((err) => {
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
-};
+}
 
-const edit = (user) => {
+const onFileChange = (event) => {
+  const file = event.target.files[0]
+  if (file) {
+    form.value.imagemUrl = URL.createObjectURL(file)
+  }
+}
+
+function valorTotal(produto) {
+  return (produto.preco * produto.quantidade).toFixed(2)
+}
+/* const edit = (user) => {
   updateSubmit.value = true;
   form.value.id = user.id;
   form.value.name = user.name;
@@ -75,10 +109,10 @@ const edit = (user) => {
   form.value.email = user.email;
   form.value.departamento = user.departamento;
 };
-
-const update = () => {
+ */
+/* const update = () => {
   axios
-    .put("http://localhost:3000/users/" + form.value.id, {
+    .put("https://p10backend-eugreg-dev.fl0.io/api/produtos/" + form.value.id, {
       name: form.value.name,
       data: form.value.data,
       email: form.value.email,
@@ -97,79 +131,82 @@ const update = () => {
     .catch((err) => {
       console.log(err);
     });
-};
+}; */
 
-const del = (user) => {
-  if (confirm("Tem certeza que deseja deletar este usuário?")) {
+/* const del = (user) => {
+  if (confirm('Tem certeza que deseja deletar este usuário?')) {
     axios
-      .delete("http://localhost:3000/users/" + user.id)
+      .delete('https://p10backend-eugreg-dev.fl0.io/api/produto/' + user.id)
       .then((res) => {
-        load();
-        const index = users.value.findIndex((u) => u.id === user.id);
+        load()
+        const index = produtos.value.findIndex((u) => u.id === user.id)
         if (index !== -1) {
-          users.value.splice(index, 1);
+          produtos.value.splice(index, 1)
         }
       })
       .catch((err) => {
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
-};
+} */
 
 onMounted(() => {
-  load();
-});
+  load()
+})
 </script>
-  
+
 <template>
   <div v-if="isLoading" class="container-loader"><span class="loader"></span></div>
-  <table v-else>
-    <thead>
-      <tr>
-        <th><a>ID</a></th>
-        <th><a>Nome</a></th>
-        <th><a>Categoria</a></th>
-        <th><a>Fornecedor</a></th>
-        <th><a>Qtde.</a></th>
-        <th><a>Sazonal</a></th>
-        <th><a>Desconto</a></th>
-        <th><a>Valor Unit.</a></th>
-        <th><a>Valor Total</a></th>
-        <th>Manutenção</th>
-        <th>
-          <button @click="toggleModal" class="btn-blue">
-            <box-icon name="plus" color="white"></box-icon>
-          </button>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="produto in produtos" :key="produto.id">
-        <td>{{ produto.id }}</td>
-        <td>{{ produto.nome }}</td>
-        <td>{{ produto.categoria.descricao }}</td>
-        <td>{{ produto.fornecedor.nome }}</td>
-        <td>{{ produto.quantidade }}</td>
-        <td v-if="produto.sazonal">{{ produto.sazonal.descricao }}</td>
-        <td v-else><box-icon name="block" size="2em" color="var(--c-blue-500)"></box-icon></td>
-        <td v-if="produto.desconto">
-          {{ produto.desconto.descricao }} ({{ produto.desconto.porcentagem }}%)
-        </td>
-        <td v-else><box-icon name="block" size="2em" color="var(--c-blue-500)"></box-icon></td>
-        <td>R${{ produto.preco }}</td>
-        <td>R${{ valorTotal(produto) }}</td>
-        <td class="container-manutencao">
-          <button class="btn-green">
-            <box-icon color="var(--c-white)" type="solid" name="edit"></box-icon>
-          </button>
-          <button class="btn-green">
-            <box-icon name="trash-alt" color="var(--c-white)" type="solid"></box-icon>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
+  <div v-else>
+    <button @click="toggleModal" class="btn-blue add">
+      Adicionar Produto<box-icon name="plus" color="white"></box-icon>
+    </button>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th class="sticky-left th"><a>Nome</a></th>
+            <th><a>ID</a></th>
+            <th><a>Categoria</a></th>
+            <th><a>Marca</a></th>
+            <th><a>Fornecedor</a></th>
+            <th><a>Qtde.</a></th>
+            <th><a>Sazonal</a></th>
+            <th><a>Desconto</a></th>
+            <th><a>Valor Unit.</a></th>
+            <th><a>Valor Total</a></th>
+            <th class="sticky-right th"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="produto in produtos" :key="produto.id">
+            <td class="sticky-left">{{ produto.nome }}</td>
+            <td>{{ produto.id }}</td>
+            <td>{{ produto.categoria.descricao }}</td>
+            <td>{{ produto.marca.nome }}</td>
+            <td>{{ produto.fornecedor.nome }}</td>
+            <td>{{ produto.quantidade }}</td>
+            <td v-if="produto.sazonal">{{ produto.sazonal.descricao }}</td>
+            <td v-else><box-icon name="block" size="2em" color="var(--c-blue-500)"></box-icon></td>
+            <td v-if="produto.desconto">
+              {{ produto.desconto.descricao }} ({{ produto.desconto.porcentagem }}%)
+            </td>
+            <td v-else><box-icon name="block" size="2em" color="var(--c-blue-500)"></box-icon></td>
+            <td>R${{ produto.preco }}</td>
+            <td>R${{ valorTotal(produto) }}</td>
+            <td class="container-manutencao sticky-right">
+              <button class="btn-green">
+                <box-icon color="var(--c-white)" type="solid" name="edit"></box-icon>
+              </button>
+              <button class="btn-green">
+                <box-icon name="trash-alt" color="var(--c-white)" type="solid"></box-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
   <div class="modal-overlay" @click="toggleModal" :class="{ hide: modalHidden }"></div>
   <div id="modal-content" :class="[{ hide: modalHidden }]">
     <header>
@@ -181,31 +218,31 @@ onMounted(() => {
     <form>
       <div class="container-form">
         <label for="">Nome do produto</label>
-        <input type="text"  v-model="currentProduto.nome" />
+        <input v-model="form.nome" type="text" />
         <p class="input__description">Limite de 5000 caracteres</p>
       </div>
       <div class="container-form">
         <label class="input__label">Descrição</label>
-        <textarea v-model="currentProduto.descricao"  class=""></textarea>
+        <textarea v-model="form.descricao" class=""></textarea>
         <p class="input__description">Limite de 5000 caracteres</p>
       </div>
       <div class="container-row">
         <div class="container-form row-3">
           <label for="">Preço</label>
-          <input v-model="currentProduto.preco" placeholder="R$"  type="number" />
+          <input v-model="form.preco" placeholder="R$" type="number" />
         </div>
         <div class="container-form row-3">
           <label for="">Quantidade</label>
-          <input v-model="currentProduto.quantidade" type="number"  />
+          <input v-model="form.quantidade" type="number" />
         </div>
         <div class="container-form row-3">
           <label for="">Data de entrada no estoque</label>
-          <input v-model="currentProduto.data" type="date"  />
+          <input type="date" v-model="form.data" />
         </div>
       </div>
       <div class="container-form">
         <label for="">Tags</label>
-        <select v-model="currentProduto.tag"  class="dropdown-select">
+        <select v-model="form.tag" class="dropdown-select">
           <option value="">Defina as tags</option>
           <option v-for="tag of tags" :key="tag.id" :value="tag.descricao">
             {{ tag.descricao }}
@@ -216,9 +253,13 @@ onMounted(() => {
         <div class="container-form row-2">
           <div class="dropdown">
             <label for="">Fornecedor</label>
-            <select v-model="currentProduto.fornecedor"  class="dropdown-select">
+            <select v-model="form.fornecedor" class="dropdown-select">
               <option value="">Escolha um fornecedor</option>
-              <option v-for="fornecedor of fornecedores" :key="fornecedor.id" :value="fornecedor.nome">
+              <option
+                v-for="fornecedor of fornecedores"
+                :key="fornecedor.id"
+                :value="fornecedor.nome"
+              >
                 {{ fornecedor.nome }}
               </option>
             </select>
@@ -227,9 +268,13 @@ onMounted(() => {
         <div class="container-form row-2">
           <div class="dropdown">
             <label for="">Categoria</label>
-            <select  v-model="currentProduto.categoria" class="dropdown-select">
+            <select v-model="form.categoria" class="dropdown-select">
               <option value="">Escolha uma categoria</option>
-              <option v-for="categoria of categorias" :key="categoria.id" :value="categoria.descricao">
+              <option
+                v-for="categoria of categorias"
+                :key="categoria.id"
+                :value="categoria.descricao"
+              >
                 {{ categoria.descricao }}
               </option>
             </select>
@@ -240,7 +285,7 @@ onMounted(() => {
         <div class="container-form row-2">
           <div class="dropdown">
             <label for="">Sazonal</label>
-            <select v-model="currentProduto.sazonal" class="dropdown-select">
+            <select v-model="form.sazonal" class="dropdown-select">
               <option value="">Escolha uma categoria Sazonal</option>
               <option v-for="sazonal of sazonais" :key="sazonal.id" :value="sazonal.nome">
                 {{ sazonal.descricao }}
@@ -251,7 +296,7 @@ onMounted(() => {
         <div class="container-form row-2">
           <div class="dropdown">
             <label for="">Descontos</label>
-            <select v-model="currentProduto.desconto" class="dropdown-select">
+            <select class="dropdown-select">
               <option value="">Escolha um desconto</option>
               <option v-for="desconto of descontos" :key="desconto.id" :value="desconto.descricao">
                 {{ desconto.descricao }}
@@ -268,34 +313,68 @@ onMounted(() => {
             <label>
               ou
               <span class="browse-images">
-                <input  type="file" @change="onFileChange" class="default-image-input" />
+                <input type="file" @change="onFileChange" class="default-image-input" />
                 <span class="browse-images-text">Procure pelo seu arquivo</span>
               </span>
             </label>
           </div>
-          <!-- 
           <div class="cover">
-            <img v-if="coverUrl" :src="coverUrl" />
-          </div> -->
+            <img v-if="form.imagemUrl" :src="form.imagemUrl" />
+          </div>
         </div>
-        <!-- 
         <ul>
           <li v-for="image in selectedimages" class="selected-images" :key="image.name">
             {{ image.name }}
           </li>
-        </ul> -->
+        </ul>
       </div>
-      <button @click="save" class="btn-blue">Adicionar</button>
+      <button @click="add" class="btn-blue">Adicionar</button>
     </form>
   </div>
 </template>
 
 <style scoped>
 table {
-  width: 100%;
-  overflow: hidden;
+  width: 133%;
+  overflow: auto;
   border-radius: 10px;
-  margin-top: 2em;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.sticky-left {
+  position: sticky;
+  z-index: 1;
+  width: 13%;
+  top: 0;
+  background-color: #262626;
+  left: 0;
+}
+
+.sticky-right {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  background-color: #262626;
+  right: 0;
+}
+.table-wrapper {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.th {
+  background: #000;
+
+}
+
+th {
+  width: fit-content;
+  white-space: nowrap;
+}
+
+td {
+  vertical-align: middle;
+  white-space: nowrap;
 }
 
 h2 {
@@ -385,7 +464,12 @@ body.modal-open {
 .btn-blue {
   padding: 0.5em;
 }
+.add {
+  padding-bottom: 2.5em;
+  margin-top: 1em;
 
+  margin-bottom: -2em;
+}
 .container-form {
   display: flex;
   flex-direction: column;
@@ -418,6 +502,7 @@ label {
 
 thead {
   background: #000;
+  position: sticky;
 }
 
 tbody {

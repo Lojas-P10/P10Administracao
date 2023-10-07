@@ -15,7 +15,7 @@ import NavComp from "../../components/Dashboard/NavComp.vue"
     <EmFalta />
     <EmPromocao />
     <MaisVendidos />
-    <Entradas />
+<!--     <Entradas /> -->
   </div>
   <div class="app-body-sidebar">
     <DetalhesSection />

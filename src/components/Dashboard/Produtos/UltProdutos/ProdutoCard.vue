@@ -1,17 +1,24 @@
-<script setup></script>
+<script setup>
+defineProps( {
+  nome: String,
+  imagem: String,
+  preco: Number,
+  quantidade: Number
+})
+</script>
 
 <template>
   <div class="card">
-    <div class="img"></div>
+    <img :src="imagem" class="img" />
     <div class="text">
-      <h3>Produto</h3>
+      <h3>{{ nome }}</h3>
       <div class="info">
         <div>
           <span class="si">R$</span>
-          <span>2,00 unid.</span>
+          <span>{{ preco }} unid.</span>
         </div>
         <div>
-          <span >300 unid.</span>
+          <span >{{ quantidade }} unids.</span>
         </div>
       </div>
     </div>
@@ -20,7 +27,7 @@
 
 <style scoped>
 .card {
-  width: 280px;
+  min-width: 280px;
   background: var(--c-gray-900);
   border-radius: 8px;
   transition: 0.25s ease;

@@ -1,6 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import FornecedoresApi from '@/api/fornecedores'
+
+const fornecedoresApi = new FornecedoresApi();
 
 const form = ref({
   nome: '',
@@ -20,47 +23,59 @@ const isLoading = ref(true)
 const toggleModal = () => {
   modalHidden.value = !modalHidden.value
 }
-const load = () => {
-  axios
-    .get('https://p10backend-eugreg-dev.fl0.io/api/fornecedores/')
-    .then((res) => {
-      fornecedores.value = res.data
-      isLoading.value = false;
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-}
+const load = async () => {
+  try {
+    isLoading.value = true;
+    fornecedores.value = await fornecedoresApi.buscarTodosOsFornecedores();
 
-const add = () => {
-  if (
-    form.value.nome.length == '' ||
-    form.value.endereco.length == '' ||
-    form.value.email.length == '' ||
-    form.value.telefone.length == '' ||
-    form.value.cep.length == '' ||
-    form.value.cnpj.length == ''
-  ) {
-    erro.value = 'Preencha todos os campos'
-  } else {
-    erro.value = ''
-    axios
-      .post('https://p10backend-eugreg-dev.fl0.io/api/fornecedores/', form.value)
-      .then((response) => {
-        console.log(response)
-        load()
-        form.value.nome = ''
-        form.value.endereco = ''
-        form.value.email = ''
-        form.value.telefone = ''
-        form.value.cnpj = ''
-        form.value.cep = ''
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    isLoading.value = false;
+  } catch (err) {
+    isLoading.value = false;
+    console.log(err);
   }
-}
+};
+
+const add = async () => {
+  if (
+    form.value.nome.length === 0 ||
+    form.value.endereco.length === 0 ||
+    form.value.email.length === 0 ||
+    form.value.telefone.length === 0 ||
+    form.value.cep.length === 0 ||
+    form.value.cnpj.length === 0
+  ) {
+    erro.value = 'Preencha todos os campos';
+  } else {
+    erro.value = '';
+
+    try {
+      const fornecedor = {
+        nome: form.value.nome,
+        endereco: form.value.endereco,
+        email: form.value.email,
+        telefone: form.value.telefone,
+        cep: form.value.cep,
+        cnpj: form.value.cnpj,
+      };
+
+      const response = await fornecedoresApi.adicionarFornecedor(fornecedor);
+      console.log(response);
+
+      form.value.nome = '';
+      form.value.endereco = '';
+      form.value.email = '';
+      form.value.telefone = '';
+      form.value.cnpj = '';
+      form.value.cep = '';
+
+      await load();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+};
+
+
 
 /* const edit = (user) => {
   updateSubmit.value = true;
