@@ -29,7 +29,6 @@ import { RouterLink } from 'vue-router';
     </div>
     <footer class="footer">
       <h1>Lojas P10<small>©</small></h1>
-      <div>geosgrafia (Alter ego de geovana horodeski) ©<br /></div>
     </footer>
   </nav>
 </template>
@@ -39,6 +38,7 @@ nav {
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
+  width: 14%
 }
 @media (max-width: 1200px) {
   nav {
