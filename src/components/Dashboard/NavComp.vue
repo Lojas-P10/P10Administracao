@@ -33,7 +33,6 @@ nav {
   align-items: center;
 }
 .links a {
-  padding-top: 1rem;
   padding-bottom: 1rem;
   text-decoration: none;
   border-bottom: 2px solid transparent;
