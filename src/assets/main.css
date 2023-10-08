@@ -175,9 +175,11 @@ input:focus, .dropdown-select:focus, textarea:focus {
 }
 
 .app-body-main-content {
-  width: 50em
+  width: 56%
 }
-
+.app-body-sidebar {
+  padding-left: 2em
+}
 .app-body {
   display: flex;
   flex-direction: column;
