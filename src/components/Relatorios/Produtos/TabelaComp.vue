@@ -28,7 +28,7 @@ const form = reactive({
   marca: null,
   sazonal: null,
   desconto: null,
-  tag: null
+  tag: []
 })
 
 const produtos = ref([])
@@ -37,7 +37,8 @@ const sazonais = ref([])
 const categorias = ref([])
 const marcas = ref([])
 const fornecedores = ref([])
-const file = ref(null)
+const file = ref([]); 
+const coverUrls = ref([]);
 const tags = ref([])
 const updateSubmit = ref(false)
 const erro = ref('')
@@ -97,16 +98,22 @@ function resetForm() {
     marca: null,
     sazonal: null,
     desconto: null,
-    tag: null,
+    tag: [],
     imagens_attachment_key: [],
   });
 }
 
 
 function onFileChange(e) {
-  file.value = e.target.files[0]
-  coverUrl.value = URL.createObjectURL(file.value)
+  const files = e.target.files;
+  for (let i = 0; i < files.length; i++) {
+    file.value.push(files[i]); 
+    coverUrls.value.push(URL.createObjectURL(files[i]));
+  }
 }
+
+
+
 
 function valorTotal(produto) {
   return (produto.preco * produto.quantidade).toFixed(2)
@@ -225,7 +232,7 @@ onMounted(() => {
         <box-icon name="x" color="white"></box-icon>
       </button>
     </header>
-    <form @submit.prevent="add">
+    <form @submit.prevent="add" action="https://p10backend-eugreg-dev.fl0.io/api/produtos/" method="POST" enctype="multipart/form-data">
       <div class="container-form">
         <label for="">Nome do produto</label>
         <input v-model="form.nome" type="text" />
@@ -252,9 +259,9 @@ onMounted(() => {
       </div>
       <div class="container-form">
         <label for="">Tags</label>
-        <select v-model="form.tag" class="dropdown-select">
+        <select v-model="form.tag" multiple class="dropdown-select">
           <option value="">Defina as tags</option>
-          <option v-for="tag of tags" :key="tag.id" :value="tag.descricao">
+          <option v-for="tag of tags" :key="tag.id" :value="tag.id">
             {{ tag.descricao }}
           </option>
         </select>
@@ -268,7 +275,7 @@ onMounted(() => {
               <option
                 v-for="fornecedor of fornecedores"
                 :key="fornecedor.id"
-                :value="fornecedor.nome"
+                :value="fornecedor.id"
               >
                 {{ fornecedor.nome }}
               </option>
@@ -283,7 +290,7 @@ onMounted(() => {
               <option
                 v-for="categoria of categorias"
                 :key="categoria.id"
-                :value="categoria.descricao"
+                :value="categoria.id"
               >
                 {{ categoria.descricao }}
               </option>
@@ -295,7 +302,7 @@ onMounted(() => {
             <label for="">Marca</label>
             <select v-model="form.marca" class="dropdown-select">
               <option value="">Escolha uma marca</option>
-              <option v-for="marca of marcas" :key="marca.id" :value="marca.nome">
+              <option v-for="marca of marcas" :key="marca.id" :value="marca.id">
                 {{ marca.nome }}
               </option>
             </select>
@@ -308,7 +315,7 @@ onMounted(() => {
             <label for="">Sazonal</label>
             <select v-model="form.sazonal" class="dropdown-select">
               <option value="">Escolha uma categoria Sazonal</option>
-              <option v-for="sazonal of sazonais" :key="sazonal.id" :value="sazonal.nome">
+              <option v-for="sazonal of sazonais" :key="sazonal.id" :value="sazonal.id">
                 {{ sazonal.descricao }}
               </option>
             </select>
@@ -319,7 +326,7 @@ onMounted(() => {
             <label for="">Descontos</label>
             <select class="dropdown-select">
               <option value="">Escolha um desconto</option>
-              <option v-for="desconto of descontos" :key="desconto.id" :value="desconto.descricao">
+              <option v-for="desconto of descontos" :key="desconto.id" :value="desconto.id">
                 {{ desconto.descricao }}
               </option>
             </select>
@@ -334,14 +341,14 @@ onMounted(() => {
             <label>
               ou
               <span class="browse-images">
-                <input type="file" @change="onFileChange" class="default-image-input" />
+                <input type="file" name="file" @change="onFileChange" multiple class="default-image-input" />
                 <span class="browse-images-text">Procure pelo seu arquivo</span>
               </span>
             </label>
           </div>
-          <div class="cover">
-            <img v-if="coverUrl" :src="coverUrl" />
-          </div>
+          <div class="cover" v-if="coverUrls.length > 0">
+      <img v-for="coverUrl in coverUrls" :src="coverUrl" :key="coverUrl" />
+    </div>
         </div>
       </div>
       <button type="submit" class="btn-blue">Adicionar</button>
