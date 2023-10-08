@@ -1,6 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import axios from 'axios'
+import { ref, onMounted, reactive } from 'vue'
 
 import ImagemApi from '@/api/imagem'
 import SazonalApi from '@/api/sazonal'
@@ -9,44 +8,47 @@ import CategoriasApi from '@/api/categorias'
 import FornecedoresApi from '@/api/fornecedores'
 import DescontosApi from '@/api/descontos'
 import TagsApi from '@/api/tags'
-import MarcasApi from '@/api/marcas'
+import MarcaApi from '@/api/marcas'
 
-const imagemApi = new ImagemApi()
 const produtosApi = new ProdutosApi()
 const categoriasApi = new CategoriasApi()
 const fornecedoresApi = new FornecedoresApi()
 const tagsApi = new TagsApi()
 const descontosApi = new DescontosApi()
 const sazonalApi = new SazonalApi()
-const marcasApi = new MarcasApi()
+const marcaApi = new MarcaApi()
 
-const form = ref({
+const form = reactive({
   nome: '',
   descricao: '',
   quantidade: 0,
   preco: 0,
-  data: '',
-  categoria: '',
-  marca: '',
-  sazonal: '',
-  desconto: '',
-  tag: '',
-  imagemUrl: ''
+  data: null,
+  categoria: null,
+  marca: null,
+  sazonal: null,
+  desconto: null,
+  tag: null
 })
+
 const produtos = ref([])
 const descontos = ref([])
 const sazonais = ref([])
 const categorias = ref([])
 const marcas = ref([])
 const fornecedores = ref([])
+const file = ref(null)
 const tags = ref([])
 const updateSubmit = ref(false)
 const erro = ref('')
 const isLoading = ref(true)
 const modalHidden = ref(true)
+
+
 const toggleModal = () => {
   modalHidden.value = !modalHidden.value
 }
+
 const load = async () => {
   try {
     isLoading.value = true
@@ -55,7 +57,7 @@ const load = async () => {
     descontos.value = await descontosApi.buscarTodosOsDescontos()
     sazonais.value = await sazonalApi.buscarTodosOsSazonais()
     categorias.value = await categoriasApi.buscarTodasAsCategorias()
-    marcas.value = await marcasApi.buscarTodasAsMarcas()
+    marcas.value = await marcaApi.buscarTodasAsMarcas()
     tags.value = await tagsApi.buscarTodasAsTags()
     isLoading.value = false
   } catch (err) {
@@ -63,39 +65,47 @@ const load = async () => {
     console.error(err)
   }
 }
+const coverUrl = ref('')
 
-const add = () => {
-  if (
-    form.value.nome.length == '' ||
-    form.value.data.length == '' ||
-    form.value.quantidade.length == '' ||
-    form.value.preco.length == '' ||
-    form.value.tag.length == '' ||
-    form.value.marca.length == '' ||
-    form.value.descricao.length == '' ||
-    form.value.imagemUrl.trim() === ''
-  ) {
-    erro.value = 'Preencha todos os campos, incluindo a imagem'
-  } else {
-    erro.value = ''
-    axios
-      .post('https://p10backend-eugreg-dev.fl0.io/api/produtos/', form.value)
-      .then((productResponse) => {
-        console.log(productResponse)
-        load()
-        form.value.imagemUrl = ''
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
+async function add() {
+  try {
+
+      const imagem = await ImagemApi.uploadImage(file.value);
+      form.imagens_attachment_key = imagem.attachment_key;
+
+      await produtosApi.adicionarProduto(form);
+
+      resetForm();
+
+      modalHidden.value = true;
+
+  } catch (error) {
+    console.error(error);
+  }}
+
+
+
+function resetForm() {
+  Object.assign(form, {
+    id: '',
+    nome: '',
+    descricao: '',
+    quantidade: 0,
+    preco: 0,
+    data: null,
+    categoria: null,
+    marca: null,
+    sazonal: null,
+    desconto: null,
+    tag: null,
+    imagens_attachment_key: [],
+  });
 }
 
-const onFileChange = (event) => {
-  const file = event.target.files[0]
-  if (file) {
-    form.value.imagemUrl = URL.createObjectURL(file)
-  }
+
+function onFileChange(e) {
+  file.value = e.target.files[0]
+  coverUrl.value = URL.createObjectURL(file.value)
 }
 
 function valorTotal(produto) {
@@ -215,7 +225,7 @@ onMounted(() => {
         <box-icon name="x" color="white"></box-icon>
       </button>
     </header>
-    <form>
+    <form @submit.prevent="add">
       <div class="container-form">
         <label for="">Nome do produto</label>
         <input v-model="form.nome" type="text" />
@@ -250,7 +260,7 @@ onMounted(() => {
         </select>
       </div>
       <div class="container-row">
-        <div class="container-form row-2">
+        <div class="container-form row-3">
           <div class="dropdown">
             <label for="">Fornecedor</label>
             <select v-model="form.fornecedor" class="dropdown-select">
@@ -265,7 +275,7 @@ onMounted(() => {
             </select>
           </div>
         </div>
-        <div class="container-form row-2">
+        <div class="container-form row-3">
           <div class="dropdown">
             <label for="">Categoria</label>
             <select v-model="form.categoria" class="dropdown-select">
@@ -276,6 +286,17 @@ onMounted(() => {
                 :value="categoria.descricao"
               >
                 {{ categoria.descricao }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="container-form row-3">
+          <div class="dropdown">
+            <label for="">Marca</label>
+            <select v-model="form.marca" class="dropdown-select">
+              <option value="">Escolha uma marca</option>
+              <option v-for="marca of marcas" :key="marca.id" :value="marca.nome">
+                {{ marca.nome }}
               </option>
             </select>
           </div>
@@ -319,16 +340,11 @@ onMounted(() => {
             </label>
           </div>
           <div class="cover">
-            <img v-if="form.imagemUrl" :src="form.imagemUrl" />
+            <img v-if="coverUrl" :src="coverUrl" />
           </div>
         </div>
-        <ul>
-          <li v-for="image in selectedimages" class="selected-images" :key="image.name">
-            {{ image.name }}
-          </li>
-        </ul>
       </div>
-      <button @click="add" class="btn-blue">Adicionar</button>
+      <button type="submit" class="btn-blue">Adicionar</button>
     </form>
   </div>
 </template>
@@ -364,7 +380,6 @@ table {
 
 .th {
   background: #000;
-
 }
 
 th {
