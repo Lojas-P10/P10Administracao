@@ -1,28 +1,56 @@
-<script>
-export default {
-}
+<script setup>
+import { reactive } from 'vue'
+
+import { useAuthStore } from '@/stores/auth'
+import { useRouter} from 'vue-router'
+
+const authStore = useAuthStore()
+const router = useRouter()
+
+const user = reactive({
+  email: 'greg@gmail.com',
+  password: 'admin'
+})
+
+async function submit() {
+  console.log('lo')
+  try {
+    await authStore.login(user)
+    router.push('/dashboard/produtos')
+  } catch (e) {
+    console.log('erro')
+    // this.$toast.error(`usuario ou senha invalido`, {
+    //   type: 'error',
+    //   position: 'top-right'
+    // })
+    // setTimeout(this.$toast.clear, 3000)
+  }
+} 
 </script>
+
 <template>
   <main>
-    <div class="login-box">
-      <div class="hello-world">
-        <img src="../../public/logo/LojasP10/logo-menor.png" alt="" />
+    <!-- <form > -->
+      <div class="login-box">
+        <div class="hello-world">
+          <img src="../../public/logo/LojasP10/logo-menor.png" alt="" />
+        </div>
+        <form>
+          <h1>Entre na sua conta</h1>
+          <div class="user-box">
+            <!-- <div><box-icon color="var(--c-white)" name="envelope"></box-icon></div> -->
+            <input required="" v-model="user.email" placeholder="email" type="email" />
+          </div>
+          <div class="user-box">
+            <!-- <div><box-icon color="var(--c-white)" name="lock-alt"></box-icon></div> -->
+            <input required="" v-model="user.password" placeholder="senha" type="password" />
+          </div>
+          <button @click="submit" class="btn-blue">
+             entrar 
+          </button>
+        </form>
       </div>
-      <form>
-        <h1>Entre na sua conta</h1>
-        <div class="user-box">
-          <div><box-icon color="var(--c-white)" name="envelope"></box-icon></div>
-          <input required="" name="" placeholder="email" type="email" />
-        </div>
-        <div class="user-box">
-          <div><box-icon color="var(--c-white)" name="lock-alt"></box-icon></div>
-          <input required="" name="" placeholder="senha" type="password" />
-        </div>
-        <button class="btn-blue">
-          <RouterLink to="/dashboard/produtos"> entrar </RouterLink>
-        </button>
-      </form>
-    </div>
+    
   </main>
 </template>
 
