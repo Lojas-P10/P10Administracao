@@ -16,15 +16,18 @@ async function submit() {
   console.log('lo')
   try {
     await authStore.login(user)
-    router.push('/dashboard/produtos')
-  } catch (e) {
-    console.log('erro')
-    // this.$toast.error(`usuario ou senha invalido`, {
-    //   type: 'error',
-    //   position: 'top-right'
-    // })
-    // setTimeout(this.$toast.clear, 3000)
-  }
+    router.push('/dashboard/produtos/')
+  }catch (error) {
+      console.error(error);
+    }
+  // catch (e) {
+    //  console.log('erro')
+  //   this.$toast.error(`usuario ou senha invalido`, {
+  //     type: 'error',
+  //     position: 'top-right'
+  //   })
+  //   setTimeout(this.$toast.clear, 3000)
+  //}
 } 
 </script>
 
@@ -35,7 +38,7 @@ async function submit() {
         <div class="hello-world">
           <img src="../../public/logo/LojasP10/logo-menor.png" alt="" />
         </div>
-        <form>
+        <form @submit.prevent="submit">
           <h1>Entre na sua conta</h1>
           <div class="user-box">
             <!-- <div><box-icon color="var(--c-white)" name="envelope"></box-icon></div> -->
@@ -45,7 +48,7 @@ async function submit() {
             <!-- <div><box-icon color="var(--c-white)" name="lock-alt"></box-icon></div> -->
             <input required="" v-model="user.password" placeholder="senha" type="password" />
           </div>
-          <button @click="submit" class="btn-blue">
+          <button @click.prevent="submit" type="submit" class="btn-blue">
              entrar 
           </button>
         </form>
