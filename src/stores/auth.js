@@ -12,7 +12,6 @@ export const useAuthStore = defineStore('auth', () => {
     const token = computed(()=> state.access)
     
     async function login(user) {
-        console.log('oioio')
         try {
             const data =  await loginapi.Login(user)
             state.access = data.access

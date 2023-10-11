@@ -8,32 +8,23 @@ const authStore = useAuthStore()
 const router = useRouter()
 
 const user = reactive({
-  email: 'greg@gmail.com',
-  password: 'admin'
+  email: '',
+  password: '',
 })
 
 async function submit() {
-  console.log('lo')
   try {
     await authStore.login(user)
     router.push('/dashboard/produtos/')
   }catch (error) {
       console.error(error);
     }
-  // catch (e) {
-    //  console.log('erro')
-  //   this.$toast.error(`usuario ou senha invalido`, {
-  //     type: 'error',
-  //     position: 'top-right'
-  //   })
-  //   setTimeout(this.$toast.clear, 3000)
-  //}
+  
 } 
 </script>
 
 <template>
   <main>
-    <!-- <form > -->
       <div class="login-box">
         <div class="hello-world">
           <img src="../../public/logo/LojasP10/logo-menor.png" alt="" />
