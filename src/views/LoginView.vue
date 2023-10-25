@@ -32,15 +32,15 @@ async function submit() {
         <form @submit.prevent="submit">
           <h1>Entre na sua conta</h1>
           <div class="user-box">
-            <!-- <div><box-icon color="var(--c-white)" name="envelope"></box-icon></div> -->
+            <div><box-icon color="var(--c-white)" name="envelope"></box-icon></div>
             <input required="" v-model="user.email" placeholder="email" type="email" />
           </div>
           <div class="user-box">
-            <!-- <div><box-icon color="var(--c-white)" name="lock-alt"></box-icon></div> -->
+            <div><box-icon color="var(--c-white)" name="lock-alt"></box-icon></div>
             <input required="" v-model="user.password" placeholder="senha" type="password" />
           </div>
           <button @submit.prevent="submit" type="submit" class="btn-blue">
-             entrar 
+            entrar 
           </button>
         </form>
       </div>
@@ -91,6 +91,7 @@ img {
 }
 input {
   padding: 2em 5em;
+  height: auto;
   margin-bottom: 1em;
 }
 </style>
