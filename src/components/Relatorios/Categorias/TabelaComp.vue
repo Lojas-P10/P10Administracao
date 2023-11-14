@@ -21,7 +21,7 @@ const toggleModal = () => {
   modalHidden.value = !modalHidden.value
 }
 const load = () => {
-  axios.get('https://p10backend-eugreg-dev.fl0.io/api/categorias/').then((res) => {
+  axios.get('https://p10backend-eugreg-dev.4.us-1.fl0.io/api/categorias/').then((res) => {
       categorias.value = res.data
       isLoading.value = false;
     }).catch((err) => {
@@ -42,7 +42,7 @@ const load = () => {
   } else {
     erro.value = ''
     axios
-      .post('https://p10backend-eugreg-dev.fl0.io/api/categorias/', form.value)
+      .post('https://p10backend-eugreg-dev.4.us-1.fl0.io/api/categorias/', form.value)
       .then((response) => {
         console.log(response)
         load()
@@ -93,7 +93,7 @@ const update = () => {
 */
 const del = (categoria) => {
   if (confirm('Tem certeza que deseja deletar este categoria?')) {
-    axios.delete(`https://p10backend-eugreg-dev.fl0.io/api/categorias/${categoria.id}/`).then((response) => {
+    axios.delete(`https://p10backend-eugreg-dev.4.us-1.fl0.io/api/categorias/${categoria.id}/`).then((response) => {
         console.log(response)
         load()
         const index = categorias.value.findIndex((u) => u.id === categoria.id)

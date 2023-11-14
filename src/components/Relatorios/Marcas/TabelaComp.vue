@@ -21,7 +21,7 @@ const toggleModal = () => {
   modalHidden.value = !modalHidden.value
 }
 const load = () => {
-  axios.get('https://p10backend-eugreg-dev.fl0.io/api/marca/').then((res) => {
+  axios.get('https://p10backend-eugreg-dev.4.us-1.fl0.io/api/marca/').then((res) => {
       marcas.value = res.data
       isLoading.value = false;
     }).catch((err) => {
@@ -42,7 +42,7 @@ const load = () => {
   } else {
     erro.value = ''
     axios
-      .post('https://p10backend-eugreg-dev.fl0.io/api/marcas/', form.value)
+      .post('https://p10backend-eugreg-dev.4.us-1.fl0.io/api/marcas/', form.value)
       .then((response) => {
         console.log(response)
         load()
@@ -93,7 +93,7 @@ const update = () => {
 */
 const del = (marca) => {
   if (confirm('Tem certeza que deseja deletar essa marca?')) {
-    axios.delete(`https://p10backend-eugreg-dev.fl0.io/api/marca/${marca.id}/`).then((response) => {
+    axios.delete(`https://p10backend-eugreg-dev.4.us-1.fl0.io/api/marca/${marca.id}/`).then((response) => {
         console.log(response)
         load()
         const index = marcas.value.findIndex((u) => u.id === marca.id)

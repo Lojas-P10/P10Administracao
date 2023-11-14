@@ -44,7 +44,7 @@ const load = async () => {
   } else {
     erro.value = ''
     axios
-      .post('https://p10backend-eugreg-dev.fl0.io/api/descontos/', form.value)
+      .post('https://p10backend-eugreg-dev.4.us-1.fl0.io/api/descontos/', form.value)
       .then((response) => {
         console.log(response)
         load()
@@ -95,7 +95,7 @@ const update = () => {
 */
 const del = (desconto) => {
   if (confirm('Tem certeza que deseja deletar este desconto?')) {
-    axios.delete(`https://p10backend-eugreg-dev.fl0.io/api/descontos/${desconto.id}/`).then((response) => {
+    axios.delete(`https://p10backend-eugreg-dev.4.us-1.fl0.io/api/descontos/${desconto.id}/`).then((response) => {
         console.log(response)
         load()
         const index = descontos.value.findIndex((u) => u.id === desconto.id)

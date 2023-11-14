@@ -22,7 +22,7 @@ const toggleModal = () => {
   modalHidden.value = !modalHidden.value
 }
 const load = () => {
-  axios.get('https://p10backend-eugreg-dev.fl0.io/api/tag/').then((res) => {
+  axios.get('https://p10backend-eugreg-dev.4.us-1.fl0.io/api/tag/').then((res) => {
       tags.value = res.data
       isLoading.value = false;
     }).catch((err) => {
@@ -43,7 +43,7 @@ const load = () => {
   } else {
     erro.value = ''
     axios
-      .post('https://p10backend-eugreg-dev.fl0.io/api/tag/', form.value)
+      .post('https://p10backend-eugreg-dev.4.us-1.fl0.io/api/tag/', form.value)
       .then((response) => {
         console.log(response)
         load()
@@ -94,7 +94,7 @@ const update = () => {
 */
 const del = (tag) => {
   if (confirm('Tem certeza que deseja deletar este tag?')) {
-    axios.delete(`https://p10backend-eugreg-dev.fl0.io/api/tag/${tag.id}/`).then((response) => {
+    axios.delete(`https://p10backend-eugreg-dev.4.us-1.fl0.io/api/tag/${tag.id}/`).then((response) => {
         console.log(response)
         load()
         const index = tags.value.findIndex((u) => u.id === tag.id)

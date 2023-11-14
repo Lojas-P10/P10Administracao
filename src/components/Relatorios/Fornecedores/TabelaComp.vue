@@ -112,7 +112,7 @@ const update = () => {
 const del = (fornecedor) => {
   if (confirm('Tem certeza que deseja deletar este usuário?')) {
     axios
-      .delete(`https://p10backend-eugreg-dev.fl0.io/api/fornecedores/${fornecedor.id}/`)
+      .delete(`https://p10backend-eugreg-dev.4.us-1.fl0.io/api/fornecedores/${fornecedor.id}/`)
       .then((response) => {
         console.log(response)
         load()

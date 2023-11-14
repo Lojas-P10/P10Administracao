@@ -17,7 +17,7 @@ const toggleModal = () => {
 }
 const load = () => {
   axios
-    .get('https://p10backend-eugreg-dev.fl0.io/api/sazonal/')
+    .get('https://p10backend-eugreg-dev.4.us-1.fl0.io/api/sazonal/')
     .then((res) => {
       sazonais.value = res.data
       isLoading.value = false;
@@ -35,7 +35,7 @@ const add = () => {
   } else {
     erro.value = ''
     axios
-      .post('https://p10backend-eugreg-dev.fl0.io/api/sazonal/', form.value)
+      .post('https://p10backend-eugreg-dev.4.us-1.fl0.io/api/sazonal/', form.value)
       .then((response) => {
         console.log(response)
         load()
@@ -82,7 +82,7 @@ const update = () => {
 const del = (sazonal) => {
   if (confirm('Tem certeza que deseja deletar este sazonal?')) {
     axios
-      .delete(`https://p10backend-eugreg-dev.fl0.io/api/sazonal/${sazonal.id}/`)
+      .delete(`https://p10backend-eugreg-dev.4.us-1.fl0.io/api/sazonal/${sazonal.id}/`)
       .then((response) => {
         console.log(response)
         load()

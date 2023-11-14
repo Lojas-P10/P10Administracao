@@ -129,7 +129,7 @@ function valorTotal(produto) {
  */
 /* const update = () => {
   axios
-    .put("https://p10backend-eugreg-dev.fl0.io/api/produtos/" + form.value.id, {
+    .put("https://p10backend-eugreg-dev.4.us-1.fl0.io/api/produtos/" + form.value.id, {
       name: form.value.name,
       data: form.value.data,
       email: form.value.email,
@@ -153,7 +153,7 @@ function valorTotal(produto) {
 /* const del = (user) => {
   if (confirm('Tem certeza que deseja deletar este usuário?')) {
     axios
-      .delete('https://p10backend-eugreg-dev.fl0.io/api/produto/' + user.id)
+      .delete('https://p10backend-eugreg-dev.4.us-1.fl0.io/api/produto/' + user.id)
       .then((res) => {
         load()
         const index = produtos.value.findIndex((u) => u.id === user.id)
@@ -232,7 +232,7 @@ onMounted(() => {
         <box-icon name="x" color="white"></box-icon>
       </button>
     </header>
-    <form @submit.prevent="add" action="https://p10backend-eugreg-dev.fl0.io/api/produtos/" method="POST" enctype="multipart/form-data">
+    <form @submit.prevent="add" action="https://p10backend-eugreg-dev.4.us-1.fl0.io/api/produtos/" method="POST" enctype="multipart/form-data">
       <div class="container-form">
         <label for="">Nome do produto</label>
         <input v-model="form.nome" type="text" />
