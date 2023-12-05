@@ -30,6 +30,7 @@ body {
   justify-content: center;
 }
 
+
 *,
 *:before,
 *:after {
@@ -150,13 +151,13 @@ input,
   width: 100%;
   color: #111;
 }
-
+/* 
 input:focus, .dropdown-select:focus, textarea:focus {
   outline: none;
   border-color: var(--c-green-500);
   box-shadow: 0 0 0 1px var(--c-green-500), 0 0 0 4px #5aed8352;
 }
-
+ */
 .dropdown-select>option {
   margin: 3px;
   padding: 6px 8px;
