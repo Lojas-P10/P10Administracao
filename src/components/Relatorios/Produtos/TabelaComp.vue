@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, reactive } from 'vue'
+import { ref, onMounted, reactive, onBeforeUnmount } from 'vue'
 
 import ImagemApi from '@/api/imagem'
 import SazonalApi from '@/api/sazonal'
@@ -37,11 +37,9 @@ const sazonais = ref([])
 const categorias = ref([])
 const marcas = ref([])
 const fornecedores = ref([])
-const file = ref([]); 
-const coverUrls = ref([]);
+const file = ref([]);
+const coverUrl = ref([""]);
 const tags = ref([])
-const updateSubmit = ref(false)
-const erro = ref('')
 const isLoading = ref(true)
 const modalHidden = ref(true)
 
@@ -66,24 +64,34 @@ const load = async () => {
     console.error(err)
   }
 }
-const coverUrl = ref('')
 
 async function add() {
-  try {
+  const imagens = await Promise.all(
+    file.value.map((file) => ImagemApi.uploadImage(file))
+  );
+  form.imagens_attachment_keys = imagens.map(
+    (imagem) => imagem.attachment_key
+  );
 
-      const imagem = await ImagemApi.uploadImage(file.value);
-      form.imagens_attachment_key = imagem.attachment_key;
+  await produtosApi.adicionarProduto(form);
+  Object.assign(form, {
+    id: '',
+    nome: '',
+    descricao: '',
+    quantidade: 0,
+    preco: 0,
+    data: null,
+    categoria: null,
+    marca: null,
+    sazonal: null,
+    desconto: null,
+    tag: [],
+    imagens_attachment_key: [],
+  });
+  resetForm();  
 
-      await produtosApi.adicionarProduto(form);
-
-      resetForm();
-
-      modalHidden.value = true;
-
-  } catch (error) {
-    console.error(error);
-  }}
-
+  modalHidden.value = true;
+}
 
 
 function resetForm() {
@@ -103,69 +111,22 @@ function resetForm() {
   });
 }
 
-
 function onFileChange(e) {
-  const files = e.target.files;
-  for (let i = 0; i < files.length; i++) {
-    file.value.push(files[i]); 
-    coverUrls.value.push(URL.createObjectURL(files[i]));
-  }
+  coverUrl.value = [];
+  file.value.push(...e.target.files);
+  coverUrl.value = file.value.map((file) => URL.createObjectURL(file));
 }
 
-
+onBeforeUnmount(() => {
+  if (coverUrl.value) {
+    URL.revokeObjectURL(coverUrl.value);
+  }
+});
 
 
 function valorTotal(produto) {
   return (produto.preco * produto.quantidade).toFixed(2)
 }
-/* const edit = (user) => {
-  updateSubmit.value = true;
-  form.value.id = user.id;
-  form.value.name = user.name;
-  form.value.data = user.data;
-  form.value.email = user.email;
-  form.value.departamento = user.departamento;
-};
- */
-/* const update = () => {
-  axios
-    .put("https://p10backend-eugreg-dev.4.us-1.fl0.io/api/produtos/" + form.value.id, {
-      name: form.value.name,
-      data: form.value.data,
-      email: form.value.email,
-      departamento: form.value.departamento,
-    })
-    .then((res) => {
-      load();
-      form.value.id = "";
-      form.value.name = "";
-      form.value.data = "";
-      form.value.email = "";
-      form.value.departamento = "";
-      updateSubmit.value = false;
-      alert("Usuário alterado");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}; */
-
-/* const del = (user) => {
-  if (confirm('Tem certeza que deseja deletar este usuário?')) {
-    axios
-      .delete('https://p10backend-eugreg-dev.4.us-1.fl0.io/api/produto/' + user.id)
-      .then((res) => {
-        load()
-        const index = produtos.value.findIndex((u) => u.id === user.id)
-        if (index !== -1) {
-          produtos.value.splice(index, 1)
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-} */
 
 onMounted(() => {
   load()
@@ -232,7 +193,7 @@ onMounted(() => {
         <box-icon name="x" color="white"></box-icon>
       </button>
     </header>
-    <form @submit.prevent="add" action="https://p10backend-eugreg-dev.4.us-1.fl0.io/api/produtos/" method="POST" enctype="multipart/form-data">
+    <form @submit.prevent="add" enctype="multipart/form-data">
       <div class="container-form">
         <label for="">Nome do produto</label>
         <input v-model="form.nome" type="text" />
@@ -272,11 +233,7 @@ onMounted(() => {
             <label for="">Fornecedor</label>
             <select v-model="form.fornecedor" class="dropdown-select">
               <option value="">Escolha um fornecedor</option>
-              <option
-                v-for="fornecedor of fornecedores"
-                :key="fornecedor.id"
-                :value="fornecedor.id"
-              >
+              <option v-for="fornecedor of fornecedores" :key="fornecedor.id" :value="fornecedor.id">
                 {{ fornecedor.nome }}
               </option>
             </select>
@@ -287,11 +244,7 @@ onMounted(() => {
             <label for="">Categoria</label>
             <select v-model="form.categoria" class="dropdown-select">
               <option value="">Escolha uma categoria</option>
-              <option
-                v-for="categoria of categorias"
-                :key="categoria.id"
-                :value="categoria.id"
-              >
+              <option v-for="categoria of categorias" :key="categoria.id" :value="categoria.id">
                 {{ categoria.descricao }}
               </option>
             </select>
@@ -346,12 +299,12 @@ onMounted(() => {
               </span>
             </label>
           </div>
-          <div class="cover" v-if="coverUrls.length > 0">
-      <img v-for="coverUrl in coverUrls" :src="coverUrl" :key="coverUrl" />
-    </div>
+          <div class="cover">
+            <img v-for="url in coverUrl" :key="url" :src="url" />
+          </div>
         </div>
       </div>
-      <button type="submit" class="btn-blue">Adicionar</button>
+      <button type="submit" @submit.prevent="add" class="btn-blue">Adicionar</button>
     </form>
   </div>
 </template>
@@ -364,6 +317,7 @@ table {
   border-collapse: collapse;
   table-layout: fixed;
 }
+
 .sticky-left {
   position: sticky;
   z-index: 1;
@@ -380,6 +334,7 @@ table {
   background-color: #262626;
   right: 0;
 }
+
 .table-wrapper {
   overflow-x: auto;
   max-width: 100%;
@@ -486,12 +441,14 @@ body.modal-open {
 .btn-blue {
   padding: 0.5em;
 }
+
 .add {
   padding-bottom: 2.5em;
   margin-top: 1em;
 
   margin-bottom: -2em;
 }
+
 .container-form {
   display: flex;
   flex-direction: column;
