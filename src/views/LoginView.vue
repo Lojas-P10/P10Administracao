@@ -9,7 +9,7 @@ const router = useRouter()
 
 const user = reactive({
   email: '',
-  password: '',
+  password: ''
 })
 
 async function submit() {
@@ -17,46 +17,59 @@ async function submit() {
     await authStore.login(user)
     router.push('/dashboard/produtos/')
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-
-} 
+}
 </script>
 
 <template>
   <main>
-  <div class="login-box">
+    <div class="login-box">
       <div class="hello-world">
         <img src="../../public/logo/LojasP10/logo-menor.png" alt="" />
       </div>
       <form @submit.prevent="submit">
         <h1>Entre na sua conta</h1>
         <div class="user-box">
-          <div>
-            <input id="sem-efeito" required="" v-model="user.email" placeholder="email" type="email" />
+          <div class="group">
+            <div class="icon">
+              <box-icon color="var(--c-white)" name="envelope"></box-icon>
+            </div>
+            <input v-model="user.email" placeholder="email" type="email" />
+          </div>
+          <div class="group">
+            <div class="icon">
+              <box-icon color="var(--c-white)" name="lock-alt"></box-icon>
+            </div>
+            <input v-model="user.password" placeholder="senha" type="password" />
+          </div>
+          <!--          <div>
+            <input
+              id="sem-efeito"
+              required=""
+              
+            />
             <div class="input-back">
-              <div class="button"><box-icon color="var(--c-white)" name="envelope"></box-icon></div>
+              <div class="button"></div>
             </div>
           </div>
           <div>
-            <input id="sem-efeito" required="" v-model="user.password" placeholder="senha" type="password" />
+            <input
+              id="sem-efeito"
+              required=""
+              v-model="user.password"
+              placeholder="senha"
+              type="password"
+            />
             <div class="input-back">
               <div class="button"><box-icon color="var(--c-white)" name="lock-alt"></box-icon></div>
             </div>
-          </div>
-
+          </div> -->
         </div>
 
-        <!--         <div class="user-box">
-              <div><box-icon color="var(--c-white)" name="lock-alt"></box-icon></div>
-              <input required="" v-model="user.password" placeholder="senha" type="password" />
-            </div> -->
-        <button @submit.prevent="submit" type="submit" class="btn-blue">
-          entrar
-        </button>
+        <button @submit.prevent="submit" type="submit" class="btn-blue">entrar</button>
       </form>
     </div>
-
   </main>
 </template>
 
@@ -84,13 +97,6 @@ img {
   padding: 1em;
 }
 
-.input-back {
-  border-radius: 10px;
-
-  display: flex;
-  background-color: gray;
-}
-
 .login-box {
   width: 50%;
   padding: 40px;
@@ -108,31 +114,17 @@ img {
   flex-direction: column;
 }
 
-
-.login-box .user-box .button {
-  background-color: var(--c-green-500);
-  padding: 0.5em;
+.group {
   display: flex;
-  border-radius: 10px;
+  position: relative;
+  margin-bottom: 1em;
+  align-items: center;
 }
-
-.input-back input:focus {
-  outline: none;
-  border: none;
-  box-shadow: 0;
+.group .icon {
+  position: absolute;
+  left: 5%;
 }
-
-#sem-efeito:focus~.input-back {
-  outline: none;
-  border-color: var(--c-green-500);
-  box-shadow: 0 0 0 1px var(--c-green-500), 0 0 0 4px #5aed8352;
-
-}
-
-
 input {
-  background-color: transparent;
-  translate: 0vw 5vh;
-  padding-left: 4vw;
+  padding-left: 4em;
 }
 </style>
