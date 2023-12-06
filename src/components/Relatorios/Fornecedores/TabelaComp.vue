@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import FornecedoresApi from '@/api/fornecedores'
 
-const fornecedoresApi = new FornecedoresApi();
+const fornecedoresApi = new FornecedoresApi()
 
 const form = ref({
   nome: '',
@@ -25,15 +25,15 @@ const toggleModal = () => {
 }
 const load = async () => {
   try {
-    isLoading.value = true;
-    fornecedores.value = await fornecedoresApi.buscarTodosOsFornecedores();
+    isLoading.value = true
+    fornecedores.value = await fornecedoresApi.buscarTodosOsFornecedores()
 
-    isLoading.value = false;
+    isLoading.value = false
   } catch (err) {
-    isLoading.value = false;
-    console.log(err);
+    isLoading.value = false
+    console.log(err)
   }
-};
+}
 
 const add = async () => {
   if (
@@ -44,9 +44,9 @@ const add = async () => {
     form.value.cep.length === 0 ||
     form.value.cnpj.length === 0
   ) {
-    erro.value = 'Preencha todos os campos';
+    erro.value = 'Preencha todos os campos'
   } else {
-    erro.value = '';
+    erro.value = ''
 
     try {
       const fornecedor = {
@@ -55,27 +55,25 @@ const add = async () => {
         email: form.value.email,
         telefone: form.value.telefone,
         cep: form.value.cep,
-        cnpj: form.value.cnpj,
-      };
+        cnpj: form.value.cnpj
+      }
 
-      const response = await fornecedoresApi.adicionarFornecedor(fornecedor);
-      console.log(response);
+      const response = await fornecedoresApi.adicionarFornecedor(fornecedor)
+      console.log(response)
 
-      form.value.nome = '';
-      form.value.endereco = '';
-      form.value.email = '';
-      form.value.telefone = '';
-      form.value.cnpj = '';
-      form.value.cep = '';
+      form.value.nome = ''
+      form.value.endereco = ''
+      form.value.email = ''
+      form.value.telefone = ''
+      form.value.cnpj = ''
+      form.value.cep = ''
 
-      await load();
+      await load()
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   }
-};
-
-
+}
 
 /* const edit = (user) => {
   updateSubmit.value = true;
@@ -138,40 +136,42 @@ onMounted(() => {
     <button @click="toggleModal" class="btn-blue add">
       Adicionar Fornecedor<box-icon name="plus" color="white"></box-icon>
     </button>
-    <table>
-      <thead>
-        <tr>
-          <th><a>Nome</a></th>
-          <th><a>ID</a></th>
-          <th><a>Endereço</a></th>
-          <th><a>Telefone</a></th>
-          <th><a>CEP</a></th>
-          <th><a>CNPJ</a></th>
-          <th><a>Email</a></th>
-          <th>Manutenção</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="fornecedor in fornecedores" :key="fornecedor.id">
-          <td>{{ fornecedor.nome }}</td>
-          <td>{{ fornecedor.id }}</td>
-          <!-- Criar um link para uma página com as informações sobre o fornecedor -->
-          <td>{{ fornecedor.endereco }}</td>
-          <td>{{ fornecedor.telefone }}</td>
-          <td>{{ fornecedor.cep }}</td>
-          <td>{{ fornecedor.cnpj }}</td>
-          <td>{{ fornecedor.email }}</td>
-          <td class="container-manutencao">
-            <button class="btn-green">
-              <box-icon color="var(--c-white)" type="solid" name="edit"></box-icon>
-            </button>
-            <button @click="del(fornecedor)" class="btn-green">
-              <box-icon name="trash-alt" color="var(--c-white)" type="solid"></box-icon>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th class="sticky-left th"><a>Nome</a></th>
+            <th><a>ID</a></th>
+            <th><a>Endereço</a></th>
+            <th><a>Telefone</a></th>
+            <th><a>CEP</a></th>
+            <th><a>CNPJ</a></th>
+            <th><a>Email</a></th>
+            <th class="sticky-right th"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="fornecedor in fornecedores" :key="fornecedor.id">
+            <td class="sticky-left">{{ fornecedor.nome }}</td>
+            <td>{{ fornecedor.id }}</td>
+            <!-- Criar um link para uma página com as informações sobre o fornecedor -->
+            <td>{{ fornecedor.endereco }}</td>
+            <td>{{ fornecedor.telefone }}</td>
+            <td>{{ fornecedor.cep }}</td>
+            <td>{{ fornecedor.cnpj }}</td>
+            <td>{{ fornecedor.email }}</td>
+            <td class="container-manutencao sticky-right">
+              <button class="btn-green">
+                <box-icon color="var(--c-white)" type="solid" name="edit"></box-icon>
+              </button>
+              <button @click="del(fornecedor)" class="btn-green">
+                <box-icon name="trash-alt" color="var(--c-white)" type="solid"></box-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <div class="modal-overlay" @click="toggleModal" :class="{ hide: modalHidden }"></div>
@@ -217,8 +217,10 @@ onMounted(() => {
 <style scoped>
 table {
   width: 133%;
-  overflow: hidden;
+  overflow: auto;
   border-radius: 10px;
+  border-collapse: collapse;
+  table-layout: fixed;
 }
 .container-table {
   overflow-x: auto;
@@ -269,7 +271,7 @@ body.modal-open {
 .add {
   padding-bottom: 2.5em;
   margin-top: 1em;
-  
+
   margin-bottom: -2em;
 }
 

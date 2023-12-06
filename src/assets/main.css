@@ -151,13 +151,13 @@ input,
   width: 100%;
   color: #111;
 }
-/* 
+
 input:focus, .dropdown-select:focus, textarea:focus {
   outline: none;
   border-color: var(--c-green-500);
   box-shadow: 0 0 0 1px var(--c-green-500), 0 0 0 4px #5aed8352;
 }
- */
+
 .dropdown-select>option {
   margin: 3px;
   padding: 6px 8px;
@@ -175,6 +175,28 @@ input:focus, .dropdown-select:focus, textarea:focus {
   flex-direction: column;
 }
 
+.sticky-right, .sticky-left {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  background-color: #262626;
+}
+.sticky-right {
+  right: 0;
+}
+
+.sticky-left {
+  left: 0;
+}
+.th {
+  background: #000;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
 .app-body-main-content {
   width: 56%
 }
@@ -184,14 +206,60 @@ input:focus, .dropdown-select:focus, textarea:focus {
 .app-body {
   display: flex;
   flex-direction: column;
-  /*   display: grid;
-  grid-tem  plate-columns: minmax(-webkit-min-content, 175px) minmax(-webkit-max-content, 1fr) minmax(-webkit-min-content, 400px);
-  grid-template-columns: minmax(min-content, 210px) minmax(max-content, 1fr) minmax(min-content, 400px);
-  -moz-column-gap: 4rem;
-  column-gap: 4rem; */
   padding-top: 2.5rem;
 }
 
+.upload-images-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.drag-image-area {
+  border: 3px dashed var(--c-green-500);
+  border-radius: 10px;
+  margin: 10px 0 15px;
+  padding: 30px 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.drag-image-area,
+.drag-image-area label,
+.browse-images {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.drag-image-area h3 {
+  margin: 15px 0;
+}
+
+.drag-image-area label .browse-images-text {
+  color: var(--c-green-500);
+  font-weight: bolder;
+  cursor: pointer;
+}
+
+.browse-images span {
+  position: relative;
+  top: -25px;
+}
+
+.default-image-input {
+  opacity: 0;
+}
+
+.selected-images {
+  background-color: var(--c-gray-800);
+  width: fit-content;
+  padding: 0.5em;
+  border-radius: 10px;
+}
 h2 {
   font-size: 1.5rem;
   margin-bottom: 1.25rem;
@@ -227,7 +295,6 @@ h2 {
 
 ::-webkit-scrollbar-thumb {
   background: var(--c-green-500);
-  border-radius: 2em;
 }
 
 ::-webkit-scrollbar-thumb:hover {

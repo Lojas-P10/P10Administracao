@@ -12,15 +12,13 @@ const form = ref({
 })
 
 const descontos = ref([])
-const updateSubmit = ref(false)
-const erro = ref('')
 const modalHidden = ref(true)
 const isLoading = ref(true)
 
 const toggleModal = () => {
   modalHidden.value = !modalHidden.value
 }
-const load = async () => {
+/* const load = async () => {
   try {
     isLoading.value = true;
     descontos.value = await descontosApi.buscarTodosOsDescontos();
@@ -30,74 +28,12 @@ const load = async () => {
     isLoading.value = false;
     console.log(err);
   }
-};
-/* const add = () => {
-  if (
-    form.value.nome.length == '' ||
-    form.value.endereco.length == '' ||
-    form.value.email.length == '' ||
-    form.value.telefone.length == '' ||
-    form.value.cep.length == '' ||
-    form.value.cnpj.length == ''
-  ) {
-    erro.value = 'Preencha todos os campos'
-  } else {
-    erro.value = ''
-    axios
-      .post('https://p10backend-eugreg-dev.4.us-1.fl0.io/api/descontos/', form.value)
-      .then((response) => {
-        console.log(response)
-        load()
-        form.value.nome = ''
-        form.value.endereco = ''
-        form.value.email = ''
-        form.value.telefone = ''
-        form.value.cnpj = ''
-        form.value.cep = ''
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }
-}
- */
-/* const edit = (user) => {
-  updateSubmit.value = true;
-  form.value.id = user.id;
-  form.value.name = user.name;
-  form.value.data = user.data;
-  form.value.email = user.email;
-  form.value.departamento = user.departamento;
-};
+}; */
 
-const update = () => {
-  axios
-    .put("http://localhost:3000/users/" + form.value.id, {
-      name: form.value.name,
-      data: form.value.data,
-      email: form.value.email,
-      departamento: form.value.departamento,
-    })
-    .then((res) => {
-      load();
-      form.value.id = "";
-      form.value.name = "";
-      form.value.data = "";
-      form.value.email = "";
-      form.value.departamento = "";
-      updateSubmit.value = false;
-      alert("Usuário alterado");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
-*/
 const del = (desconto) => {
   if (confirm('Tem certeza que deseja deletar este desconto?')) {
     axios.delete(`https://p10backend-eugreg-dev.4.us-1.fl0.io/api/descontos/${desconto.id}/`).then((response) => {
         console.log(response)
-        load()
         const index = descontos.value.findIndex((u) => u.id === desconto.id)
         if (index !== -1) {
           descontos.value.splice(index, 1)
@@ -110,7 +46,7 @@ const del = (desconto) => {
 }
 
 onMounted(() => {
-  load()
+  descontos.value = descontosApi.buscarTodosOsDescontos()
 })
 </script>
 
@@ -133,7 +69,6 @@ onMounted(() => {
         <tr v-for="desconto in descontos" :key="desconto.id">
           <td>{{ desconto.id }}</td>
           <td>{{ desconto.descricao }}</td>
-          <!-- Criar um link para uma página com as informações sobre o desconto -->
           <td>{{ desconto.porcentagem }}</td>
           <td class="container-manutencao">
             <button class="btn-green">

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, reactive, onBeforeUnmount } from 'vue'
+import { ref, onMounted, reactive, computed, onBeforeUnmount } from 'vue'
 
 import ImagemApi from '@/api/imagem'
 import SazonalApi from '@/api/sazonal'
@@ -37,12 +37,11 @@ const sazonais = ref([])
 const categorias = ref([])
 const marcas = ref([])
 const fornecedores = ref([])
-const file = ref([]);
-const coverUrl = ref([""]);
+const file = ref([])
+const coverUrl = ref([''])
 const tags = ref([])
 const isLoading = ref(true)
 const modalHidden = ref(true)
-
 
 const toggleModal = () => {
   modalHidden.value = !modalHidden.value
@@ -66,14 +65,10 @@ const load = async () => {
 }
 
 async function add() {
-  const imagens = await Promise.all(
-    file.value.map((file) => ImagemApi.uploadImage(file))
-  );
-  form.imagens_attachment_keys = imagens.map(
-    (imagem) => imagem.attachment_key
-  );
+  const imagens = await Promise.all(file.value.map((file) => ImagemApi.uploadImage(file)))
+  form.imagens_attachment_keys = imagens.map((imagem) => imagem.attachment_key)
 
-  await produtosApi.adicionarProduto(form);
+  await produtosApi.adicionarProduto(form)
   Object.assign(form, {
     id: '',
     nome: '',
@@ -86,15 +81,13 @@ async function add() {
     sazonal: null,
     desconto: null,
     tag: [],
-    imagens_attachment_key: [],
-  });
-  resetForm();  
-
-  modalHidden.value = true;
+    imagens_attachment_key: []
+  })
+  /*   resetForm();   */
+  modalHidden.value = true
 }
 
-
-function resetForm() {
+/* function resetForm() {
   Object.assign(form, {
     id: '',
     nome: '',
@@ -110,22 +103,35 @@ function resetForm() {
     imagens_attachment_key: [],
   });
 }
-
+ */
 function onFileChange(e) {
-  coverUrl.value = [];
-  file.value.push(...e.target.files);
-  coverUrl.value = file.value.map((file) => URL.createObjectURL(file));
+  coverUrl.value = []
+  file.value.push(...e.target.files)
+  coverUrl.value = file.value.map((file) => URL.createObjectURL(file))
 }
 
 onBeforeUnmount(() => {
   if (coverUrl.value) {
-    URL.revokeObjectURL(coverUrl.value);
+    URL.revokeObjectURL(coverUrl.value)
   }
-});
-
+})
 
 function valorTotal(produto) {
   return (produto.preco * produto.quantidade).toFixed(2)
+}
+const itemsPerPage = 5
+let currentPage = ref(1)
+
+const paginatedData = computed(() => {
+  const startIndex = (currentPage.value - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  return produtos.value.slice(startIndex, endIndex)
+})
+
+const totalPages = computed(() => Math.ceil(produtos.value.length / itemsPerPage))
+
+const changePage = (increment) => {
+  currentPage.value += increment
 }
 
 onMounted(() => {
@@ -157,7 +163,7 @@ onMounted(() => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="produto in produtos" :key="produto.id">
+          <tr v-for="produto in paginatedData" :key="produto.id">
             <td class="sticky-left">{{ produto.nome }}</td>
             <td>{{ produto.id }}</td>
             <td>{{ produto.categoria.descricao }}</td>
@@ -183,6 +189,27 @@ onMounted(() => {
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="all-buttons">
+      <button
+        class="btn-blue"
+        @click="changePage(-1)"
+        text="Anterior"
+        link="/"
+        :disabled="currentPage === 1"
+      >
+        anterior
+      </button>
+      <span>{{ currentPage }}</span>
+      <button
+        class="btn-blue"
+        @click="changePage(1)"
+        text="Próxima"
+        link="/"
+        :disabled="currentPage === totalPages"
+      >
+        proxima
+      </button>
     </div>
   </div>
   <div class="modal-overlay" @click="toggleModal" :class="{ hide: modalHidden }"></div>
@@ -233,7 +260,11 @@ onMounted(() => {
             <label for="">Fornecedor</label>
             <select v-model="form.fornecedor" class="dropdown-select">
               <option value="">Escolha um fornecedor</option>
-              <option v-for="fornecedor of fornecedores" :key="fornecedor.id" :value="fornecedor.id">
+              <option
+                v-for="fornecedor of fornecedores"
+                :key="fornecedor.id"
+                :value="fornecedor.id"
+              >
                 {{ fornecedor.nome }}
               </option>
             </select>
@@ -294,7 +325,13 @@ onMounted(() => {
             <label>
               ou
               <span class="browse-images">
-                <input type="file" name="file" @change="onFileChange" multiple class="default-image-input" />
+                <input
+                  type="file"
+                  name="file"
+                  @change="onFileChange"
+                  multiple
+                  class="default-image-input"
+                />
                 <span class="browse-images-text">Procure pelo seu arquivo</span>
               </span>
             </label>
@@ -318,30 +355,13 @@ table {
   table-layout: fixed;
 }
 
-.sticky-left {
-  position: sticky;
-  z-index: 1;
-  width: 13%;
-  top: 0;
-  background-color: #262626;
-  left: 0;
-}
-
-.sticky-right {
-  position: sticky;
-  z-index: 1;
-  top: 0;
-  background-color: #262626;
-  right: 0;
-}
-
-.table-wrapper {
-  overflow-x: auto;
-  max-width: 100%;
-}
-
-.th {
-  background: #000;
+.all-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  margin: 1em 0;
+  justify-content: right;
+  align-items: center;
 }
 
 th {
@@ -386,57 +406,6 @@ body.modal-open {
   justify-content: center;
 }
 
-.upload-images-container {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: row;
-}
-
-.drag-image-area {
-  border: 3px dashed var(--c-green-500);
-  border-radius: 10px;
-  margin: 10px 0 15px;
-  padding: 30px 50px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.drag-image-area,
-.drag-image-area label,
-.browse-images {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.drag-image-area h3 {
-  margin: 15px 0;
-}
-
-.drag-image-area label .browse-images-text {
-  color: var(--c-green-500);
-  font-weight: bolder;
-  cursor: pointer;
-}
-
-.browse-images span {
-  position: relative;
-  top: -25px;
-}
-
-.default-image-input {
-  opacity: 0;
-}
-
-.selected-images {
-  background-color: var(--c-gray-800);
-  width: fit-content;
-  padding: 0.5em;
-  border-radius: 10px;
-}
 
 .btn-blue {
   padding: 0.5em;
