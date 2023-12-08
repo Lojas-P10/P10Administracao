@@ -18,7 +18,7 @@ const FiltroProduto = computed(() =>
   produtos.value.filter((produto) => {
     const produtoNome = removerAcento(produto.nome.toLowerCase())
     const filter = removerAcento(filtrarNome.value.toLowerCase())
-    return produtoNome.includes(filter) && produto.quantidade < 20;
+    return produtoNome.includes(filter) && produto.quantidade < 20
   })
 )
 const updateDataList = () => {
@@ -50,12 +50,28 @@ onMounted(async () => {
   <section>
     <h2>Produtos em falta</h2>
     <div class="search-field">
-      <div>
-        <input type="text" placeholder="Buscar por nome ou fornecedor" />
-      </div>
+      <form @submit.prevent="filtrarNome">
+        <input
+          type="text"
+          name="produtos"
+          list="produtos"
+          id="input-search"
+          required
+          autocomplete="off"
+          v-model="filtrarNome"
+          @input="updateDataList"
+          @keyup.enter="$emit('change', filtrarNome)"
+          placeholder="Procure por nome"
+        />
+        <datalist v-if="showDataList" id="produtos">
+          <option v-for="produto of dataListprodutoes" :value="produto.nome" :key="produto.id">
+            {{ produto.nome }}
+          </option>
+        </datalist>
+      </form>
       <button class="btn-gray">Pesquisar</button>
     </div>
-    <div class="fornecedores">
+    <div class="produtos">
       <ProdutoCard
         v-for="produto in FiltroProduto"
         :key="produto.id"
@@ -64,6 +80,9 @@ onMounted(async () => {
         :preco="produto.preco"
         :quantidade="produto.quantidade"
       />
+      <p v-if="FiltroProduto.length == 0">
+        Este produto não foi encontrado em nossos sistemas
+      </p>
     </div>
   </section>
 </template>
@@ -75,7 +94,7 @@ section {
 h2 {
   margin-bottom: 1.25rem;
 }
-.fornecedores {
+.produtos {
   display: flex;
   gap: 10px;
 }
@@ -93,6 +112,11 @@ h2 {
     display: none;
   }
 }
+
+form {
+  width: 100%;
+}
+
 .icon-button {
   width: 32px;
   height: 32px;

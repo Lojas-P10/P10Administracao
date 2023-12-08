@@ -81,8 +81,10 @@ onMounted(async () => {
         :preco="produto.preco"
         :quantidade="produto.quantidade"
       />
+      <p v-if="FiltroProduto.length == 0">
+        Este produto não foi encontrado em nossos sistemas
+      </p>
     </div>
-    <!--Fazer um v-if depois tipo "Esse produto não existe ou provavelmente não foi adicionado ao estoque recentemente"-->
   </section>
 </template>
 
