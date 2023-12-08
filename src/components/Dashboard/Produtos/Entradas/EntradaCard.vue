@@ -1,27 +1,44 @@
-<script setup></script>
+<script setup>
+defineProps({
+  nome: String,
+  fornecedor: String,
+  produtos: String,
+  preco: Number,
+  quantidade: Number
+})
+</script>
 
 <template>
   <div class="card">
     <dl class="desc">
       <div>
-        <dt>Caneca Marvel</dt>
-        <dd>MarvelChopyeh</dd>
+        <dt>{{ fornecedor }}</dt>
       </div>
       <div>
-        <dd>Chegada</dd>
-        <dt>28 Jul. 23</dt>
+        <dd>Produtos</dd>
+        <dt>{{ produtos }}</dt>
       </div>
       <div>
-        <dd>Valor</dd>
-        <dt>R$268,05</dt>
+        <dd>Valor total</dd>
+        <dt>{{ formatarMoeda(preco) }}</dt> <!-- Adicionando uma função para formatar como moeda, você pode ajustar conforme necessário -->
       </div>
       <div>
         <dd>Unidades</dd>
-        <dt>525</dt>
+        <dt>{{ quantidade }}</dt>
       </div>
     </dl>
   </div>
 </template>
+
+<script>
+function formatarMoeda(valor) {
+  // Lógica para formatar o valor como moeda (por exemplo, R$ 1,000.00)
+  // Você pode usar bibliotecas como 'numeral' ou 'Intl.NumberFormat' para isso
+  // Aqui está um exemplo simples:
+  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
+}
+</script>
+
 
 <style scoped>
 .card {
