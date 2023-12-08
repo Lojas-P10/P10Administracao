@@ -1,21 +1,29 @@
-<script setup></script>
+<script setup>
+defineProps({
+  nome: String,
+  desconto: String,
+  imagem: String,
+  preco: Number,
+  quantidade: Number
+})
+</script>
 
 <template>
   <div class="card">
-    <div class="img"></div>
+    <img :src="imagem" class="img" />
     <div class="text">
-      <h3>Produto</h3>
+      <h3>{{ nome }}</h3> 
       <div class="info">
         <div>
-          <span>Desconto de 20%</span>
+          <span>{{ desconto.descricao }}</span>
         </div>
         <div class="container">
           <div>
             <span class="si">R$</span>
-            <span>2,00 unid.</span>
+            <span>{{ preco }} unid.</span>
           </div>
           <div>
-            <span>300 unid.</span>
+            <span>{{ quantidade }} unids.</span>
           </div>
         </div>
       </div>
