@@ -1,38 +1,67 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
-import descontosApi from "@/api/descontos"
+import DescontosApi from '@/api/descontos'
 const form = ref({
-  nome: '',
-  cnpj: '',
-  cep: '',
-  endereco: '',
-  telefone: '',
-  email: ''
+  descricao: '',
+  porcentagem: null
 })
 
+const descontosApi = new DescontosApi()
 const descontos = ref([])
 const modalHidden = ref(true)
 const isLoading = ref(true)
+const updateSubmit = ref(false)
 
 const toggleModal = () => {
+  console.log('Before toggle:', updateSubmit.value)
   modalHidden.value = !modalHidden.value
+  updateSubmit.value = false // Ensure updateSubmit is false when opening the modal
+  console.log('After toggle:', updateSubmit.value)
 }
-/* const load = async () => {
+const itemsPerPage = 5
+let currentPage = ref(1)
+
+const paginatedData = computed(() => {
+  const startIndex = (currentPage.value - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  return descontos.value.slice(startIndex, endIndex)
+})
+
+const totalPages = computed(() => Math.ceil(descontos.value.length / itemsPerPage))
+
+const changePage = (increment) => {
+  currentPage.value += increment
+}
+
+const load = async () => {
   try {
-    isLoading.value = true;
-    descontos.value = await descontosApi.buscarTodosOsDescontos();
-
-    isLoading.value = false;
+    isLoading.value = true
+    descontos.value = await descontosApi.buscarTodosOsDescontos()
+    isLoading.value = false
   } catch (err) {
-    isLoading.value = false;
-    console.log(err);
+    isLoading.value = false
+    console.log(err)
   }
-}; */
-
+}
+async function add() {
+  if (updateSubmit.value) {
+    await descontosApi.atualizarDesconto(form.value.id, form)
+  } else {
+    await descontosApi.adicionarDesconto(form.value)
+  }
+  Object.assign(form, {
+    id: '',
+    descricao: '',
+    porcentagem: null
+  })
+  modalHidden.value = true
+}
 const del = (desconto) => {
   if (confirm('Tem certeza que deseja deletar este desconto?')) {
-    axios.delete(`https://p10backend-eugreg-dev.4.us-1.fl0.io/api/descontos/${desconto.id}/`).then((response) => {
+    axios
+      .delete(`https://p10backend-eugreg-dev.4.us-1.fl0.io/api/descontos/${desconto.id}/`)
+      .then((response) => {
         console.log(response)
         const index = descontos.value.findIndex((u) => u.id === desconto.id)
         if (index !== -1) {
@@ -44,9 +73,15 @@ const del = (desconto) => {
       })
   }
 }
-
+const edit = (desconto) => {
+  modalHidden.value = false
+  updateSubmit.value = true
+  form.value.id = desconto.id
+  form.value.descricao = desconto.descricao
+  form.value.porcentagem = desconto.porcentagem
+}
 onMounted(() => {
-  descontos.value = descontosApi.buscarTodosOsDescontos()
+  load()
 })
 </script>
 
@@ -59,19 +94,19 @@ onMounted(() => {
     <table>
       <thead>
         <tr>
+          <th class="sticky-left th"><a>Descricao</a></th>
           <th><a>ID</a></th>
-          <th><a>Descricao</a></th>
           <th><a>Porcentagem</a></th>
-          <th>Manutenção</th>
+          <th class="sticky-right th"></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="desconto in descontos" :key="desconto.id">
+        <tr v-for="desconto in paginatedData" :key="desconto.id">
+          <td class="sticky-left">{{ desconto.descricao }}</td>
           <td>{{ desconto.id }}</td>
-          <td>{{ desconto.descricao }}</td>
           <td>{{ desconto.porcentagem }}</td>
-          <td class="container-manutencao">
-            <button class="btn-green">
+          <td class="container-manutencao sticky-right">
+            <button @click="edit(desconto)" class="btn-green">
               <box-icon color="var(--c-white)" type="solid" name="edit"></box-icon>
             </button>
             <button @click="del(desconto)" class="btn-green">
@@ -82,7 +117,27 @@ onMounted(() => {
       </tbody>
     </table>
   </div>
-
+  <div class="all-buttons">
+    <button
+      class="btn-blue"
+      @click="changePage(-1)"
+      text="Anterior"
+      link="/"
+      :disabled="currentPage === 1"
+    >
+      anterior
+    </button>
+    <span>{{ currentPage }}</span>
+    <button
+      class="btn-blue"
+      @click="changePage(1)"
+      text="Próxima"
+      link="/"
+      :disabled="currentPage === totalPages"
+    >
+      proxima
+    </button>
+  </div>
   <div class="modal-overlay" @click="toggleModal" :class="{ hide: modalHidden }"></div>
   <div id="modal-content" :class="[{ hide: modalHidden }]">
     <header>
@@ -91,34 +146,16 @@ onMounted(() => {
         <box-icon name="x" color="white"></box-icon>
       </button>
     </header>
-    <form @submit.prevent="add">
+    <form @submit.prevent="add" enctype="multipart/form-data">
       <div class="container-form">
         <label for="nome-input">Nome do desconto</label>
-        <input type="text" id="nome-input" v-model="form.nome" />
-        <p class="input__description">Limite de 5000 caracteres</p>
+        <input type="text" id="nome-input" v-model="form.descricao" />
       </div>
       <div class="container-form">
-        <label for="email-input">Email</label>
-        <input type="email" id="email-input" v-model="form.email" />
+        <label for="porcentagem-input">Porcentagem</label>
+        <input type="number" id="porcentagem-input" v-model="form.porcentagem" />
       </div>
-      <div class="container-form">
-        <label for="endereco-input">Endereço</label>
-        <input type="text" id="endereco-input" v-model="form.endereco" />
-        <p class="input__description">Limite de 5000 caracteres</p>
-      </div>
-      <div class="container-form">
-        <label for="telefone-input">Telefone</label>
-        <input type="tel" id="telefone-input" v-model="form.telefone" />
-      </div>
-      <div class="container-form">
-        <label for="cnpj-input">CNPJ</label>
-        <input type="number" id="cnpj-input" v-model="form.cnpj" />
-      </div>
-      <div class="container-form">
-        <label for="cep-input">CEP</label>
-        <input type="number" id="cep-input" v-model="form.cep" />
-      </div>
-      <button @click="add" class="btn-blue">Adicionar</button>
+      <button type="submit" @submit.prevent="add" class="btn-blue">Adicionar</button>
     </form>
   </div>
 </template>
@@ -132,6 +169,14 @@ table {
 .container-table {
   overflow-x: auto;
 }
+.all-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  margin: 1em 0;
+  justify-content: right;
+  align-items: center;
+}
 
 h2 {
   margin-bottom: 0;
@@ -143,7 +188,7 @@ form {
   margin-top: 1em;
   padding: 0 1em;
   overflow-y: scroll;
-  height: 65vh;
+  height: 40vh;
   flex-direction: column;
 }
 
@@ -178,7 +223,7 @@ body.modal-open {
 .add {
   padding-bottom: 2.5em;
   margin-top: 1em;
-  
+
   margin-bottom: -2em;
 }
 
@@ -246,6 +291,7 @@ tbody {
   position: fixed;
   left: 50%;
   top: 50%;
+  overflow: hidden;
   transform: translate(-50%, -50%);
   width: 50%;
   background-color: var(--c-gray-900);
@@ -255,7 +301,7 @@ tbody {
   padding: 2em;
   pointer-events: all;
   border-radius: 10px;
-  height: 80vh;
+  height: 50vh;
 }
 
 #modal-content.hide,

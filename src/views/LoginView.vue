@@ -43,28 +43,6 @@ async function submit() {
             </div>
             <input v-model="user.password" placeholder="senha" type="password" />
           </div>
-          <!--          <div>
-            <input
-              id="sem-efeito"
-              required=""
-              
-            />
-            <div class="input-back">
-              <div class="button"></div>
-            </div>
-          </div>
-          <div>
-            <input
-              id="sem-efeito"
-              required=""
-              v-model="user.password"
-              placeholder="senha"
-              type="password"
-            />
-            <div class="input-back">
-              <div class="button"><box-icon color="var(--c-white)" name="lock-alt"></box-icon></div>
-            </div>
-          </div> -->
         </div>
 
         <button @submit.prevent="submit" type="submit" class="btn-blue">entrar</button>

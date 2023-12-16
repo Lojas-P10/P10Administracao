@@ -3,17 +3,10 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
 const form = ref({
-  nome: '',
-  cnpj: '',
-  cep: '',
-  endereco: '',
-  telefone: '',
-  email: ''
+  descricao: ''
 })
 
 const categorias = ref([])
-const updateSubmit = ref(false)
-const erro = ref('')
 const modalHidden = ref(true)
 const isLoading = ref(true)
 
@@ -21,22 +14,20 @@ const toggleModal = () => {
   modalHidden.value = !modalHidden.value
 }
 const load = () => {
-  axios.get('https://p10backend-eugreg-dev.4.us-1.fl0.io/api/categorias/').then((res) => {
+  axios
+    .get('https://p10backend-eugreg-dev.4.us-1.fl0.io/api/categorias/')
+    .then((res) => {
       categorias.value = res.data
-      isLoading.value = false;
-    }).catch((err) => {
+      isLoading.value = false
+    })
+    .catch((err) => {
       console.log(err)
     })
 }
 
-/* const add = () => {
+const add = () => {
   if (
-    form.value.nome.length == '' ||
-    form.value.endereco.length == '' ||
-    form.value.email.length == '' ||
-    form.value.telefone.length == '' ||
-    form.value.cep.length == '' ||
-    form.value.cnpj.length == ''
+    form.value.descricao.length == '' 
   ) {
     erro.value = 'Preencha todos os campos'
   } else {
@@ -58,42 +49,44 @@ const load = () => {
       })
   }
 }
- */
-/* const edit = (user) => {
-  updateSubmit.value = true;
-  form.value.id = user.id;
-  form.value.name = user.name;
-  form.value.data = user.data;
-  form.value.email = user.email;
-  form.value.departamento = user.departamento;
-};
+
+const edit = (user) => {
+  updateSubmit.value = true
+  form.value.id = user.id
+  form.value.name = user.name
+  form.value.data = user.data
+  form.value.email = user.email
+  form.value.departamento = user.departamento
+}
 
 const update = () => {
   axios
-    .put("http://localhost:3000/users/" + form.value.id, {
+    .put('http://localhost:3000/users/' + form.value.id, {
       name: form.value.name,
       data: form.value.data,
       email: form.value.email,
-      departamento: form.value.departamento,
+      departamento: form.value.departamento
     })
     .then((res) => {
-      load();
-      form.value.id = "";
-      form.value.name = "";
-      form.value.data = "";
-      form.value.email = "";
-      form.value.departamento = "";
-      updateSubmit.value = false;
-      alert("Usuário alterado");
+      load()
+      form.value.id = ''
+      form.value.name = ''
+      form.value.data = ''
+      form.value.email = ''
+      form.value.departamento = ''
+      updateSubmit.value = false
+      alert('Usuário alterado')
     })
     .catch((err) => {
-      console.log(err);
-    });
-};
-*/
+      console.log(err)
+    })
+}
+
 const del = (categoria) => {
   if (confirm('Tem certeza que deseja deletar este categoria?')) {
-    axios.delete(`https://p10backend-eugreg-dev.4.us-1.fl0.io/api/categorias/${categoria.id}/`).then((response) => {
+    axios
+      .delete(`https://p10backend-eugreg-dev.4.us-1.fl0.io/api/categorias/${categoria.id}/`)
+      .then((response) => {
         console.log(response)
         load()
         const index = categorias.value.findIndex((u) => u.id === categoria.id)
@@ -239,7 +232,7 @@ body.modal-open {
 .add {
   padding-bottom: 2.5em;
   margin-top: 1em;
-  
+
   margin-bottom: -2em;
 }
 

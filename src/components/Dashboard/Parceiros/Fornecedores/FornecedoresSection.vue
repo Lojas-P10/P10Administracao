@@ -59,7 +59,7 @@ h2 {
   gap: 10px;
   overflow: auto;
   white-space: nowrap;
-  width: 115vh;
+  width: 101vh;
   padding: 18px 0;
 }
 </style>

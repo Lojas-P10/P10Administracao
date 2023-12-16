@@ -83,27 +83,11 @@ async function add() {
     tag: [],
     imagens_attachment_key: []
   })
-  /*   resetForm();   */
   modalHidden.value = true
 }
 
-/* function resetForm() {
-  Object.assign(form, {
-    id: '',
-    nome: '',
-    descricao: '',
-    quantidade: 0,
-    preco: 0,
-    data: null,
-    categoria: null,
-    marca: null,
-    sazonal: null,
-    desconto: null,
-    tag: [],
-    imagens_attachment_key: [],
-  });
-}
- */
+
+
 function onFileChange(e) {
   coverUrl.value = []
   file.value.push(...e.target.files)

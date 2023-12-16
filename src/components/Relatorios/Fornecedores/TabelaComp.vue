@@ -15,7 +15,6 @@ const form = ref({
 })
 
 const fornecedores = ref([])
-const updateSubmit = ref(false)
 const erro = ref('')
 const modalHidden = ref(true)
 const isLoading = ref(true)
@@ -209,7 +208,7 @@ onMounted(() => {
         <label for="cep-input">CEP</label>
         <input type="number" id="cep-input" v-model="form.cep" />
       </div>
-      <button @click="add" class="btn-blue">Adicionar</button>
+      <button type="submit" @submit.prevent="add" class="btn-blue">Adicionar</button>
     </form>
   </div>
 </template>
